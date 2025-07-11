@@ -12,6 +12,10 @@ const SectionContainer = styled.section`
   padding: 0 0 ${({ theme }) => theme.space['2xl']};
   position: relative;
   z-index: 5;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
 `;
 
 
@@ -33,9 +37,19 @@ const SectionTitle = styled.h2`
 
 const MenuContainer = styled.div`
   width: 100%;
+  max-width: 100%;
   height: 600px;
   position: relative;
   overflow: hidden;
+  box-sizing: border-box;
+  
+  @media (max-width: 768px) {
+    height: 500px;
+  }
+  
+  @media (max-width: 480px) {
+    height: 400px;
+  }
 `;
 
 const ProjectsSection: React.FC = () => {

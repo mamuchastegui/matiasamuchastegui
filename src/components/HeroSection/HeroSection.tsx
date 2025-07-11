@@ -14,6 +14,17 @@ const HeroContainer = styled.section`
   position: relative;
   overflow: hidden;
   margin-bottom: 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  
+  @media (max-width: 768px) {
+    padding: 0 1rem;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 0 0.75rem;
+  }
 `;
 
 const CenteringWrapper = styled.div`
@@ -50,13 +61,17 @@ const Title = styled.h1<{ $visible: boolean }>`
   line-height: 0.9;
   text-transform: uppercase;
   width: 100%;
+  max-width: 100%;
   user-select: none;
   opacity: ${props => props.$visible ? 1 : 0};
   transform: ${props => props.$visible ? 'translateY(0)' : 'translateY(30px)'};
   transition: opacity 1s ease-out, transform 1s ease-out;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  word-break: break-word;
   
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    font-size: 75px;
+    font-size: clamp(50px, 12vw, 75px);
     display: flex;
     flex-direction: column;
     align-items: center;

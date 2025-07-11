@@ -8,6 +8,18 @@ import Tooltip from '../Tooltip';
 
 const SectionContainer = styled.section`
   padding: ${({ theme }) => theme.space['2xl']} 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  
+  @media (max-width: 768px) {
+    padding: ${({ theme }) => theme.space.xl} ${({ theme }) => theme.space.md};
+  }
+  
+  @media (max-width: 480px) {
+    padding: ${({ theme }) => theme.space.lg} ${({ theme }) => theme.space.sm};
+  }
 `;
 
 const SectionTitle = styled.h2`
@@ -25,6 +37,17 @@ const SectionTitle = styled.h2`
 const ContactContent = styled.div`
   margin: 0 auto;
   padding: 0 ${({ theme }) => theme.space.lg};
+  width: 100%;
+  max-width: 800px;
+  box-sizing: border-box;
+  
+  @media (max-width: 768px) {
+    padding: 0 ${({ theme }) => theme.space.md};
+  }
+  
+  @media (max-width: 480px) {
+    padding: 0 ${({ theme }) => theme.space.sm};
+  }
 `;
 
 const ContactText = styled.p`

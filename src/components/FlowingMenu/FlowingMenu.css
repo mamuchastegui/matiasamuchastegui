@@ -2,6 +2,8 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .menu {
@@ -10,6 +12,9 @@
   height: 100%;
   margin: 0;
   padding: 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .menu__item {
@@ -80,6 +85,33 @@
   object-fit: contain;
   transition: transform 0.3s ease, filter 0.3s ease;
   padding: 20px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .company-logo {
+    max-height: 120px;
+    max-width: 150px;
+    width: 60%;
+    padding: 10px;
+  }
+  
+  .menu__item-link {
+    font-size: 3vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .company-logo {
+    max-height: 80px;
+    max-width: 120px;
+    width: 50%;
+    padding: 8px;
+  }
+  
+  .menu__item-link {
+    font-size: 2.5vh;
+  }
 }
 
 .menu__item-link:hover .company-logo {

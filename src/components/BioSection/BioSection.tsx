@@ -16,8 +16,10 @@ const SectionContainer = styled.section`
   position: relative;
   overflow: hidden;
   width: 100%;
+  max-width: 100%;
   margin: -169px 0 5rem 0;
   padding-top: 5vh;
+  box-sizing: border-box;
 `;
 
 const ContentWrapper = styled.div`
@@ -26,10 +28,17 @@ const ContentWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  box-sizing: border-box;
   
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     flex-direction: column;
     padding: 0 ${({ theme }) => theme.space.md};
+    max-width: 100%;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 0 1rem;
   }
 `;
 

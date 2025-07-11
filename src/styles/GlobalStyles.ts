@@ -44,6 +44,8 @@ export const GlobalStyles = createGlobalStyle`
     font-family: ${({ theme }) => theme.fonts.body};
     line-height: 1.6;
     min-height: 100%;
+    width: 100%;
+    max-width: 100vw;
     overflow-x: hidden; 
     transition: background-color 0.3s ease, color 0.3s ease; 
   }

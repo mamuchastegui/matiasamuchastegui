@@ -17,6 +17,17 @@ const ContentWrapper = styled.div`
   max-width: 1000px;
   margin: 0 auto;
   padding: 0 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  
+  @media (max-width: 768px) {
+    padding: 0 0.75rem;
+    max-width: 100%;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 0 0.5rem;
+  }
 `;
 
 interface HomeProps {

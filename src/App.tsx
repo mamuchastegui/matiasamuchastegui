@@ -51,13 +51,17 @@ const MainContentWrapper = styled.div<{ $isSidebarPresent: boolean }>`
   flex-grow: 1;
   position: relative;
   min-height: 100vh;
+  width: 100%;
+  max-width: 100vw;
   overflow: visible;
   background-color: ${({ theme }) => theme.colors.background};
   margin-left: ${({ $isSidebarPresent }) => ($isSidebarPresent ? SIDEBAR_WIDTH : '0')};
   transition: margin-left 0.3s ease-in-out;
+  box-sizing: border-box;
 
   @media (max-width: 768px) {
     margin-left: 0;
+    width: 100vw;
   }
 `;
 

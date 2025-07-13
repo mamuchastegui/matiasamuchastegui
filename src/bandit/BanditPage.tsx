@@ -489,7 +489,7 @@ const BanditPage: React.FC = () => {
   const uxUIExperiences = {
     es: {
       title: "Diseño UX/UI",
-      period: "Febrero 2025 - Actualidad",
+      period: "Febrero 2025 - Junio 2025",
       tasks: [
         "Propuestas de rediseño en cada sección de la plataforma",
         "Investigación de la competencia",

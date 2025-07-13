@@ -590,7 +590,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile }) =>
 
         <ControlsContainer>
           <SocialMediaButton 
-            href="https://github.com/AxSRockS" 
+            href="https://github.com/alexisvedia" 
             target="_blank" 
             rel="noopener noreferrer" 
             aria-label="GitHub"

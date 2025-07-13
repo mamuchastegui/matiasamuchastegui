@@ -14,6 +14,12 @@ export default defineConfig({
           i18n: ['i18next', 'react-i18next'],
           icons: ['react-icons'],
         },
+        chunkFileNames: (chunkInfo) => {
+          const facadeModuleId = chunkInfo.facadeModuleId 
+            ? chunkInfo.facadeModuleId.split('/').pop()?.replace('.tsx', '').replace('.ts', '') || 'chunk'
+            : 'chunk';
+          return `assets/${facadeModuleId}-[hash].js`;
+        },
       },
       plugins: [
         // visualizer({
@@ -24,11 +30,24 @@ export default defineConfig({
         // }),
       ],
     },
+    target: 'esnext',
+    minify: 'esbuild',
   },
   server: {
     ...(process.env.NODE_ENV === 'development' && {
       allowedHosts: true,
     }),
+    headers: {
+      'Cache-Control': 'no-cache',
+    },
+  },
+  experimental: {
+    renderBuiltUrl(filename, { hostType }) {
+      if (hostType === 'js') {
+        return { js: `/${filename}` };
+      }
+      return { relative: true };
+    },
   },
   plugins: [react()],
   resolve: {

@@ -11,6 +11,7 @@ import FontLoader from '@components/FontLoader/FontLoader';
 import GrainOverlay from '@components/GrainOverlay';
 import Sidebar from '@components/Sidebar/Sidebar';
 import LoadingSpinner from '@components/LoadingSpinner';
+import { LazyLoadErrorBoundary } from '@components/ErrorBoundary';
 
 
 const ChatbotAssistant = React.lazy(
@@ -19,6 +20,16 @@ const ChatbotAssistant = React.lazy(
       setTimeout(() => resolve(import('@components/ChatbotAssistant')), 2000)
     )
 );
+
+const LazyComponentWrapper = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <LazyLoadErrorBoundary>
+      <React.Suspense fallback={<LoadingSpinner />}>
+        {children}
+      </React.Suspense>
+    </LazyLoadErrorBoundary>
+  );
+};
 import { initScrollDetection } from '@utils/scrollDetection';
 import { initializeN8NServer } from '@services/n8nService';
 
@@ -27,14 +38,30 @@ import { initializeN8NServer } from '@services/n8nService';
 
 import Home from './pages/Home';
 
-const ProjectPage = React.lazy(() => import('./pages/ProjectPage'));
+const createLazyComponent = (importFn: () => Promise<any>, retries = 3) => {
+  return React.lazy(() => {
+    return new Promise((resolve, reject) => {
+      const attemptImport = (retriesLeft: number) => {
+        importFn()
+          .then(resolve)
+          .catch((error) => {
+            if (retriesLeft > 0) {
+              setTimeout(() => attemptImport(retriesLeft - 1), 1000);
+            } else {
+              reject(error);
+            }
+          });
+      };
+      attemptImport(retries);
+    });
+  });
+};
 
-const XConsExperiencePage = React.lazy(() => import('./xcons/XConsExperiencePage'));
-
-const FusionAdsPage = React.lazy(() => import('./fusionads/FusionAdsPage'));
-
-const BanditPage = React.lazy(() => import('./bandit/BanditPage'));
-const MaintenancePage = React.lazy(() => import('./pages/MaintenancePage'));
+const ProjectPage = createLazyComponent(() => import('./pages/ProjectPage'));
+const XConsExperiencePage = createLazyComponent(() => import('./xcons/XConsExperiencePage'));
+const FusionAdsPage = createLazyComponent(() => import('./fusionads/FusionAdsPage'));
+const BanditPage = createLazyComponent(() => import('./bandit/BanditPage'));
+const MaintenancePage = createLazyComponent(() => import('./pages/MaintenancePage'));
 
 
 import '@utils/i18n';
@@ -251,9 +278,9 @@ const AppContent = () => {
               return location.pathname;
             }}
           />
-          <React.Suspense fallback={<LoadingSpinner />}>
+          <LazyComponentWrapper>
             <Outlet context={{ handleAnimationComplete, fontsLoaded, setIsContactSectionInView }} />
-          </React.Suspense>
+          </LazyComponentWrapper>
         </Container>
       </MainContentWrapper>
     </AppWrapper>

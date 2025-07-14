@@ -23,6 +23,8 @@
     "@react-spring/web": "^9.7.5",
     "@reduxjs/toolkit": "^2.2.1",
     "@splinetool/react-spline": "^4.0.0",
+    "@stagewise-plugins/react": "^0.5.2",
+    "@stagewise/toolbar-react": "^0.5.2",
     "canvas-confetti": "^1.9.3",
     "clsx": "^2.1.1",
     "framer-motion": "^11.0.8",

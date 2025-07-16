@@ -598,7 +598,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile }) =>
             <FaGithub />
           </SocialMediaButton>
           <SocialMediaButton 
-            href="https://www.linkedin.com/in/alexis-vedia-80b936190/" 
+            href="https://www.linkedin.com/in/alexis-vedia/" 
             target="_blank" 
             rel="noopener noreferrer" 
             aria-label="LinkedIn"

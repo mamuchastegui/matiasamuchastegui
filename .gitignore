@@ -22,9 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-
+code-quality-analyzer.kiro.hook
 .env
 .qodo
+mcp.json
 
 dev-debug.log
 # Dependency directories

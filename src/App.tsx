@@ -61,6 +61,8 @@ const XConsExperiencePage = createLazyComponent(() => import('./xcons/XConsExper
 const FusionAdsPage = createLazyComponent(() => import('./fusionads/FusionAdsPage'));
 const BanditPage = createLazyComponent(() => import('./bandit/BanditPage'));
 const MaintenancePage = createLazyComponent(() => import('./pages/MaintenancePage'));
+// Temporarily comment out NewLookPage until the module is created
+// const NewLookPage = createLazyComponent(() => import('./newlook/NewLookPage'));
 
 
 import '@utils/i18n';
@@ -289,6 +291,14 @@ const AppContent = () => {
 
 function App() {
   const router = createBrowserRouter([
+    // {
+    //   path: "/newlook",
+    //   element: (
+    //     <LazyComponentWrapper>
+    //       <NewLookPage />
+    //     </LazyComponentWrapper>
+    //   )
+    // },
     {
       path: "/",
       element: <AppContent />,

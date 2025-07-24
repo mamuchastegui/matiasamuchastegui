@@ -806,116 +806,29 @@ const SectionTitle = styled.div`
   }
 `;
 
-const TitlePart = styled.div`
-  color: black;
-  font-size: 43.22px;
-  font-weight: 700;
-  line-height: 54.03px;
-  margin-bottom: 20px;
-  
-  &:first-child {
-    margin-left: 408px;
-  }
-  
-  &:last-child {
-    margin-left: 185px;
-    width: 1143px;
-  }
-`;
-
-const InfoGrid = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  gap: 56px;
-  margin: 80px 0;
-  padding: 34px 0;
-  border-top: 1px solid #CFCFCF;
-  width: 100%;
-`;
-
-const InfoColumn = styled.div`
-  width: 343px;
-  
-  &:last-child {
-    width: 300px;
-  }
-`;
-
-const ColumnTitle = styled.h3`
-  color: #1F1F1F;
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 17.12px;
-  margin-bottom: 16px;
-`;
-
-const ColumnText = styled.p`
-  color: #BFBFBF;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 17.12px;
-  margin: 0;
-`;
 
 
 
-const ProjectsSection = styled.section`
-  width: 100%;
-`;
 
-const ProjectCard = styled.div`
-  width: 100%;
-  height: 786px;
-  position: relative;
-  background: #C5C5C5;
-  overflow: hidden;
-  margin-bottom: 0;
-`;
 
-const ProjectImage = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  position: absolute;
-  top: 0;
-  left: 0;
-`;
 
-const ProjectOverlay = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.37);
-  z-index: 2;
-`;
 
-const ProjectTitle = styled.h2`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  font-size: 63.45px;
-  font-weight: 600;
-  line-height: 67.89px;
-  margin: 0;
-  z-index: 3;
-  text-align: center;
-`;
 
-const ProjectSubtitle = styled.p`
-  position: absolute;
-  bottom: 84px;
-  right: 100px;
-  color: white;
-  font-size: 28.95px;
-  font-weight: 600;
-  line-height: 30.98px;
-  margin: 0;
-  z-index: 3;
-`;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const CTASection = styled.section`
   padding: 80px 0;

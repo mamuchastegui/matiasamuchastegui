@@ -42,7 +42,6 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ heroContainerRef }) => {
   useEffect(() => {
     const handleScroll = () => {
       if (heroContainerRef?.current) {
-        const heroRect = heroContainerRef.current.getBoundingClientRect();
         const scrolled = window.scrollY > 50;
         setIsVisible(scrolled);
       }

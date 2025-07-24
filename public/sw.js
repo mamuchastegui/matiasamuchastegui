@@ -1,4 +1,4 @@
-const CACHE_NAME = 'portfolio-v1';
+const CACHE_NAME = 'portfolio-v2';
 const STATIC_CACHE_URLS = [
   '/',
   '/index.html',
@@ -42,14 +42,16 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(
       fetch(request)
         .then((response) => {
-          // If fetch succeeds, update cache and return response
-          if (response.ok) {
+          // Ensure we're getting JavaScript content
+          if (response.ok && response.headers.get('content-type')?.includes('javascript')) {
             const responseClone = response.clone();
             caches.open(CACHE_NAME)
               .then((cache) => {
                 cache.put(request, responseClone);
               });
+            return response;
           }
+          // If response is not JavaScript (e.g., HTML), don't cache it
           return response;
         })
         .catch(() => {

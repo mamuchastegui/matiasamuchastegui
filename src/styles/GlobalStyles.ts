@@ -38,6 +38,31 @@ export const GlobalStyles = createGlobalStyle`
     font-size: 16px;
   }
 
+  /* Lenis Smooth Scrolling Styles */
+  html.lenis {
+    height: auto;
+  }
+
+  html.lenis-smooth {
+    scroll-behavior: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto;
+  }
+
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  .lenis.lenis-scrolling iframe {
+    pointer-events: none;
+  }
+
   body {
     background-color: ${({ theme }) => theme.colors.background};
     color: ${({ theme }) => theme.colors.text};

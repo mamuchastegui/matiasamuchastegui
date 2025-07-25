@@ -4,8 +4,10 @@ import { useTranslation } from 'react-i18next';
 import { HiSparkles } from 'react-icons/hi2';
 import { FaTrash } from 'react-icons/fa';
 import ReactMarkdown from 'react-markdown';
-import { sendMessageToN8N, initializeN8NServer } from '../../services/n8nService';
+import { sendMessageToN8N } from '../../services/n8nService';
 import { useTheme } from '../../context/ThemeContext';
+import { useN8nConnection, ConnectionStatus } from '@hooks/useN8nConnection';
+import ConnectionIndicator from './ConnectionIndicator';
 
 // Animaciones
 const pulse = keyframes`
@@ -334,7 +336,7 @@ const InputWrapper = styled.div`
   -webkit-backdrop-filter: blur(12px) !important;
 `;
 
-const ChatInput = styled.input<{ $isDark: boolean }>`
+const ChatInput = styled.input<{ $isDark: boolean; disabled?: boolean }>`
   width: 100%;
   padding: 18px 52px 18px 20px;
   border-radius: 24px;
@@ -344,6 +346,8 @@ const ChatInput = styled.input<{ $isDark: boolean }>`
   background: transparent;
   color: ${({ theme }) => theme.colors.text};
   box-shadow: none;
+  opacity: ${({ disabled }) => disabled ? 0.5 : 1};
+  cursor: ${({ disabled }) => disabled ? 'not-allowed' : 'text'};
   &::placeholder {
     color: ${({ $isDark }) => ($isDark ? 'rgba(200,200,210,0.7)' : 'rgba(80,80,90,0.5)')};
     opacity: 1;
@@ -354,7 +358,7 @@ const ChatInput = styled.input<{ $isDark: boolean }>`
   }
 `;
 
-const SendButton = styled.button<{ $isDark: boolean }>`
+const SendButton = styled.button<{ $isDark: boolean; disabled?: boolean }>`
   position: absolute;
   right: 10px;
   top: 50%;
@@ -363,7 +367,7 @@ const SendButton = styled.button<{ $isDark: boolean }>`
   height: 36px;
   border-radius: 50%;
   border: none;
-  cursor: pointer;
+  cursor: ${({ disabled }) => disabled ? 'not-allowed' : 'pointer'};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -371,9 +375,13 @@ const SendButton = styled.button<{ $isDark: boolean }>`
   background: transparent;
   transition: background 0.15s;
   z-index: 2;
+  opacity: ${({ disabled }) => disabled ? 0.5 : 1};
   &:hover,
   &:focus {
-    background: ${({ $isDark }) => ($isDark ? 'rgba(60, 60, 65, 0.18)' : 'rgba(60, 60, 70, 0.12)')};
+    background: ${({ disabled, $isDark }) => 
+      disabled ? 'transparent' : 
+      ($isDark ? 'rgba(60, 60, 65, 0.18)' : 'rgba(60, 60, 70, 0.12)')
+    };
   }
 `;
 
@@ -387,6 +395,78 @@ const LoadingDot = styled.div<{ $delay: number }>`
   animation: ${pulse} 1s infinite;
   animation-delay: ${props => props.$delay}s;
 `;
+
+// Componente para mostrar el estado de conexión con texto
+const ConnectionStatusContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  opacity: 0.8;
+`;
+
+const StatusDot = styled.div<{ $status: ConnectionStatus; $isDark: boolean }>`
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  
+  background-color: ${
+    props => {
+      switch (props.$status) {
+        case 'connected':
+          return '#10B981'; // Verde
+        case 'connecting':
+          return '#F59E0B'; // Amarillo
+        case 'disconnected':
+          return '#EF4444'; // Rojo
+        default:
+          return '#6B7280'; // Gris
+      }
+    }
+  };
+  
+  ${props => props.$status === 'connecting' && css`
+    animation: ${pulse} 1.5s ease-in-out infinite;
+  `}
+  
+  transition: all 0.3s ease;
+`;
+
+const StatusText = styled.span<{ $isDark: boolean }>`
+  color: ${({ $isDark }) => ($isDark ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.6)')};
+  font-weight: 500;
+  text-transform: capitalize;
+`;
+
+// Componente para el estado de conexión
+interface ConnectionStatusTextProps {
+  status: ConnectionStatus;
+  isDark: boolean;
+}
+
+const ConnectionStatusText: React.FC<ConnectionStatusTextProps> = ({ status, isDark }) => {
+  const { t } = useTranslation();
+  
+  const getStatusText = (status: ConnectionStatus) => {
+    switch (status) {
+      case 'connected':
+        return t('Conectado');
+      case 'connecting':
+        return t('Conectando');
+      case 'disconnected':
+        return t('Desconectado');
+      default:
+        return t('Desconocido');
+    }
+  };
+
+  return (
+    <ConnectionStatusContainer>
+      <StatusDot $status={status} $isDark={isDark} />
+      <StatusText $isDark={isDark}>{getStatusText(status)}</StatusText>
+    </ConnectionStatusContainer>
+  );
+};
 
 // Restaurar styled-component para ChatMessages
 const ChatMessages = styled.div`
@@ -494,7 +574,12 @@ const ChatInputArea = styled.div<{ $isDark: boolean }>`
 `;
 
 // Componente principal
-const ChatbotAssistant: React.FC<{ initialDelay?: number }> = ({ initialDelay = 500 }) => {
+interface ChatbotAssistantProps {
+  initialDelay?: number;
+  n8nServerReady?: boolean;
+}
+
+const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({ initialDelay = 500 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isFirstAppearance, setIsFirstAppearance] = useState(true);
@@ -502,6 +587,9 @@ const ChatbotAssistant: React.FC<{ initialDelay?: number }> = ({ initialDelay = 
   const currentLanguage = i18n.language;
   const { themeMode } = useTheme();
   const isDark = themeMode === 'dark';
+  
+  // Hook de conexión n8n
+  const { connectionStatus, isConnecting, isDisconnected } = useN8nConnection();
 
   // Estado para los tooltips
   const [tooltipText, setTooltipText] = useState('');
@@ -510,6 +598,11 @@ const ChatbotAssistant: React.FC<{ initialDelay?: number }> = ({ initialDelay = 
 
   // Mensaje de bienvenida en un ref para comparar cambios
   const welcomeMessageKey = '¡Hola! Soy tu AI Portfolio Assistant. ¿En qué puedo ayudarte hoy?';
+
+  // Función para generar mensaje de bienvenida sin estado de conexión
+  const getWelcomeMessage = useCallback(() => {
+    return t(welcomeMessageKey);
+  }, [t, welcomeMessageKey]);
 
   // Inicializar los mensajes con el texto traducido
   const [messages, setMessages] = useState(() => [{ text: t(welcomeMessageKey), isUser: false }]);
@@ -528,26 +621,25 @@ const ChatbotAssistant: React.FC<{ initialDelay?: number }> = ({ initialDelay = 
     if (prevLangRef.current !== currentLanguage) {
       // Guardar el nuevo idioma como referencia
       prevLangRef.current = currentLanguage;
-
+      
       // Actualizar el primer mensaje si es un mensaje del sistema
       setMessages(prev => {
         const newMessages = [...prev];
         if (newMessages.length > 0 && !newMessages[0].isUser) {
           newMessages[0] = {
             ...newMessages[0],
-            text: t(welcomeMessageKey),
+            text: getWelcomeMessage(),
           };
         }
         return newMessages;
       });
     }
-  }, [currentLanguage, t, welcomeMessageKey]);
+  }, [currentLanguage, getWelcomeMessage]);
 
-  // Inicializar componente con retraso
+  // Inicializar componente con retraso (siempre visible)
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(true);
-      initializeN8NServer(); // Precalentar el servicio
     }, initialDelay);
 
     return () => clearTimeout(timer);
@@ -595,10 +687,10 @@ const ChatbotAssistant: React.FC<{ initialDelay?: number }> = ({ initialDelay = 
     }
   }, [isOpen]);
 
-  // Limpiar el chat (usando el idioma actual)
+  // Limpiar el chat (usando el idioma actual y estado de conexión)
   const handleClearChat = useCallback(() => {
-    setMessages([{ text: t(welcomeMessageKey), isUser: false }]);
-  }, [t, welcomeMessageKey]);
+    setMessages([{ text: getWelcomeMessage(), isUser: false }]);
+  }, [getWelcomeMessage]);
 
   // Manejo de mensajes
   const handleSendMessage = async () => {
@@ -621,7 +713,7 @@ const ChatbotAssistant: React.FC<{ initialDelay?: number }> = ({ initialDelay = 
       setMessages(prev => [
         ...prev,
         {
-          text: 'Lo siento, hubo un error al procesar tu mensaje. Por favor, intenta de nuevo.',
+          text: '❌ **Error de conexión**\n\nHubo un problema al comunicarse con el servidor. Esto puede deberse a:\n\n• Problemas temporales de conectividad\n• El servidor está sobrecargado\n• Mantenimiento en curso\n\n*Por favor, intenta de nuevo en unos momentos.*',
           isUser: false,
         },
       ]);
@@ -701,15 +793,19 @@ const ChatbotAssistant: React.FC<{ initialDelay?: number }> = ({ initialDelay = 
                 <FlashEffect $isDark={isDark} />
               </>
             )}
+            <ConnectionIndicator status={connectionStatus} isDark={isDark} />
             <HiSparkles size={24} />
           </ChatButton>
         </ChatButtonContainer>
       ) : (
         <ChatWindow $isDark={isDark} ref={chatWindowRef}>
           <ChatHeader $isDark={isDark}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <HiSparkles size={20} />
-              <span style={{ fontWeight: 600 }}>{t('AI Portfolio Assistant')}</span>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <HiSparkles size={20} />
+                <span style={{ fontWeight: 600 }}>{t('AI Portfolio Assistant')}</span>
+              </div>
+              <ConnectionStatusText status={connectionStatus} isDark={isDark} />
             </div>
             <ChatHeaderActions>
               {/* Botón de limpiar chat */}
@@ -775,14 +871,16 @@ const ChatbotAssistant: React.FC<{ initialDelay?: number }> = ({ initialDelay = 
                 placeholder={t('Escribe un mensaje...')}
                 value={inputValue}
                 onChange={e => setInputValue(e.target.value)}
-                onKeyPress={e => e.key === 'Enter' && handleSendMessage()}
+                onKeyPress={e => e.key === 'Enter' && !isDisconnected && !isConnecting && handleSendMessage()}
                 ref={inputRef}
                 $isDark={isDark}
+                disabled={isDisconnected || isConnecting}
               />
               <SendButton
                 $isDark={isDark}
                 onClick={handleSendMessage}
                 aria-label={t('Enviar mensaje')}
+                disabled={isDisconnected || isConnecting}
               >
                 <svg
                   width="20"

@@ -25,6 +25,10 @@ const resources = {
       'Escribe un mensaje...': 'Type a message...',
       'Limpiar chat': 'Clean chat',
       'Cerrar chat': 'Close chat',
+      'Conectado': 'Connected',
+      'Conectando': 'Connecting',
+      'Desconectado': 'Disconnected',
+      'Desconocido': 'Unknown',
 
   
       home: 'Home',
@@ -168,6 +172,10 @@ const resources = {
       'Escribe un mensaje...': 'Escribe un mensaje...',
       'Limpiar chat': 'Limpiar chat',
       'Cerrar chat': 'Cerrar chat',
+      'Conectado': 'Conectado',
+      'Conectando': 'Conectando',
+      'Desconectado': 'Desconectado',
+      'Desconocido': 'Desconocido',
 
 
       home: 'Inicio',

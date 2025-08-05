@@ -32,8 +32,6 @@ const LazyComponentWrapper = ({ children }: { children: React.ReactNode }) => {
 };
 import { initScrollDetection } from '@utils/scrollDetection';
 import { initializeN8NServer } from '@services/n8nService';
-import { StagewiseToolbar } from '@stagewise/toolbar-react';
-
 
 import Home from './pages/Home';
 
@@ -264,7 +262,6 @@ const AppContent = () => {
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} isMobile={isMobile} />
       
       <MainContentWrapper $isSidebarPresent={isSidebarOpen && !isMobile}>
-        <StagewiseToolbar config={{ plugins: [] }} />
         <GrainOverlay />
         <ContactButtonStyled initialDelay={500} $hideOnScroll={shouldHideContactButton} />
         {chatbotVisible && n8nServerReady && (

@@ -24,8 +24,6 @@
     "@reduxjs/toolkit": "^2.2.1",
     "@splinetool/react-spline": "^4.0.0",
     "@splinetool/runtime": "^1.10.35",
-    "@stagewise-plugins/react": "^0.5.2",
-    "@stagewise/toolbar-react": "^0.5.2",
     "@studio-freight/lenis": "^1.0.42",
     "canvas-confetti": "^1.9.3",
     "clsx": "^2.1.1",

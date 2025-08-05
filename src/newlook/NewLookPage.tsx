@@ -1,59 +1,52 @@
-import React, { useEffect, useLayoutEffect, useRef } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SplitType from 'split-type';
 import InfoBlocksAnimation from './components/InfoBlocksAnimation';
-import { useLenis } from '../hooks/useLenis';
+import { useOptimizedScroll } from '../hooks/useOptimizedScroll';
 
 import HamburgerMenu from '../components/HamburgerMenu';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const HeroTitleComponent = () => {
+const HeroTitleComponent = ({ animationsReady }: { animationsReady: boolean }) => {
   const titleRef = useRef<HTMLHeadingElement>(null);
 
   useLayoutEffect(() => {
-    // Seleccionamos los elementos que podríamos animar
     const nameContainer = titleRef.current;
-    if (!nameContainer) return;
+    if (!nameContainer || !animationsReady) return;
     
     const nameInner = nameContainer.querySelector('.name-inner');
-
-    // El contexto de GSAP nos ayuda a gestionar las animaciones y su limpieza
+    
     const ctx = gsap.context(() => {
-      // matchMedia nos permite crear animaciones responsivas
       gsap.matchMedia().add({
         isDesktop: "(min-width: 640px)",
         isMobile: "(max-width: 639px)",
       }, (context) => {
-        // Obtenemos las condiciones del contexto (isDesktop, isMobile)
-        const conditions = context.conditions as { isDesktop?: boolean; isMobile?: boolean };
-        const { isDesktop } = conditions;
-
-        // Aplicamos la animación correspondiente según el ancho de la pantalla
+        const { isDesktop } = context.conditions as { isDesktop?: boolean };
+        
         if (isDesktop) {
           gsap.from(nameContainer, {
-            y: '104%',
-            ease: 'power3.out',
-            duration: 1.2,
-            delay: 0.25,
+            y: '100%',
+            ease: 'power2.out',
+            duration: 0.8,
+            delay: 0.2,
           });
         } else {
           gsap.from(nameInner, {
-            y: '105%',
-            ease: 'power3.out',
-            duration: 1.2,
-            delay: 0, // Sin retraso en móvil
+            y: '100%',
+            ease: 'power2.out',
+            duration: 0.8,
+            delay: 0,
           });
         }
       });
-    }, titleRef); // El scope del contexto es el contenedor del título
-
-    // Función de limpieza que se ejecuta cuando el componente se desmonta
+    }, titleRef);
+    
     return () => ctx.revert();
-  }, []);
+  }, [animationsReady]);
 
 
 
@@ -84,9 +77,41 @@ const NewLookPage: React.FC<NewLookPageProps> = () => {
   const contentImageContainerRef = useRef<HTMLDivElement>(null);
   const contentImageRef = useRef<HTMLImageElement>(null);
   const sectionTitleRef = useRef<HTMLDivElement>(null);
+  const servicesSectionRef = useRef<HTMLDivElement>(null);
 
-  // Inicializar Lenis para smooth scrolling
-  useLenis();
+  // Inicializar scroll optimizado
+  const { isLoaded } = useOptimizedScroll();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrolled = window.pageYOffset;
+      const parallaxElements = document.querySelectorAll('[data-parallax]');
+      
+      parallaxElements.forEach((element) => {
+        const speed = parseFloat(element.getAttribute('data-parallax') || '0.5');
+        const parentRect = (element.parentElement as HTMLElement)?.getBoundingClientRect();
+        
+        if (parentRect) {
+          // Calcular el movimiento parallax con límites
+          const maxMovement = 50; // Máximo movimiento en píxeles
+          const yPos = Math.max(-maxMovement, Math.min(maxMovement, -(scrolled * speed * 0.1)));
+          (element as HTMLElement).style.transform = `translateY(${yPos}px)`;
+        }
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Estado para controlar cuando las animaciones deben ejecutarse
+  const [animationsReady, setAnimationsReady] = useState(false);
+
+  useEffect(() => {
+    if (isLoaded) {
+      setAnimationsReady(true);
+    }
+  }, [isLoaded]);
 
   const handleNavHover = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const navItems = Array.from(navigationRef.current?.children || []);
@@ -105,6 +130,7 @@ const NewLookPage: React.FC<NewLookPageProps> = () => {
   };
 
   useLayoutEffect(() => {
+    if (!animationsReady) return;
     const ctx = gsap.context(() => {
       if (window.innerWidth >= 640 && heroImageRef.current) {
         gsap.from(heroImageRef.current, {
@@ -116,9 +142,10 @@ const NewLookPage: React.FC<NewLookPageProps> = () => {
     }, heroImageRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [animationsReady]);
 
   useLayoutEffect(() => {
+    if (!animationsReady) return;
     const navLinksElements = navigationRef.current?.querySelectorAll('.li-inner');
     const navLinks = navLinksElements ? gsap.utils.toArray(navLinksElements) : [];
 
@@ -135,7 +162,7 @@ const NewLookPage: React.FC<NewLookPageProps> = () => {
     }, navigationRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [animationsReady]);
 
   useEffect(() => {
     if (heroImageRef.current && heroContainerRef.current) {
@@ -166,6 +193,7 @@ const NewLookPage: React.FC<NewLookPageProps> = () => {
   }, []);
 
   useLayoutEffect(() => {
+    if (!animationsReady) return;
     const ctx = gsap.context(() => {
       const isDesktop = window.innerWidth >= 640;
       
@@ -200,10 +228,11 @@ const NewLookPage: React.FC<NewLookPageProps> = () => {
     });
 
     return () => ctx.revert();
-  }, [subheadingRef, subheadingTextLine1Ref, subheadingTextLine2Ref, subheadingTextLine3Ref, subheadingTextLine4Ref]);
+  }, [subheadingRef, subheadingTextLine1Ref, subheadingTextLine2Ref, subheadingTextLine3Ref, subheadingTextLine4Ref, animationsReady]);
 
   // Efecto de scroll para el hero section (solo imagen, sin navegación)
   useLayoutEffect(() => {
+    if (!animationsReady) return;
     const heroElement = heroContainerRef.current;
 
     const ctx = gsap.context(() => {
@@ -229,7 +258,8 @@ const NewLookPage: React.FC<NewLookPageProps> = () => {
               trigger: heroElement,
               start: 'bottom bottom',
               end: 'bottom top-=50%',
-              scrub: true,
+              scrub: 0.5,
+              anticipatePin: 1,
             }
           })
           .to(heroElement, { y: '50vh' }, 0)
@@ -239,76 +269,101 @@ const NewLookPage: React.FC<NewLookPageProps> = () => {
     }, heroContainerRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [animationsReady]);
 
   // Animaciones para la imagen de anteojos
   useLayoutEffect(() => {
     const container = contentImageContainerRef.current;
     const image = contentImageRef.current;
 
+    if (!animationsReady) return;
+
     const ctx = gsap.context(() => {
-      // Animación 1: Revelado con clip-path
+      // Revelado simple
       gsap.fromTo(container, 
+        { opacity: 0 }, 
         { 
-          clipPath: 'polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)', 
-          opacity: 0, 
-        }, 
-        { 
-          clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)', 
           opacity: 1, 
-          duration: 1.2, 
-          ease: 'power2.inOut',
+          duration: 0.4,
+          ease: 'power1.out',
           scrollTrigger: { 
             trigger: container, 
-            start: 'top bottom-=15%',
+            start: 'top bottom-=10%',
             once: true,
           }, 
         } 
       );
 
-      // Animación 2: Parallax al hacer scroll
+      // Parallax ligero
       gsap.fromTo(image, 
+        { yPercent: -5 }, 
         { 
-          yPercent: -15,
-        }, 
-        { 
-          yPercent: 15,
+          yPercent: 5, 
           ease: 'none', 
           scrollTrigger: { 
             trigger: container, 
             start: 'top bottom',
             end: 'bottom top',
-            scrub: true,
+            scrub: 0.3,
           }, 
         } 
       );
     }, contentImageContainerRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [animationsReady]);
 
   // Animación para el párrafo "Impulso a emprendedores..."
   useLayoutEffect(() => {
-    if (sectionTitleRef.current) {
-      const lines = sectionTitleRef.current.querySelectorAll('.line-inner');
+    if (!animationsReady || !sectionTitleRef.current) return;
+    const lines = sectionTitleRef.current.querySelectorAll('.line-inner');
 
-      // Establecer estado inicial
-      gsap.set(lines, { y: '100%' });
+    // Establecer estado inicial
+    gsap.set(lines, { y: '100%' });
 
-      // Animar hacia la posición normal
-      gsap.to(lines, {
-        y: '0%',
-        duration: 1.2,
-        stagger: 0.066,
-        ease: 'power3.out',
+    // Animar hacia la posición normal con optimización
+    gsap.to(lines, {
+      y: '0%',
+      duration: 1.2, // Aumentado para que dure un poquito más
+      stagger: 0.08, // Aumentado ligeramente para mejor efecto
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: sectionTitleRef.current,
+        start: 'top bottom-=10%', // Ajustado para activar más tarde
+        once: true,
+        fastScrollEnd: true // Mejora rendimiento
+      }
+    });
+  }, [animationsReady]);
+
+  // Animación de las tarjetas de servicios
+  useLayoutEffect(() => {
+    if (!animationsReady || !servicesSectionRef.current) return;
+    const serviceCards = servicesSectionRef.current.querySelectorAll('[data-service-card]');
+    
+    gsap.fromTo(
+      serviceCards,
+      {
+        opacity: 0,
+        y: 60,
+        scale: 0.9,
+      },
+      {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.8,
+        ease: "power3.out",
+        stagger: 0.2,
         scrollTrigger: {
-          trigger: sectionTitleRef.current,
-          start: 'top bottom-=15%',
-          once: true
-        }
-      });
-    }
-  }, []);
+          trigger: servicesSectionRef.current,
+          start: "top 80%",
+          end: "bottom 20%",
+          toggleActions: "play none none reverse",
+        },
+      }
+    );
+  }, [animationsReady]);
 
   return (
     <PageWrapper
@@ -316,6 +371,11 @@ const NewLookPage: React.FC<NewLookPageProps> = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
     >
+      {!isLoaded && (
+        <div className="fixed inset-0 bg-white z-50 flex items-center justify-center transition-opacity duration-300">
+          <div className="w-8 h-8 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
       <HamburgerMenu heroContainerRef={heroContainerRef} />
       <HeroContainer ref={heroContainerRef}>
 
@@ -357,33 +417,40 @@ const NewLookPage: React.FC<NewLookPageProps> = () => {
               </div>
             </NavItem>
           </Navigation>
-          <HeroFigure ref={heroImageRef} src="/assets/newAssets/hero-alexis.png" alt="Alexis Vedia" />
+          <HeroFigure ref={heroImageRef} src="/assets/newAssets/hero-alexis.webp" alt="Alexis Vedia" />
         </ImageContainer>
         
-        <HeroTitleComponent />
+        <HeroTitleComponent animationsReady={animationsReady} />
       </HeroContainer>
 
       <MainContentContainer ref={mainContentRef}>
         <ContentSection>
           <TextImageContainer>
             <ContentImageContainer ref={contentImageContainerRef}>
-              <ContentImage ref={contentImageRef} src="/assets/newAssets/imagen-anteojos.png" alt="Alexis Vedia con anteojos" />
+              <ContentImageBackground 
+                ref={contentImageRef} 
+                style={{backgroundImage: 'url(/assets/newAssets/me.jpg)'}} 
+                data-parallax="0.2"
+              />
             </ContentImageContainer>
             <SectionTitle ref={sectionTitleRef}>
             <div className="line">
-              <div className="line-inner">Impulso a emprendedores, agencias y startups</div>
+              <div className="line-inner">Impulso a emprendedores, agencias y startups ideando soluciones innovadoras</div>
             </div>
             <div className="line">
-              <div className="line-inner">ideando soluciones innovadoras y llevándolas</div>
+              <div className="line-inner">y llevándolas a la realidad con diseño UX/UI</div>
             </div>
             <div className="line">
-              <div className="line-inner">a la realidad con diseño UX/UI de alto nivel,</div>
+              <div className="line-inner"></div>
             </div>
             <div className="line">
-              <div className="line-inner">desarrollo en código y herramientas de IA que</div>
+              <div className="line-inner"> de alto nivel, desarrollo en código y</div>
             </div>
             <div className="line">
-              <div className="line-inner">optimizan procesos y maximizan resultados</div>
+              <div className="line-inner">herramientas de IA que optimizan procesos</div>
+            </div>
+            <div className="line">
+              <div className="line-inner">y maximizan resultados</div>
             </div>
           </SectionTitle>
           </TextImageContainer>
@@ -391,15 +458,47 @@ const NewLookPage: React.FC<NewLookPageProps> = () => {
           <InfoBlocksAnimation />
         </ContentSection>
 
+        <ServicesSection ref={servicesSectionRef}>
+              <ServicesTitle>Mis Servicios</ServicesTitle>
+              <ServicesGrid>
+                <ServiceCard data-service-card>
+                  <ServiceNumber>1</ServiceNumber>
+                  <ServiceName>Prototipado Full-Stack<br/>(React + TypeScript, Next.js, Serverless/Edge)</ServiceName>
+                  <ServiceDescription>Levanto UI, lógica de negocio y bases de datos ligeras en tiempo récord. Perfecto para MVPs y pruebas de mercado.</ServiceDescription>
+                </ServiceCard>
+                <ServiceCard data-service-card>
+                  <ServiceNumber>2</ServiceNumber>
+                  <ServiceName>Integración y Orquestación de IA</ServiceName>
+                  <ServiceDescription>Context Engineering, RAG, agentes autónomos, modelos open-source o comerciales — siempre lo último y más eficiente en coste y latencia.</ServiceDescription>
+                </ServiceCard>
+                <ServiceCard data-service-card>
+                  <ServiceNumber>3</ServiceNumber>
+                  <ServiceName>Automatización & Data Pipelines</ServiceName>
+                  <ServiceDescription>Diseño workflows con n8n, APIs y scripts de scraping para mover, limpiar y accionar datos sin intervención manual.</ServiceDescription>
+                </ServiceCard>
+                <ServiceCard data-service-card>
+                  <ServiceNumber>4</ServiceNumber>
+                  <ServiceName>UX/UI Research & Diseño</ServiceName>
+                  <ServiceDescription>Investigación de usuario → wireframes → prototipos en Figma → tests. Experiencias que se entienden y convierten.</ServiceDescription>
+                </ServiceCard>
+                <ServiceCard data-service-card>
+                  <ServiceNumber>5</ServiceNumber>
+                  <ServiceName>CMS & E-commerce a Medida</ServiceName>
+                  <ServiceDescription>WordPress, HubSpot, Magento… Temas, plugins y funnels optimizados para SEO y performance.</ServiceDescription>
+                </ServiceCard>
+                <ServiceCard data-service-card>
+                  <ServiceNumber>6</ServiceNumber>
+                  <ServiceName>QA, Testing y Performance</ServiceName>
+                  <ServiceDescription>Jest/RTL, tests end-to-end y auditorías de rendimiento. Detecto errores antes de que los vea tu cliente.</ServiceDescription>
+                </ServiceCard>
+              </ServicesGrid>
+            </ServicesSection>
 
 
-      <CTASection>
-        <CTAButton>Todos los trabajos</CTAButton>
-      </CTASection>
 
-        <FooterSection>
-          <ContactInfo>alexisleonelvedia@gmail.com</ContactInfo>
-        </FooterSection>
+      <FooterSection>
+        <ContactInfo></ContactInfo>
+      </FooterSection>
       </MainContentContainer>
     </PageWrapper>
   );
@@ -758,7 +857,7 @@ const LastName = styled.span`
 
 const ContentSection = styled.section`
   padding: 80px 0;
-  max-width: 1440px;
+  max-width: 1200px;
   margin: 0 auto;
   position: relative;
 `;
@@ -768,6 +867,12 @@ const TextImageContainer = styled.div`
   align-items: flex-start;
   gap: 60px;
   margin-bottom: 40px;
+  position: relative;
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 2rem;
+  }
 `;
 
 const ContentImageContainer = styled.div`
@@ -775,23 +880,34 @@ const ContentImageContainer = styled.div`
   height: 260px;
   overflow: hidden;
   flex-shrink: 0;
+  position: relative;
+  max-width: 1200px;
 `;
 
-const ContentImage = styled.img`
+const ContentImageBackground = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 130%;
-  object-fit: cover;
-  transform: translateY(-15%);
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 1;
+  opacity: 1;
+  will-change: transform;
 `;
 
 const SectionTitle = styled.div`
   text-align: left;
-  margin-bottom: 80px;
+  margin-bottom: 40px;
   color: black;
   font-size: 43.22px;
   font-weight: 700;
   line-height: 1.2;
   flex: 1;
+  position: relative;
+  z-index: 2;
   
   /* Estilos para la animación multilínea */
   .line {
@@ -830,33 +946,115 @@ const SectionTitle = styled.div`
 
 
 
-const CTASection = styled.section`
+const ServicesSection = styled.section`
   padding: 80px 0;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  
+  @media (max-width: 768px) {
+    padding: 60px 1rem;
+  }
+`;
+
+const ServicesTitle = styled.h2`
+  font-family: "Inter", Trebuchet MS, sans-serif;
+  font-size: 43.22px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #141414;
   text-align: center;
-  background: #D2D2D2;
-  height: 789px;
+  margin-bottom: 60px;
+  
+  @media (max-width: 768px) {
+    font-size: 32px;
+    margin-bottom: 40px;
+  }
+`;
+
+const ServicesGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+`;
+
+const ServiceCard = styled.div`
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  padding: 2rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    background: rgba(255, 255, 255, 0.95);
+  }
+  
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+  }
+`;
+
+const ServiceNumber = styled.div`
+  font-family: "Inter", Trebuchet MS, sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #646CFF;
+  text-align: left;
+  margin-bottom: 1rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(100, 108, 255, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
-`;
+  font-size: 16px;
 
-const CTAButton = styled.button`
-  background: #000000;
-  color: white;
-  border: none;
-  padding: 16px 32px;
-  font-family: "Inter", sans-serif;
-  font-size: 18px;
-  font-weight: 600;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  
-  &:hover {
-    background: #333333;
-    transform: translateY(-2px);
+  @media (max-width: 768px) {
+    font-size: 14px;
+    width: 35px;
+    height: 35px;
   }
 `;
+
+const ServiceName = styled.h3`
+  font-family: "Inter", Trebuchet MS, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #141414;
+  margin: 0 0 1rem 0;
+  line-height: 1.3;
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+  }
+`;
+
+const ServiceDescription = styled.p`
+  font-family: "Inter", Trebuchet MS, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #666666;
+  line-height: 1.6;
+  margin: 0;
+
+  @media (max-width: 768px) {
+    font-size: 13px;
+  }
+`;
+
+
 
 const FooterSection = styled.footer`
   padding: 40px 0;

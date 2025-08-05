@@ -29,11 +29,12 @@ export const useLenis = (options: LenisOptions = {}) => {
     const loadLenis = async () => {
       if (typeof window === 'undefined') return;
 
-      // Cargar Lenis desde CDN si no está disponible
+      // Cargar Lenis desde CDN con lazy loading
       if (!window.Lenis) {
         const script = document.createElement('script');
         script.src = 'https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js';
         script.async = true;
+        script.defer = true;
         
         await new Promise((resolve, reject) => {
           script.onload = resolve;
@@ -42,43 +43,51 @@ export const useLenis = (options: LenisOptions = {}) => {
         });
       }
 
-      // Inicializar Lenis
+      // Configuración ultra-optimizada para mejor rendimiento
       if (window.Lenis && !lenisRef.current) {
-        const defaultOptions = {
-          duration: 1.2,
+        const performanceOptions = {
+          duration: 0.25, // Ultra-rápido: 0.25s
           easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
           direction: 'vertical' as const,
           gestureDirection: 'vertical' as const,
           smooth: true,
-          mouseMultiplier: 1,
-          smoothTouch: false,
-          touchMultiplier: 2,
+          mouseMultiplier: 0.8, // Reducido para menos sensibilidad
+          smoothTouch: false, // Desactivado para evitar conflictos táctiles
+          touchMultiplier: 0.5, // Ultra-reducido
           infinite: false,
           autoResize: true,
           ...options
         };
 
-        lenisRef.current = new window.Lenis(defaultOptions);
+        lenisRef.current = new window.Lenis(performanceOptions);
 
         // Agregar clases CSS
         document.documentElement.classList.add('lenis');
-        if (defaultOptions.smooth) {
+        if (performanceOptions.smooth) {
           document.documentElement.classList.add('lenis-smooth');
         }
 
-        // Función de animación
+        // RAF optimizado con throttling
+        let lastTime = 0;
         const raf = (time: number) => {
-          lenisRef.current?.raf(time);
+          if (time - lastTime >= 16.67) { // ~60fps máximo
+            lenisRef.current?.raf(time);
+            lastTime = time;
+          }
           rafRef.current = requestAnimationFrame(raf);
         };
         rafRef.current = requestAnimationFrame(raf);
       }
     };
 
-    loadLenis();
+    // Delay inicial para permitir que la página cargue completamente
+    const timeoutId = setTimeout(() => {
+      loadLenis();
+    }, 300);
 
     // Cleanup
     return () => {
+      clearTimeout(timeoutId);
       if (rafRef.current) {
         cancelAnimationFrame(rafRef.current);
       }

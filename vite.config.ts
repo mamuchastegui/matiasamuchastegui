@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
+import { VitePWA } from 'vite-plugin-pwa';
 // import { visualizer } from "rollup-plugin-visualizer";
 
 // https://vitejs.dev/config/
@@ -38,7 +39,16 @@ export default defineConfig({
   },
   // Removed experimental renderBuiltUrl configuration that was causing
   // "Failed to fetch dynamically imported module" errors in production
-  plugins: [react()],
+  plugins: [
+    react(),
+    VitePWA({
+      registerType: 'autoUpdate',
+      workbox: {
+        clientsClaim: true,
+        skipWaiting: true
+      }
+    })
+  ],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

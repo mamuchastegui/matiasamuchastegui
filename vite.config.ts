@@ -14,12 +14,7 @@ export default defineConfig({
           i18n: ['i18next', 'react-i18next'],
           icons: ['react-icons'],
         },
-        chunkFileNames: (chunkInfo) => {
-          const facadeModuleId = chunkInfo.facadeModuleId 
-            ? chunkInfo.facadeModuleId.split('/').pop()?.replace('.tsx', '').replace('.ts', '') || 'chunk'
-            : 'chunk';
-          return `assets/${facadeModuleId}-[hash].js`;
-        },
+        chunkFileNames: 'assets/[name]-[hash].js',
       },
       plugins: [
         // visualizer({
@@ -41,14 +36,8 @@ export default defineConfig({
       'Cache-Control': 'no-cache',
     },
   },
-  experimental: {
-    renderBuiltUrl(filename, { hostType }) {
-      if (hostType === 'js') {
-        return { js: `/${filename}` };
-      }
-      return { relative: true };
-    },
-  },
+  // Removed experimental renderBuiltUrl configuration that was causing
+  // "Failed to fetch dynamically imported module" errors in production
   plugins: [react()],
   resolve: {
     alias: {

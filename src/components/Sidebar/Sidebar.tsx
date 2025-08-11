@@ -54,6 +54,7 @@ const SidebarContainer = styled.aside<{ $isOpen: boolean; $isMobile: boolean; $i
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(20px);
   border-right: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: ${({ theme }) => theme.isDark ? 'none' : '0 4px 20px rgba(0, 0, 0, 0.1)'};
   color: ${({ theme }) => theme.colors.text};
   padding: ${({ theme }) => theme.space.lg};
   height: 100dvh;

@@ -239,7 +239,7 @@ const ServicesGrid = styled(motion.div)`
 const ServiceCard = styled(motion.div)<{ gradient: string }>`
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid ${({ theme }) => theme.isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.08)'};
   border-radius: 24px;
   padding: 0;
   position: relative;
@@ -278,9 +278,9 @@ const ServiceCard = styled(motion.div)<{ gradient: string }>`
 
   &:hover {
     transform: translateY(-8px);
-    border-color: rgba(255, 255, 255, 0.2);
+    border-color: ${({ theme }) => theme.isDark ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.15)'};
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1),
-                0 0 0 1px rgba(255, 255, 255, 0.05);
+                0 0 0 1px ${({ theme }) => theme.isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.03)'};
   }
 
   &:hover::before {

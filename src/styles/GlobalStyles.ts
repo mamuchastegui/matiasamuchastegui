@@ -64,36 +64,34 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    /* Fondo base con degradado moderno */
-    background: 
-      /* Degradado principal */
-      linear-gradient(
-        135deg,
-        ${({ theme }) => theme.colors.background} 0%,
-        ${({ theme }) => theme.isDark 
-          ? 'rgba(15, 15, 20, 1) 25%, rgba(10, 10, 15, 1) 50%, rgba(15, 15, 20, 1) 75%'
-          : 'rgba(250, 250, 255, 1) 25%, rgba(245, 245, 250, 1) 50%, rgba(250, 250, 255, 1) 75%'
-        },
-        ${({ theme }) => theme.colors.background} 100%
-      ),
-      /* Degradado secundario para profundidad */
-      radial-gradient(
-        ellipse at top left,
-        ${({ theme }) => theme.isDark 
-          ? 'rgba(30, 20, 50, 0.3) 0%, transparent 50%'
-          : 'rgba(200, 220, 255, 0.2) 0%, transparent 50%'
-        }
-      ),
-      radial-gradient(
-        ellipse at bottom right,
-        ${({ theme }) => theme.isDark 
-          ? 'rgba(50, 20, 30, 0.2) 0%, transparent 50%'
-          : 'rgba(255, 200, 220, 0.15) 0%, transparent 50%'
-        }
-      );
+    margin: 0;
+    background: ${({ theme }) => theme.isDark 
+      ? `
+        /* Degradado principal para dark mode */
+        linear-gradient(
+          135deg,
+          ${theme.colors.background} 0%,
+          rgba(15, 15, 20, 1) 25%, 
+          rgba(10, 10, 15, 1) 50%, 
+          rgba(15, 15, 20, 1) 75%,
+          ${theme.colors.background} 100%
+        ),
+        /* Degradado radial superior izquierdo */
+        radial-gradient(
+          ellipse at top left,
+          rgba(30, 20, 50, 0.3) 0%, 
+          transparent 50%
+        ),
+        radial-gradient(
+          ellipse at bottom right,
+          rgba(50, 20, 30, 0.2) 0%, 
+          transparent 50%
+        )`
+      : theme.colors.background
+    };
     
-    background-attachment: fixed;
-    background-size: 100% 100%, 150% 150%, 120% 120%;
+    background-attachment: ${({ theme }) => theme.isDark ? 'fixed' : 'scroll'};
+    background-size: ${({ theme }) => theme.isDark ? '100% 100%, 150% 150%, 120% 120%' : 'auto'};
     
     color: ${({ theme }) => theme.colors.text};
     font-family: ${({ theme }) => theme.fonts.body};

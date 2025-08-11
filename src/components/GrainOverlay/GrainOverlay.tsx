@@ -31,17 +31,16 @@ const GrainElement = styled.div`
   height: 100%;
   pointer-events: none;
   z-index: 1;
-  opacity: 1;
   
-  /* Degradado de malla moderno con múltiples capas */
-  background: 
-    /* Capa de textura granular */
+  /* Solo mostrar efectos en dark mode */
+  opacity: ${({ theme }) => theme.isDark ? 1 : 0};
+  
+  /* Degradado de malla moderno con múltiples capas - solo para dark mode */
+  background: ${({ theme }) => theme.isDark ? `
     url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E"),
-    /* Degradado de malla principal */
     radial-gradient(circle at 20% 80%, rgba(120, 40, 200, 0.15) 0%, transparent 50%),
     radial-gradient(circle at 80% 20%, rgba(255, 100, 150, 0.12) 0%, transparent 50%),
     radial-gradient(circle at 40% 40%, rgba(50, 150, 255, 0.1) 0%, transparent 50%),
-    /* Degradado base dinámico */
     linear-gradient(
       135deg,
       rgba(30, 30, 35, 0.95) 0%,
@@ -49,7 +48,7 @@ const GrainElement = styled.div`
       rgba(20, 20, 25, 0.99) 50%,
       rgba(25, 25, 30, 0.98) 75%,
       rgba(30, 30, 35, 0.95) 100%
-    );
+    )` : 'transparent'};
   
   background-size: 
     200px 200px,

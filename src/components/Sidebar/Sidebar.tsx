@@ -51,7 +51,9 @@ const SidebarOverlay = styled.div<{ $isOpen: boolean }>`
 `;
 
 const SidebarContainer = styled.aside<{ $isOpen: boolean; $isMobile: boolean; $isFirstRender: boolean }>`
-  background-color: ${({ theme }) => theme.colors.sidebarBackground};
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
   color: ${({ theme }) => theme.colors.text};
   padding: ${({ theme }) => theme.space.lg};
   height: 100dvh;
@@ -62,7 +64,7 @@ const SidebarContainer = styled.aside<{ $isOpen: boolean; $isMobile: boolean; $i
   z-index: 1000;
   display: flex;
   flex-direction: column;
-  transition: transform 0.5s ease-in-out, box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out;
+  transition: transform 0.5s ease-in-out, box-shadow 0.3s ease-in-out, background 0.3s ease-in-out;
 
   ${({ $isMobile, $isOpen }) =>
     $isMobile &&
@@ -545,7 +547,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile }) =>
           <LogoImageWrapper>
             <LogoImage src={PortfolioLogo} alt={t('portfolioLogoAlt', 'Logo del Portafolio')} />
           </LogoImageWrapper>
-          <LogoText>{t('sidebar.logoText', 'Portfolio')}</LogoText>
+          <LogoText>Alexis Vedia</LogoText>
         </LogoContainer>
         <NavList>
           {navLinks.map((linkItemMap) => {

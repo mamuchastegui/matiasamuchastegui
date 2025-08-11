@@ -168,6 +168,10 @@ const resources = {
         ai: {
           title: 'AI Integration',
           description: 'Implementation of AI solutions with LLMs, advanced prompt engineering and intelligent workflow development.'
+        },
+        wordpress: {
+          title: 'WordPress Development',
+          description: 'Custom WordPress solutions with theme development, plugin customization and WooCommerce integration. Performance optimization and SEO.'
         }
       },
     },
@@ -338,6 +342,10 @@ const resources = {
         ai: {
           title: 'Integración de IA',
           description: 'Implementación de soluciones de IA con LLMs, prompt engineering avanzado y desarrollo de flujos de trabajo inteligentes.'
+        },
+        wordpress: {
+          title: 'Desarrollo WordPress',
+          description: 'Soluciones WordPress personalizadas con desarrollo de temas, personalización de plugins e integración WooCommerce. Optimización de rendimiento y SEO.'
         }
       },
     },

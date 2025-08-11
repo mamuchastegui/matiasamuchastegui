@@ -68,7 +68,7 @@ const SIDEBAR_WIDTH = '280px';
 
 const AppWrapper = styled.div`
   position: relative;
-  background-color: ${({ theme }) => theme.colors.background};
+  background: transparent;
   display: flex;
 `;
 
@@ -79,7 +79,7 @@ const MainContentWrapper = styled.div<{ $isSidebarPresent: boolean }>`
   width: 100%;
   max-width: 100vw;
   overflow: visible;
-  background-color: ${({ theme }) => theme.colors.background};
+  background: transparent;
   margin-left: ${({ $isSidebarPresent }) => ($isSidebarPresent ? SIDEBAR_WIDTH : '0')};
   transition: margin-left 0.3s ease-in-out;
   box-sizing: border-box;

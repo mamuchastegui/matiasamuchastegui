@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import ScrollReveal from '@components/ScrollReveal';
 
 interface Service {
   id: string;
@@ -28,6 +27,18 @@ const ServicesSection: React.FC = () => {
       descriptionKey: 'services.frontend.description',
       skills: ['React', 'TypeScript', 'Next.js', 'Tailwind CSS'],
       gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+    },
+    {
+      id: 'wordpress-development',
+      icon: (
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.04 17.87c-.53-.12-1.04-.3-1.51-.54l1.56-4.54 1.47 4.02c-.49.36-1.01.67-1.52.93v.13zm-2.19-1.18C7.47 17.77 6.44 16.13 6.44 14.25c0-1.06.19-2.07.54-3.01L9.77 18.69zm2.19-8.69c.6-.03 1.14-.09 1.14-.09.54-.06.48-.85-.06-.82 0 0-1.61.13-2.65.13-.98 0-2.59-.13-2.59-.13-.54-.03-.6.82-.06.82 0 0 .51.06 1.05.09l1.56 4.28-2.19 6.57-3.64-10.85c.6-.03 1.14-.09 1.14-.09.54-.06.48-.85-.06-.82 0 0-1.61.13-2.65.13-.19 0-.42-.01-.66-.01C4.9 5.57 8.18 3.5 12 3.5c2.85 0 5.44 1.12 7.36 2.95-.05 0-.09-.01-.14-.01-.98 0-1.67.85-1.67 1.76 0 .82.47 1.51.98 2.33.38.66.82 1.51.82 2.74 0 .85-.33 1.84-.76 3.21l-.99 3.31-3.59-10.69z" fill="currentColor"/>
+        </svg>
+      ),
+      titleKey: 'services.wordpress.title',
+      descriptionKey: 'services.wordpress.description',
+      skills: ['WordPress', 'PHP', 'Custom Themes', 'WooCommerce'],
+      gradient: 'linear-gradient(135deg, #21759b 0%, #0073aa 100%)'
     },
     {
       id: 'ux-ui-design',
@@ -95,10 +106,22 @@ const ServicesSection: React.FC = () => {
 
   return (
     <SectionContainer>
-      <ScrollReveal>
-        <SectionTitle>{t('services.title')}</SectionTitle>
-        <SectionSubtitle>{t('services.subtitle')}</SectionSubtitle>
-      </ScrollReveal>
+      <SectionTitle
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, ease: 'easeOut' }}
+      >
+        {t('services.title')}
+      </SectionTitle>
+      <SectionSubtitle
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.2, ease: 'easeOut' }}
+      >
+        {t('services.subtitle')}
+      </SectionSubtitle>
       
       <ServicesGrid
         variants={containerVariants}
@@ -138,7 +161,7 @@ const ServicesSection: React.FC = () => {
 
 const SectionContainer = styled.section`
   padding: 8rem 0;
-  background: ${({ theme }) => theme.colors.background};
+  background: transparent;
   position: relative;
 
   @media (max-width: 768px) {
@@ -147,45 +170,47 @@ const SectionContainer = styled.section`
 `;
 
 const SectionTitle = styled(motion.h2)`
-  font-size: 3.5rem;
-  font-weight: 800;
-  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
   margin-bottom: 1.5rem;
-  background: linear-gradient(135deg, ${({ theme }) => theme.colors.primary}, ${({ theme }) => theme.colors.accent});
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  letter-spacing: -0.02em;
+  text-align: center;
+  color: ${({ theme }) => theme.colors.text};
   position: relative;
-  z-index: 1;
+  font-family: ${({ theme }) => theme.fonts.body};
+  line-height: 1.2;
 
   @media (max-width: 768px) {
-    font-size: 2.8rem;
+    font-size: 2rem;
   }
 
   @media (max-width: 480px) {
-    font-size: 2.2rem;
+    font-size: 1.8rem;
   }
 `;
 
 const SectionSubtitle = styled(motion.p)`
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   text-align: center;
   color: ${({ theme }) => theme.colors.text};
-  opacity: 0.7;
-  margin-bottom: 5rem;
-  max-width: 700px;
+  opacity: 0.8;
+  margin-bottom: 4rem;
+  max-width: 600px;
   margin-left: auto;
   margin-right: auto;
-  line-height: 1.7;
+  line-height: 1.6;
   font-weight: 400;
   position: relative;
-  z-index: 1;
+  font-family: ${({ theme }) => theme.fonts.body};
 
   @media (max-width: 768px) {
-    font-size: 1.15rem;
-    margin-bottom: 4rem;
+    font-size: 1.1rem;
+    margin-bottom: 3rem;
     max-width: 90%;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1rem;
   }
 `;
 

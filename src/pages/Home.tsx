@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import PageTransition from '@components/PageTransition/PageTransition';
 import HeroSection from '@components/HeroSection/HeroSection';
 import BioSection from '@components/BioSection';
+import ServicesSection from '@components/ServicesSection';
 import ProjectsSection from '@components/ProjectsSection/ProjectsSection';
 import ContactSection from '@components/ContactSection/ContactSection';
 import SEOContent from '@components/SEOContent';
@@ -69,6 +70,9 @@ const Home: React.FC<HomeProps> = ({ onAnimationComplete, fontsLoaded, onContact
         <ContentWrapper>
           <HeroSection onAnimationComplete={onAnimationComplete} fontsLoaded={fontsLoaded} />
           <BioSection />
+        </ContentWrapper>
+        <ContentWrapper id="services">
+          <ServicesSection />
         </ContentWrapper>
         <ContentWrapper>
           <ProjectsSection />

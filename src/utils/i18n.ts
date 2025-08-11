@@ -62,6 +62,7 @@ const resources = {
         about: 'About Me',
         projects: 'Projects',
         resume: 'Resume',
+        services: 'Services',
         xcons: 'XCONS',
         fusionads: 'FusionAds',
         bandit: 'Bandit',
@@ -148,6 +149,27 @@ const resources = {
         bandit: 'Platform focused on tour and live concert management for artists and managers.',
         otros: 'Various personal and professional projects under development.'
       },
+
+      services: {
+        title: 'Services',
+        subtitle: 'Comprehensive solutions from design to development, with a focus on user experience and cutting-edge technology.',
+        frontend: {
+          title: 'Frontend Development',
+          description: 'Modern and scalable web applications with React, TypeScript and the latest technologies. Focus on performance, accessibility and user experience.'
+        },
+        design: {
+          title: 'UX/UI Design',
+          description: 'User-centered design with advanced prototyping in Figma. User research, usability testing and component library creation.'
+        },
+        automation: {
+          title: 'Automation & Integration',
+          description: 'Workflow automation with n8n, API integrations and web scraping solutions. Optimization of business processes.'
+        },
+        ai: {
+          title: 'AI Integration',
+          description: 'Implementation of AI solutions with LLMs, advanced prompt engineering and intelligent workflow development.'
+        }
+      },
     },
   },
   es: {
@@ -210,6 +232,7 @@ const resources = {
         about: 'Sobre Mí',
         projects: 'Proyectos',
         resume: 'Currículum',
+        services: 'Servicios',
         xcons: 'XCONS',
         fusionads: 'FusionAds',
         bandit: 'Bandit',
@@ -295,6 +318,27 @@ const resources = {
         fusionads: 'Plataforma de publicidad generativa impulsada por IA que crea anuncios profesionales omnicanal.',
         bandit: 'Plataforma enfocada en la gestión de giras y conciertos en vivo para artistas y managers.',
         otros: 'Diversos proyectos personales y profesionales en desarrollo.'
+      },
+
+      services: {
+        title: 'Servicios',
+        subtitle: 'Soluciones integrales desde el diseño hasta el desarrollo, con enfoque en experiencia de usuario y tecnología de vanguardia.',
+        frontend: {
+          title: 'Desarrollo Frontend',
+          description: 'Aplicaciones web modernas y escalables con React, TypeScript y las últimas tecnologías. Enfoque en rendimiento, accesibilidad y experiencia de usuario.'
+        },
+        design: {
+          title: 'Diseño UX/UI',
+          description: 'Diseño centrado en el usuario con prototipado avanzado en Figma. Research de usuarios, testing de usabilidad y creación de librerías de componentes.'
+        },
+        automation: {
+          title: 'Automatización e Integración',
+          description: 'Automatización de flujos de trabajo con n8n, integraciones de APIs y soluciones de web scraping. Optimización de procesos empresariales.'
+        },
+        ai: {
+          title: 'Integración de IA',
+          description: 'Implementación de soluciones de IA con LLMs, prompt engineering avanzado y desarrollo de flujos de trabajo inteligentes.'
+        }
       },
     },
   },

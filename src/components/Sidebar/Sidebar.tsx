@@ -8,6 +8,7 @@ import {
   Menu,
   Home as HomeIcon,
   User as AboutIcon,
+  Settings as ServicesIcon,
   Briefcase as ExperienceIcon,
   Mail as ContactIcon,
   ChevronDown,
@@ -351,6 +352,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile }) =>
   const navLinks: NavLinkItem[] = [
     { href: '#home', labelKey: 'home', defaultLabel: 'Inicio', IconComponent: HomeIcon },
     { href: '#about', labelKey: 'navbar.about', defaultLabel: 'Sobre mí', IconComponent: AboutIcon },
+    { href: '#services', labelKey: 'navbar.services', defaultLabel: 'Servicios', IconComponent: ServicesIcon },
     {
       href: '#experience',
       labelKey: 'experience',

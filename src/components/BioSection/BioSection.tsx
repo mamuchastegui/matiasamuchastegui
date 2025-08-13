@@ -7,84 +7,106 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 
-import alexisImage from '../../assets/images/projects/alexis.png';
-
 gsap.registerPlugin(ScrollTrigger);
 
 const SectionContainer = styled.section`
-  padding: ${({ theme }) => theme.space.xl} 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  /* Tailwind: px-6 pb-20 */
+  padding: 0 1.5rem 5rem;
   position: relative;
   overflow: hidden;
   width: 100%;
-  max-width: 100%;
-  margin: -169px 0 5rem 0;
-  padding-top: 5vh;
   box-sizing: border-box;
+  margin: 0 0 5rem 0;
+  
+  @media (max-width: 768px) {
+    /* Tailwind md<: px-4 approx, keep pb */
+    padding: 0 1rem 5rem;
+    flex-direction: column;
+    gap: 1rem;
+  }
+`;
+
+// New outer glass container similar to example.html hero card
+const GlassCard = styled.div`
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  overflow: hidden;
+  /* Tailwind: p-8 md:p-16 lg:p-20 */
+  padding: 2rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+
+  @media (min-width: 768px) {
+    padding: 4rem;
+  }
+  @media (min-width: 1024px) {
+    padding: 5rem;
+  }
 `;
 
 const ContentWrapper = styled.div`
-  max-width: 1300px;
-  margin: 0 auto;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  gap: 2rem;
   width: 100%;
-  box-sizing: border-box;
+  max-width: 1400px;
   
-  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    flex-direction: column;
-    padding: 0 ${({ theme }) => theme.space.md};
-    max-width: 100%;
+  @media (max-width: 768px) {
+    gap: 1rem;
   }
-  
-  @media (max-width: 480px) {
-    padding: 0 1rem;
-  }
-`;
-
-const ProfileImageContainer = styled.div`
-  max-width: 45%;
-  overflow: hidden;
-  position: relative;
-  will-change: transform, opacity, filter;
-  
-  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    max-width: 80%;
-    margin-bottom: 1.5rem;
-  }
-`;
-
-const ProfileImage = styled.img`
-  width: 100%;
-  height: auto;
-  display: block;
 `;
 
 const TextContainer = styled.div`
-  flex: 1;
-  padding-left: 10px;
-  max-width: 45%;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 3rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
   
-  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    padding-left: 0;
-    max-width: 100%;
-    text-align: center;
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(800px 400px at 80% 10%, rgba(168, 85, 247, 0.1), transparent);
+    pointer-events: none;
+  }
+  
+  @media (max-width: 768px) {
+    padding: 2rem 1.5rem;
+    height: auto;
+    min-height: 300px;
   }
 `;
 
 const SectionTitle = styled.h2`
-  font-family: ${({ theme }) => theme.fonts.body};
-  font-weight: 700;
-  font-size: 2.5rem;
-  text-transform: uppercase;
+  font-family: ${({ theme }) => theme.fonts.heading};
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: ${({ theme }) => theme.fontWeights.medium};
   color: ${({ theme }) => theme.colors.text};
-  margin-bottom: 1.5rem;
-  line-height: 1.2;
-  text-align: center;
+  margin: 0 0 1.5rem 0;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  position: relative;
+  z-index: 2;
+  text-transform: uppercase;
   
-  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    font-size: 2rem;
+  @media (max-width: 768px) {
+    font-size: clamp(1.5rem, 6vw, 2rem);
     margin-bottom: 1rem;
+    text-align: center;
   }
 `;
 
@@ -99,6 +121,12 @@ const BioTextContainer = styled.div`
   margin-bottom: 1rem;
   line-height: 1.6;
   white-space: pre-line;
+  position: relative;
+  z-index: 2;
+  font-family: ${({ theme }) => theme.fonts.body};
+  font-size: clamp(1rem, 1.5vw, 1.125rem);
+  font-weight: ${({ theme }) => theme.fontWeights.normal};
+  color: rgba(255, 255, 255, 0.7);
   
   &:last-child {
     margin-bottom: 0;
@@ -115,7 +143,6 @@ const TechSliderContainer = styled.div`
 
 const BioSection: React.FC = () => {
   const { t, i18n } = useTranslation();
-  const imageRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -124,43 +151,22 @@ const BioSection: React.FC = () => {
   const bioPart2 = t('about.bio.part2');
   
   useEffect(() => {
-    const imageElement = imageRef.current;
     const titleElement = titleRef.current;
     const sliderElement = sliderRef.current;
     
-    if (!imageElement || !titleElement || !sectionRef.current || !sliderElement) return;
-    
+    if (!titleElement || !sectionRef.current || !sliderElement) return;
 
-    gsap.set([imageElement, titleElement], { 
+    gsap.set(titleElement, { 
       opacity: 0,
       y: 30,
       scale: 0.95,
       filter: 'blur(10px)'
     });
-    
 
     gsap.set(sliderElement, {
       opacity: 0,
       y: 20
     });
-    
-
-    gsap.to(imageElement, {
-      opacity: 1,
-      y: 0,
-      x: 0,
-      scale: 1,
-      filter: 'blur(0px)',
-      duration: 1,
-      ease: 'power2.out',
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: 'top 75%',
-        end: 'center center',
-        scrub: true,
-      }
-    });
-    
 
     gsap.to(titleElement, {
       opacity: 1,
@@ -198,47 +204,41 @@ const BioSection: React.FC = () => {
   
   return (
     <SectionContainer ref={sectionRef} id="about">
-      <SectionTitle ref={titleRef}>{i18n.language === 'es' ? 'SOBRE MÍ' : 'ABOUT ME'}</SectionTitle>
-      <ContentWrapper>
-        <ProfileImageContainer ref={imageRef}>
-          <ProfileImage 
-            src={alexisImage}
-            alt="Alexis Vedia - Desarrollador Full Stack especializado en React, TypeScript y Node.js" 
-          />
-        </ProfileImageContainer>
-        <TextContainer>
+      <GlassCard>
+        <ContentWrapper>
+          <SectionTitle ref={titleRef}>{i18n.language === 'es' ? 'SOBRE MÍ' : 'ABOUT ME'}</SectionTitle>
           
-          <BioTextContainer>
-            {/* Usar el texto completo para el párrafo 1 */}
-            <StyledScrollReveal
-              baseOpacity={0}
-              enableBlur={true}
-              baseRotation={8}
-              blurStrength={15}
-              textClassName="bio-text"
-            >
-              {bioPart1}
-            </StyledScrollReveal>
-          </BioTextContainer>
+          <TextContainer>
+            <BioTextContainer>
+              <StyledScrollReveal
+                baseOpacity={0}
+                enableBlur={true}
+                baseRotation={8}
+                blurStrength={15}
+                textClassName="bio-text"
+              >
+                {bioPart1}
+              </StyledScrollReveal>
+            </BioTextContainer>
+            
+            <BioTextContainer>
+              <StyledScrollReveal
+                baseOpacity={0}
+                enableBlur={true}
+                baseRotation={8}
+                blurStrength={15}
+                textClassName="bio-text"
+              >
+                {bioPart2}
+              </StyledScrollReveal>
+            </BioTextContainer>
+          </TextContainer>
           
-          <BioTextContainer>
-            {/* Usar el texto completo para el párrafo 2 */}
-            <StyledScrollReveal
-              baseOpacity={0}
-              enableBlur={true}
-              baseRotation={8}
-              blurStrength={15}
-              textClassName="bio-text"
-            >
-              {bioPart2}
-            </StyledScrollReveal>
-          </BioTextContainer>
-        </TextContainer>
-      </ContentWrapper>
-      
-      <TechSliderContainer ref={sliderRef}>
-        <TechSlider />
-      </TechSliderContainer>
+          <TechSliderContainer ref={sliderRef}>
+            <TechSlider />
+          </TechSliderContainer>
+        </ContentWrapper>
+      </GlassCard>
     </SectionContainer>
   );
 };

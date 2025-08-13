@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import ContactButton from '@components/ContactButton';
 import { ThemeProvider } from './context/ThemeContext';
 import FontLoader from '@components/FontLoader/FontLoader';
-import GrainOverlay from '@components/GrainOverlay';
+import SplineBackground from '@components/SplineBackground';
 import Sidebar from '@components/Sidebar/Sidebar';
 import LoadingSpinner from '@components/LoadingSpinner';
 import { LazyLoadErrorBoundary } from '@components/ErrorBoundary';
@@ -65,6 +65,7 @@ const NewLookPage = createLazyComponent(() => import('./newlook/NewLookPage'));
 import '@utils/i18n';
 
 const SIDEBAR_WIDTH = '280px';
+const SIDEBAR_COLLAPSED_WIDTH = '80px';
 
 const AppWrapper = styled.div`
   position: relative;
@@ -72,7 +73,7 @@ const AppWrapper = styled.div`
   display: flex;
 `;
 
-const MainContentWrapper = styled.div<{ $isSidebarPresent: boolean }>`
+const MainContentWrapper = styled.div<{ $isSidebarPresent: boolean; $isSidebarCollapsed: boolean }>`
   flex-grow: 1;
   position: relative;
   min-height: 100vh;
@@ -80,7 +81,10 @@ const MainContentWrapper = styled.div<{ $isSidebarPresent: boolean }>`
   max-width: 100vw;
   overflow: visible;
   background: transparent;
-  margin-left: ${({ $isSidebarPresent }) => ($isSidebarPresent ? SIDEBAR_WIDTH : '0')};
+  margin-left: ${({ $isSidebarPresent, $isSidebarCollapsed }) => {
+    if (!$isSidebarPresent) return '0';
+    return $isSidebarCollapsed ? SIDEBAR_COLLAPSED_WIDTH : SIDEBAR_WIDTH;
+  }};
   transition: margin-left 0.3s ease-in-out;
   box-sizing: border-box;
 
@@ -136,6 +140,11 @@ const AppContent = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [shouldShowLoader, setShouldShowLoader] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(!isMobile);
+  // Inicializar el sidebar colapsado y recuperar estado desde localStorage
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(() => {
+    const savedState = localStorage.getItem('sidebarCollapsed');
+    return savedState !== null ? JSON.parse(savedState) : true; // Por defecto colapsado
+  });
   const [n8nServerReady, setN8nServerReady] = useState(false);
 
   useEffect(() => {
@@ -251,16 +260,37 @@ const AppContent = () => {
     }
   };
 
+  const toggleSidebarCollapse = () => {
+    if (!isMobile) {
+      const newCollapsedState = !isSidebarCollapsed;
+      setIsSidebarCollapsed(newCollapsedState);
+      // Guardar el estado en localStorage
+      localStorage.setItem('sidebarCollapsed', JSON.stringify(newCollapsedState));
+    }
+  };
+
 
   const shouldHideContactButton = isMobile && isContactSectionInView;
 
   return (
     <AppWrapper>
       {shouldShowLoader && !fontsLoaded && <FontLoader onLoaded={handleFontsLoaded} />}
-      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} isMobile={isMobile} />
+      <Sidebar 
+        isOpen={isSidebarOpen} 
+        toggleSidebar={toggleSidebar} 
+        isMobile={isMobile}
+        isCollapsed={isSidebarCollapsed}
+        toggleCollapse={toggleSidebarCollapse}
+      />
       
-      <MainContentWrapper $isSidebarPresent={isSidebarOpen && !isMobile}>
-        <GrainOverlay />
+      <MainContentWrapper 
+        $isSidebarPresent={isSidebarOpen && !isMobile}
+        $isSidebarCollapsed={isSidebarCollapsed}
+      >
+        <SplineBackground 
+          isSidebarPresent={isSidebarOpen && !isMobile}
+          isSidebarCollapsed={isSidebarCollapsed}
+        />
         <ContactButtonStyled initialDelay={500} $hideOnScroll={shouldHideContactButton} />
         {chatbotVisible && (
           <React.Suspense fallback={null}>

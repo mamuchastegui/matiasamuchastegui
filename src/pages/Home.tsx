@@ -15,7 +15,6 @@ const HomeContainer = styled.div`
 `;
 
 const ContentWrapper = styled.div`
-  max-width: 1000px;
   margin: 0 auto;
   padding: 0 1rem;
   width: 100%;
@@ -23,7 +22,6 @@ const ContentWrapper = styled.div`
   
   @media (max-width: 768px) {
     padding: 0 0.75rem;
-    max-width: 100%;
   }
   
   @media (max-width: 480px) {

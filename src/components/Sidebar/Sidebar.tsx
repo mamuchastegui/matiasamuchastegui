@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled, { css } from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useTheme } from '../../context/ThemeContext';
 import ThemeToggle from '../ThemeToggle/ThemeToggle';
 import LanguageSelector from '../LanguageSelector/LanguageSelector';
 import {
@@ -13,9 +14,11 @@ import {
   Mail as ContactIcon,
   ChevronDown,
   ChevronRight,
+  ChevronLeft,
 } from 'lucide-react';
 import PortfolioLogo from '../../assets/images/projects/Logo AV.png';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
 
 interface NavLinkItem {
   href: string;
@@ -31,6 +34,8 @@ interface SidebarProps {
   isOpen: boolean;
   toggleSidebar: () => void;
   isMobile: boolean;
+  isCollapsed?: boolean;
+  toggleCollapse?: () => void;
 }
 
 
@@ -41,7 +46,7 @@ const SidebarOverlay = styled.div<{ $isOpen: boolean }>`
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${({ theme }) => (theme.isDark ? 'rgba(0, 0, 0, 0.5)' : 'transparent')};
   z-index: 999;
   display: ${({ $isOpen }) => ($isOpen ? 'block' : 'none')};
   
@@ -50,27 +55,35 @@ const SidebarOverlay = styled.div<{ $isOpen: boolean }>`
   }
 `;
 
-const SidebarContainer = styled.aside<{ $isOpen: boolean; $isMobile: boolean; $isFirstRender: boolean }>`
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(20px);
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: ${({ theme }) => theme.isDark ? 'none' : '0 4px 20px rgba(0, 0, 0, 0.1)'};
+const SidebarContainer = styled.aside<{ $isOpen: boolean; $isMobile: boolean; $isFirstRender: boolean; $isCollapsed?: boolean }>`
+  /* Aplicando color tenue similar al hover de las cards de servicios */
+  background: linear-gradient(to bottom, rgba(147, 159, 167, 0.15), rgba(134, 156, 216, 0.1));
+  backdrop-filter: blur(24px);
+  border: ${({ theme }) => theme.isDark ? 
+    '1px solid rgba(255, 255, 255, 0.1)' : 
+    '1px solid rgba(200, 200, 200, 0.4)'
+  };
+  border-radius: 24px;
+  box-shadow: ${({ theme }) => theme.isDark ? 
+    '0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2)' : 
+    'none'
+  };
   color: ${({ theme }) => theme.colors.text};
-  padding: ${({ theme }) => theme.space.lg};
-  height: 100dvh;
-  width: 280px;
+  padding: ${({ theme }) => theme.space.md};
+  height: calc(100dvh - 32px);
+  width: ${({ $isCollapsed, $isMobile }) => $isMobile ? '280px' : ($isCollapsed ? '80px' : '280px')};
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 16px;
+  left: 16px;
   z-index: 1000;
   display: flex;
   flex-direction: column;
-  transition: transform 0.5s ease-in-out, box-shadow 0.3s ease-in-out, background 0.3s ease-in-out;
+  transition: transform 0.5s ease-in-out, box-shadow 0.3s ease-in-out, background 0.3s ease-in-out, width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 
   ${({ $isMobile, $isOpen }) =>
     $isMobile &&
     css`
-      transform: ${$isOpen ? 'translateX(0)' : 'translateX(-100%)'};
+      transform: ${$isOpen ? 'translateX(0)' : 'translateX(calc(-100% - 16px))'};
       box-shadow: ${$isOpen ? '0 0 20px rgba(0,0,0,0.3)' : 'none'};
     `}
   
@@ -91,12 +104,13 @@ const SidebarContainer = styled.aside<{ $isOpen: boolean; $isMobile: boolean; $i
     `}
 `;
 
-const LogoContainer = styled.div`
+const LogoContainer = styled.div<{ $isCollapsed?: boolean }>`
   display: flex;
   align-items: center;
-  gap: ${({ theme }) => theme.space.sm};
-  padding: ${({ theme }) => theme.space.sm} 0;
+  gap: ${({ theme, $isCollapsed }) => $isCollapsed ? '0' : theme.space.sm};
+  padding: ${({ theme }) => theme.space.md};
   margin-bottom: ${({ theme }) => theme.space.md};
+  justify-content: ${({ $isCollapsed }) => $isCollapsed ? 'center' : 'flex-start'};
 `;
 
 const LogoImageWrapper = styled.div`
@@ -123,13 +137,20 @@ const LogoImage = styled.img`
   filter: ${({ theme }) => (theme.isDark ? 'none' : 'invert(1)')};
 `;
 
-const LogoText = styled.h1`
+const LogoText = styled.h1<{ $isCollapsed?: boolean }>`
   font-size: 18px;
   font-weight: 700;
   color: ${({ theme }) => theme.colors.text};
   margin: 0;
   line-height: 1;
   letter-spacing: 0.5px;
+  opacity: ${({ $isCollapsed }) => $isCollapsed ? '0' : '1'};
+  transform: ${({ $isCollapsed }) => $isCollapsed ? 'translateX(-15px) scale(0.9)' : 'translateX(0) scale(1)'};
+  transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+  pointer-events: ${({ $isCollapsed }) => $isCollapsed ? 'none' : 'auto'};
+  white-space: nowrap;
+  overflow: hidden;
+  will-change: transform, opacity;
 `;
 
 const NavList = styled.ul`
@@ -138,36 +159,52 @@ const NavList = styled.ul`
   margin: 0;
   margin-top: ${({ theme }) => theme.space.md};
   margin-bottom: ${({ theme }) => theme.space.xs};
+  position: relative;
+`;
+
+const NavBackground = styled.div<{ $top: number; $height: number; $isVisible: boolean }>`
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: ${({ $top }) => $top}px;
+  height: ${({ $height }) => $height}px;
+  background: ${({ theme }) => theme.isDark ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.02)'};
+  border: 1px solid ${({ theme }) => theme.isDark ? 'rgba(255, 255, 255, 0.06)' : 'rgba(0, 0, 0, 0.04)'};
+  border-radius: 8px;
+  backdrop-filter: blur(8px);
+  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  opacity: ${({ $isVisible }) => $isVisible ? 1 : 0};
+  transform: ${({ $isVisible }) => $isVisible ? 'scale(1)' : 'scale(0.95)'};
+  pointer-events: none;
+  z-index: 0;
 `;
 
 
 
 const NavItem = styled.li`
-  margin-bottom: ${({ theme }) => theme.space.xs};
+  margin-bottom: ${({ theme }) => theme.space.sm};
 
   &:last-child {
     margin-bottom: 0;
   }
 `;
 
-const NavLink = styled.a`
+const NavLink = styled.a<{ $isCollapsed?: boolean }>`
   display: flex;
   align-items: center;
-  gap: ${({ theme }) => theme.space.sm};
-  padding: ${({ theme }) => `${theme.space.sm} ${theme.space.md}`};
+  gap: 0; /* evitamos saltos; manejamos espacio con margin del texto */
+  padding: ${({ theme, $isCollapsed }) => $isCollapsed ? `${theme.space.sm} ${theme.space.sm}` : `${theme.space.sm} ${theme.space.md}`};
   color: ${({ theme }) => theme.colors.text};
   text-decoration: none !important;
   border-radius: 6px;
-  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  border: 1px solid transparent;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   font-size: ${({ theme }) => theme.fontSizes.md};
   font-weight: 500;
   cursor: pointer;
-
-  &:hover {
-    background-color: ${({ theme }) => (theme.isDark ? '#212121' : '#ECECEC')};
-    color: ${({ theme }) => theme.colors.text};
-    text-decoration: none !important;
-  }
+  justify-content: flex-start; /* constante para evitar salto discreto */
+  position: relative;
+  z-index: 1;
 
   &.active {
     background-color: ${({ theme }) => (theme.isDark ? theme.colors.text : theme.colors.text)}; 
@@ -181,16 +218,53 @@ const NavLink = styled.a`
     width: 18px;
     height: 18px;
     opacity: 0.9;
+    flex-shrink: 0;
+    transition: none;
+  }
+
+  svg:not(.chevron-icon) {
+    transform: none !important;
   }
 
   svg.chevron-icon {
     margin-left: auto;
-    transition: transform 0.2s ease-in-out;
+    display: ${({ $isCollapsed }) => $isCollapsed ? 'none' : 'inline'};
+    opacity: ${({ $isCollapsed }) => $isCollapsed ? '0' : '1'};
+    transform: ${({ $isCollapsed }) => $isCollapsed ? 'translateX(15px) scale(0.8)' : 'translateX(0) scale(1)'};
+    transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+    pointer-events: ${({ $isCollapsed }) => $isCollapsed ? 'none' : 'auto'};
+    will-change: transform, opacity;
   }
 
   svg.chevron-icon.open {
-    transform: rotate(180deg);
+    transform: ${({ $isCollapsed }) => $isCollapsed ? 'translateX(15px) scale(0.8) rotate(180deg)' : 'translateX(0) scale(1) rotate(180deg)'};
   }
+
+  .nav-text {
+    opacity: ${({ $isCollapsed }) => $isCollapsed ? '0' : '1'};
+    transform: ${({ $isCollapsed }) => $isCollapsed ? 'translateX(-12px) scale(0.95)' : 'translateX(0) scale(1)'};
+    transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+    pointer-events: ${({ $isCollapsed }) => $isCollapsed ? 'none' : 'auto'};
+    white-space: nowrap;
+    overflow: hidden;
+    will-change: transform, opacity;
+    display: inline-block; /* mantener en flujo para animación */
+    max-width: ${({ $isCollapsed }) => $isCollapsed ? '0' : '200px'}; /* ajustar si cambian los labels */
+    margin-left: ${({ theme, $isCollapsed }) => $isCollapsed ? '0' : theme.space.sm};
+  }
+`;
+
+/* Contenedor para el ícono que anima su ancho para centrarlo suavemente al colapsar */
+const IconWrapper = styled.div<{ $isCollapsed?: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  opacity: ${({ $isCollapsed }) => $isCollapsed ? '1' : '1'};
+  transform: ${({ $isCollapsed }) => $isCollapsed ? 'scale(1.1)' : 'scale(1)'};
+  transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+  will-change: transform, opacity;
+  width: ${({ $isCollapsed }) => ($isCollapsed ? '100%' : '18px')};
 `;
 
 const SubNavList = styled.ul`
@@ -209,6 +283,10 @@ const SubNavList = styled.ul`
 
 const SubNavItem = styled.li`
   margin-bottom: ${({ theme }) => theme.space.xs};
+  
+  &:first-child {
+    margin-top: ${({ theme }) => theme.space.sm};
+  }
 `;
 
 const SubNavLink = styled.a`
@@ -220,14 +298,17 @@ const SubNavLink = styled.a`
   color: ${({ theme }) => theme.colors.text};
   text-decoration: none !important;
   border-radius: 4px;
-  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  border: 1px solid transparent;
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   font-size: ${({ theme }) => theme.fontSizes.sm};
   font-weight: 400;
   cursor: pointer;
 
   &:hover {
-    background-color: ${({ theme }) => (theme.isDark ? 'rgba(33,33,33,0.5)' : 'rgba(236,236,236,0.5)')};
-    color: ${({ theme }) => theme.colors.text};
+    background: ${({ theme }) => theme.isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'};
+    border: 1px solid ${({ theme }) => theme.isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'};
+    box-shadow: 0 2px 8px ${({ theme }) => theme.isDark ? 'rgba(0, 0, 0, 0.1)' : 'rgba(0, 0, 0, 0.05)'};
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   &.active {
@@ -245,73 +326,247 @@ const SubNavLink = styled.a`
   }
 `;
 
-const ControlsContainer = styled.div`
-  margin-top: auto;
-  padding: ${({ theme }) => theme.space.md} 0;
-  border-top: 1px solid ${({ theme }) => (theme.isDark ? theme.colors.border : '#dee2e6')};
+const CollapseButton = styled.button`
+  position: absolute;
+  top: 50%;
+  right: -12px;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid ${({ theme }) => theme.isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'};
+  background: ${({ theme }) => theme.isDark ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.9)'};
+  color: ${({ theme }) => theme.colors.text};
+  cursor: pointer;
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: ${({ theme }) => theme.space.md};
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 1001;
+  
+  &:hover {
+    background: ${({ theme }) => theme.isDark ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.02)'};
+    border: 1px solid ${({ theme }) => theme.isDark ? 'rgba(255, 255, 255, 0.06)' : 'rgba(0, 0, 0, 0.04)'};
+    backdrop-filter: blur(8px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, ${({ theme }) => theme.isDark ? '0.4' : '0.15'});
+    transform: translateY(-50%) scale(1.1);
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  
+  &:active {
+    transform: translateY(-50%) scale(0.95);
+    transition: all 0.12s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  svg {
+    width: 12px;
+    height: 12px;
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  
+  &:hover svg {
+    transform: scale(1.1);
+  }
+  
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
-const SocialMediaButton = styled.a`
+const ControlsContainer = styled.div<{ $isCollapsed?: boolean }>`
+  margin-top: auto;
+  padding-top: ${({ theme }) => theme.space.md};
+  margin-bottom: 0;
+  border-top: 1px solid ${({ theme }) => (theme.isDark ? theme.colors.border : '#dee2e6')};
+  display: flex;
+  flex-direction: ${({ $isCollapsed }) => $isCollapsed ? 'column' : 'row'};
+  align-items: center;
+  justify-content: center;
+  gap: ${({ $isCollapsed }) => $isCollapsed ? '6px' : '14px'};
+  transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+  transform: scale(1);
+  will-change: gap, flex-direction;
+`;
+
+const LanguageSelectorWrapper = styled.div<{ $isCollapsed?: boolean; $index?: number }>`
+  width: ${({ $isCollapsed }) => $isCollapsed ? '36px' : 'auto'};
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  background: ${({ theme }) => 
-    theme.isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'}; 
-  color: ${({ theme }) => theme.colors.text};
-  border: 1px solid ${({ theme }) => (theme.isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)')};
-  border-radius: 50%;
-  font-size: 1.1rem;
-  text-decoration: none;
-  transition: all 0.2s ease-in-out;
-  cursor: pointer;
+  flex: 0 0 auto;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  position: relative;
+  
+  /* Transiciones suaves para cambio de layout */
+  opacity: 1;
+  filter: none;
+  transform: translateY(0) translateX(0) scale(1);
+  transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+  transition-delay: ${({ $isCollapsed, $index }) => 
+    $isCollapsed 
+      ? `${((4 - ($index || 0)) * 60)}ms` 
+      : `${(($index || 0) * 80)}ms`
+  };
+  will-change: transform, opacity;
 
   &:hover {
-    background: ${({ theme }) => 
-      theme.isDark ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)'}; 
-    transform: scale(1.05);
+    background: ${({ theme }) => theme.isDark ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.02)'};
+    border: 1px solid ${({ theme }) => theme.isDark ? 'rgba(255, 255, 255, 0.06)' : 'rgba(0, 0, 0, 0.04)'};
+    backdrop-filter: blur(8px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, ${({ theme }) => theme.isDark ? '0.4' : '0.15'});
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition-delay: 0ms;
+  }
+`;
+
+const SocialMediaButton = styled.a<{ $isCollapsed?: boolean; $index?: number }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: transparent;
+  color: ${({ theme }) => theme.colors.text};
+  border: 1px solid transparent;
+  border-radius: 8px;
+  text-decoration: none;
+  position: relative;
+  cursor: pointer;
+  box-shadow: none;
+  
+  /* Transiciones suaves para cambio de layout */
+  opacity: 1;
+  filter: none;
+  transform: translateY(0) translateX(0) scale(1);
+  transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+  transition-delay: ${({ $isCollapsed, $index }) => 
+    $isCollapsed 
+      ? `${((4 - ($index || 0)) * 60)}ms` 
+      : `${(($index || 0) * 80)}ms`
+  };
+  will-change: transform, opacity;
+
+  &:hover {
+    background: ${({ theme }) => theme.isDark ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.02)'};
+    border: 1px solid ${({ theme }) => theme.isDark ? 'rgba(255, 255, 255, 0.06)' : 'rgba(0, 0, 0, 0.04)'};
+    backdrop-filter: blur(8px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, ${({ theme }) => theme.isDark ? '0.4' : '0.15'});
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition-delay: 0ms;
   }
 
   &:active {
-    transform: scale(0.95);
+    transform: translateY(0) scale(0.98);
+    transition: all 0.12s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   svg {
     display: block;
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  &:hover svg {
+    transform: scale(1.1);
   }
 `;
 
-const ThemeToggleWrapper = styled.div`
-  width: 40px;
-  height: 40px;
+const ThemeToggleWrapper = styled.div<{ $isCollapsed?: boolean; $index?: number }>`
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  position: relative;
+  
+  /* Transiciones suaves para cambio de layout */
+  opacity: 1;
+  filter: none;
+  transform: translateY(0) translateX(0) scale(1);
+  transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+  transition-delay: ${({ $isCollapsed, $index }) => 
+    $isCollapsed 
+      ? `${((4 - ($index || 0)) * 60)}ms`
+      : `${(($index || 0) * 80)}ms`
+  };
+  will-change: transform, opacity, filter;
+
+  &:hover {
+    background: ${({ theme }) => theme.isDark ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.02)'};
+    border: 1px solid ${({ theme }) => theme.isDark ? 'rgba(255, 255, 255, 0.06)' : 'rgba(0, 0, 0, 0.04)'};
+    backdrop-filter: blur(8px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, ${({ theme }) => theme.isDark ? '0.4' : '0.15'});
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition-delay: 0ms;
+  }
 
   label.toggle {
-      transform: scale(0.9);
+    transform: scale(1);
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 `;
+
+const TechTooltip = styled.div<{ $isVisible: boolean; $isDarkMode: boolean; $isCollapsed?: boolean; $distance?: number }>`
+  position: absolute;
+  ${({ $isCollapsed, $distance = 30, $isVisible }) => $isCollapsed ? `
+    top: 50%;
+    left: calc(100% + ${$distance}px);
+    transform: translateY(-50%) ${$isVisible ? 'translateX(0) scale(1)' : 'translateX(-8px) scale(0.95)'};
+  ` : `
+    top: -35px;
+    left: 0;
+    transform: translateX(-20%) ${$isVisible ? 'translateY(0) scale(1)' : 'translateY(-4px) scale(0.95)'};
+  `}
+  padding: 8px 12px;
+  border-radius: 100px;
+  font-size: 12px;
+  white-space: nowrap;
+  background: ${({ $isDarkMode }) =>
+    $isDarkMode ? 'rgba(20, 20, 25, 0.95)' : 'rgba(240, 240, 245, 0.95)'};
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, ${({ $isDarkMode }) => $isDarkMode ? '0.4' : '0.15'});
+  opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition-delay: ${({ $isVisible }) => ($isVisible ? '300ms' : '0ms')};
+  pointer-events: none;
+  z-index: 10000;
+  color: ${({ $isDarkMode }) => ($isDarkMode ? '#ffffff' : '#000000')};
+  border: 1px solid ${({ $isDarkMode }) => $isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.08)'};
+`;
+
+const ControlsSeparator = styled.div<{ $isCollapsed?: boolean }>`
+  width: ${({ $isCollapsed }) => $isCollapsed ? '24px' : '1px'};
+  height: ${({ $isCollapsed }) => $isCollapsed ? '1px' : '24px'};
+  background: ${({ theme }) => theme.isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'};
+  border-radius: 1px;
+  transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+  flex-shrink: 0;
+`;
+
+/* Duplicate LanguageSelectorWrapper removed: consolidated earlier definition with flex sizing */
 
 const MobileMenuButton = styled.button<{ $isMobile: boolean; $isOpen: boolean }>`
   position: fixed;
   top: 1.5rem;
   left: 1.5rem;
   z-index: 1001;
-  background: ${({ theme }) => (theme.isDark ? 'rgba(33,33,33,0.8)' : 'rgba(255,255,255,0.8)')};
-  border: 1px solid ${({ theme }) => (theme.isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)')};
+  /* Aplicando el mismo estilo glassmorphism del sidebar con color tenue */
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   color: ${({ theme }) => theme.colors.text};
   border-radius: 50%;
   padding: ${({ theme }) => theme.space.xs};
   cursor: pointer;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  transition: background-color 0.2s, box-shadow 0.2s, opacity 0.3s ease, transform 0.3s ease;
+  box-shadow: ${({ theme }) => theme.isDark ? 
+    '0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)' : 
+    '0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+  };
+  transition: background-color 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.5s ease, transform 0.5s ease;
   width: 40px;
   height: 40px;
   display: ${({ $isMobile, $isOpen }) => (!$isMobile ? 'none' : $isOpen ? 'none' : 'flex')};
@@ -321,12 +576,10 @@ const MobileMenuButton = styled.button<{ $isMobile: boolean; $isOpen: boolean }>
   transform: ${({ $isOpen }) => ($isOpen ? 'translateX(-20px)' : 'translateX(0)')};
   pointer-events: ${({ $isOpen }) => ($isOpen ? 'none' : 'auto')};
 
-  &:hover {
-    background: ${({ theme }) => (theme.isDark ? 'rgba(45,45,45,0.9)' : 'rgba(240,240,240,0.9)')};
-  }
+  /* Hover effects removed */
 `;
 
-const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile }) => {
+const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCollapsed = false, toggleCollapse }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
@@ -336,6 +589,27 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile }) =>
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
   const [isFirstRender, setIsFirstRender] = useState(true);
+  const [showGithubTooltip, setShowGithubTooltip] = useState(false);
+  const [showLinkedinTooltip, setShowLinkedinTooltip] = useState(false);
+  const [showXTooltip, setShowXTooltip] = useState(false);
+  const [showThemeTooltip, setShowThemeTooltip] = useState(false);
+  const [showLanguageTooltip, setShowLanguageTooltip] = useState(false);
+  const [showNavTooltips, setShowNavTooltips] = useState<{[key: string]: boolean}>({});
+  const { theme } = useTheme();
+  
+  // Estados para el efecto hover estilo Vercel
+  const [hoveredNavItem, setHoveredNavItem] = useState<string | null>(null);
+  const [navBackgroundPosition, setNavBackgroundPosition] = useState({ top: 0, height: 0 });
+  const navListRef = useRef<HTMLUListElement>(null);
+
+  const handleToggleCollapse = () => {
+    if (toggleCollapse) {
+      toggleCollapse();
+      if (!isCollapsed) {
+        setOpenSubmenuKey(null); // Cerrar submenús al colapsar
+      }
+    }
+  };
 
 
   useEffect(() => {
@@ -400,6 +674,30 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile }) =>
     
     touchStartX.current = null;
     touchEndX.current = null;
+  };
+
+  // Funciones para el efecto hover estilo Vercel
+  const handleNavItemHover = (href: string, event: React.MouseEvent<HTMLAnchorElement>) => {
+    // No mostrar hover si el elemento ya está activo
+    if (href === activeLink) return;
+    
+    if (!navListRef.current) return;
+    
+    const navItem = event.currentTarget.parentElement;
+    if (!navItem) return;
+    
+    const navListRect = navListRef.current.getBoundingClientRect();
+    const navItemRect = navItem.getBoundingClientRect();
+    
+    const top = navItemRect.top - navListRect.top;
+    const height = navItemRect.height;
+    
+    setHoveredNavItem(href);
+    setNavBackgroundPosition({ top, height });
+  };
+
+  const handleNavItemLeave = () => {
+    setHoveredNavItem(null);
   };
 
   useEffect(() => {
@@ -540,17 +838,38 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile }) =>
         $isOpen={isOpen} 
         $isMobile={isMobile}
         $isFirstRender={isFirstRender}
+        $isCollapsed={!isMobile && isCollapsed}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        <LogoContainer>
+        {!isMobile && (
+          <CollapseButton onClick={handleToggleCollapse}>
+            {isCollapsed ? <ChevronRight size={12} /> : <ChevronLeft size={12} />}
+          </CollapseButton>
+        )}
+        
+        <LogoContainer 
+          $isCollapsed={!isMobile && isCollapsed}
+          onClick={() => {
+            navigate('/');
+            if (isMobile && isOpen) {
+              toggleSidebar();
+            }
+          }}
+          style={{ cursor: 'pointer' }}
+        >
           <LogoImageWrapper>
             <LogoImage src={PortfolioLogo} alt={t('portfolioLogoAlt', 'Logo del Portafolio')} />
           </LogoImageWrapper>
-          <LogoText>Alexis Vedia</LogoText>
+          <LogoText $isCollapsed={!isMobile && isCollapsed}>Alexis Vedia</LogoText>
         </LogoContainer>
-        <NavList>
+        <NavList ref={navListRef}>
+          <NavBackground 
+            $top={navBackgroundPosition.top}
+            $height={navBackgroundPosition.height}
+            $isVisible={hoveredNavItem !== null}
+          />
           {navLinks.map((linkItemMap) => {
             const { href: itemHref, labelKey, defaultLabel, IconComponent: ItemIconComponent, subLinks: itemSubLinks } = linkItemMap;
             
@@ -563,15 +882,40 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile }) =>
                 <NavLink 
                   href={itemHref} 
                   onClick={(e) => handleLinkClick(e, linkItemMap)}
-                  className={isLinkActive ? 'active' : ''}
+                  className={`${isLinkActive ? 'active' : ''} ${ItemIconComponent === ExperienceIcon ? 'experience-icon' : ''}`}
+                  $isCollapsed={!isMobile && isCollapsed}
+                  style={{ position: 'relative' }}
+                  onMouseEnter={(e) => {
+                     if (!isMobile && isCollapsed) {
+                       setShowNavTooltips(prev => ({ ...prev, [itemHref]: true }));
+                       handleNavItemHover(itemHref, e);
+                     } else if (!isMobile && !isCollapsed) {
+                       handleNavItemHover(itemHref, e);
+                     }
+                   }}
+                  onMouseLeave={() => {
+                    if (!isMobile && isCollapsed) {
+                      setShowNavTooltips(prev => ({ ...prev, [itemHref]: false }));
+                      handleNavItemLeave();
+                    } else if (!isMobile && !isCollapsed) {
+                      handleNavItemLeave();
+                    }
+                  }}
                 >
-                  <ItemIconComponent />
-                  {t(labelKey, defaultLabel)}
+                  <IconWrapper $isCollapsed={!isMobile && isCollapsed}>
+                    <ItemIconComponent />
+                  </IconWrapper>
+                  <span className="nav-text">{t(labelKey, defaultLabel)}</span>
                   {itemSubLinks && itemSubLinks.length > 0 && (
                     <ChevronDown size={16} className={`chevron-icon ${isSubmenuOpen ? 'open' : ''}`} />
                   )}
+                  {!isMobile && isCollapsed && (
+                    <TechTooltip $isVisible={showNavTooltips[itemHref] || false} $isDarkMode={theme.isDark} $isCollapsed={true} $distance={25}>
+                      {t(labelKey, defaultLabel)}
+                    </TechTooltip>
+                  )}
                 </NavLink>
-                {itemSubLinks && itemSubLinks.length > 0 && (
+                {itemSubLinks && itemSubLinks.length > 0 && !isCollapsed && (
                   <SubNavList className={isSubmenuOpen ? 'open' : ''}>
                     {itemSubLinks.map((subLinkItem) => (
                       <SubNavItem key={subLinkItem.href}>
@@ -593,35 +937,77 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile }) =>
 
 
 
-        <ControlsContainer>
+        <ControlsContainer $isCollapsed={!isMobile && isCollapsed}>
           <SocialMediaButton 
-            href="https://github.com/alexisvedia" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            aria-label="GitHub"
-          >
-            <FaGithub />
-          </SocialMediaButton>
-          <SocialMediaButton 
-            href="https://www.linkedin.com/in/alexis-vedia/" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            aria-label="LinkedIn"
-          >
-            <FaLinkedin />
-          </SocialMediaButton>
-          <div 
-             style={{ lineHeight: 1 }}
-          >
-            <ThemeToggleWrapper>
-              <ThemeToggle />
-            </ThemeToggleWrapper>
-          </div>
-          <div 
-             style={{ lineHeight: 1 }}
-          >
-            <LanguageSelector />
-          </div>
+             href="https://github.com/AlexisVedia" 
+             target="_blank" 
+             rel="noopener noreferrer" 
+             aria-label="GitHub"
+             $isCollapsed={!isMobile && isCollapsed}
+             $index={0}
+             onMouseEnter={() => setShowGithubTooltip(true)}
+             onMouseLeave={() => setShowGithubTooltip(false)}
+           >
+             <FaGithub />
+             <TechTooltip $isVisible={showGithubTooltip} $isDarkMode={theme.isDark} $isCollapsed={!isMobile && isCollapsed} $distance={30}>
+               {t('tooltip.github')}
+             </TechTooltip>
+           </SocialMediaButton>
+           <SocialMediaButton 
+             href="https://www.linkedin.com/in/alexis-vedia/" 
+             target="_blank" 
+             rel="noopener noreferrer" 
+             aria-label="LinkedIn"
+             $isCollapsed={!isMobile && isCollapsed}
+             $index={1}
+             onMouseEnter={() => setShowLinkedinTooltip(true)}
+             onMouseLeave={() => setShowLinkedinTooltip(false)}
+           >
+             <FaLinkedin />
+             <TechTooltip $isVisible={showLinkedinTooltip} $isDarkMode={theme.isDark} $isCollapsed={!isMobile && isCollapsed} $distance={30}>
+               {t('tooltip.linkedin')}
+             </TechTooltip>
+           </SocialMediaButton>
+           <SocialMediaButton 
+              href="https://x.com/AlexisVedia" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              aria-label="X (Twitter)"
+              $isCollapsed={!isMobile && isCollapsed}
+              $index={2}
+              onMouseEnter={() => setShowXTooltip(true)}
+              onMouseLeave={() => setShowXTooltip(false)}
+            >
+              <FaXTwitter />
+              <TechTooltip $isVisible={showXTooltip} $isDarkMode={theme.isDark} $isCollapsed={!isMobile && isCollapsed} $distance={30}>
+                {t('tooltip.x')}
+              </TechTooltip>
+            </SocialMediaButton>
+          <ControlsSeparator $isCollapsed={!isMobile && isCollapsed} />
+          <ThemeToggleWrapper 
+             $isCollapsed={!isMobile && isCollapsed}
+             $index={3}
+             style={{ lineHeight: 1, position: 'relative' }}
+             onMouseEnter={() => setShowThemeTooltip(true)}
+             onMouseLeave={() => setShowThemeTooltip(false)}
+           >
+             <ThemeToggle />
+             <TechTooltip $isVisible={showThemeTooltip} $isDarkMode={theme.isDark} $isCollapsed={!isMobile && isCollapsed} $distance={30}>
+               {t('tooltip.toggleTheme')}
+             </TechTooltip>
+           </ThemeToggleWrapper>
+           <LanguageSelectorWrapper 
+             $isCollapsed={!isMobile && isCollapsed}
+             $index={4}
+             style={{ lineHeight: 1, position: 'relative' }}
+             onMouseEnter={() => setShowLanguageTooltip(true)}
+             onMouseLeave={() => setShowLanguageTooltip(false)}
+           >
+             <LanguageSelector isCollapsed={!isMobile && isCollapsed} />
+             <TechTooltip $isVisible={showLanguageTooltip} $isDarkMode={theme.isDark} $isCollapsed={!isMobile && isCollapsed} $distance={30}>
+               {t('tooltip.selectLanguage')}
+             </TechTooltip>
+          </LanguageSelectorWrapper>
         </ControlsContainer>
       </SidebarContainer>
     </>

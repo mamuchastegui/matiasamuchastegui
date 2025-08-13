@@ -15,7 +15,8 @@ const PageContainer = styled(motion.div)`
   flex-direction: column;
   overflow-y: auto;
   overflow-x: hidden;
-  background-color: ${({ theme }) => theme.colors.background};
+  background-color: transparent;
+  /* Fondo manejado por SplineBackground */
 `;
 
 const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {

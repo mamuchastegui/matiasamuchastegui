@@ -38,7 +38,6 @@ const ContactContent = styled.div`
   margin: 0 auto;
   padding: 0 ${({ theme }) => theme.space.lg};
   width: 100%;
-  max-width: 800px;
   box-sizing: border-box;
   
   @media (max-width: 768px) {

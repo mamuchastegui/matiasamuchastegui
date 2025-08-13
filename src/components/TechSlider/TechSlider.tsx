@@ -64,7 +64,6 @@ const SliderContainer = styled.div`
   -webkit-backdrop-filter: blur(12px);
   box-shadow: ${({ theme }) =>
     theme.isDark ? '0 8px 32px rgba(0, 0, 0, 0.2)' : '0 8px 32px rgba(0, 0, 0, 0.05)'};
-  max-width: 1000px;
   margin-left: auto;
   margin-right: auto;
 

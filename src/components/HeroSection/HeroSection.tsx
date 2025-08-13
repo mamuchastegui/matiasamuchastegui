@@ -1,162 +1,138 @@
-import React, { useState, useEffect, useRef } from 'react';
-import styled, { keyframes, css } from 'styled-components';
-import { useTranslation } from 'react-i18next';
-
-
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
 
 const HeroContainer = styled.section`
   display: flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: center;
   min-height: 100vh;
   padding: 0 ${({ theme }) => theme.space.xl};
-  text-align: center;
   position: relative;
   overflow: hidden;
-  margin-bottom: 0;
   width: 100%;
-  max-width: 100%;
   box-sizing: border-box;
   
   @media (max-width: 768px) {
     padding: 0 1rem;
-  }
-  
-  @media (max-width: 480px) {
-    padding: 0 0.75rem;
+    flex-direction: column;
+    gap: 1rem;
   }
 `;
 
-const CenteringWrapper = styled.div`
+const ContentWrapper = styled.div`
+  display: grid;
+  grid-template-columns: 1.2fr 1.8fr;
+  gap: 2rem;
+  width: 100%;
+  max-width: 1400px;
+  height: 80vh;
+  margin: 0 auto;
+  
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    height: auto;
+    gap: 1rem;
+    max-width: 100%;
+  }
+`;
+
+const LeftContainer = styled.div`
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 3rem 2rem;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(600px 300px at 50% 0%, rgba(56, 189, 248, 0.1), transparent);
+    pointer-events: none;
+  }
+  
+  @media (max-width: 768px) {
+    padding: 2rem 1.5rem;
+    height: auto;
+    min-height: 300px;
+  }
+`;
+
+const RightContainer = styled.div`
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 2rem;
+  display: flex;
   align-items: center;
-  margin-top: auto;
-  margin-bottom: auto;
-`;
-
-
-const RoleLabel = styled.div`
-  font-size: 1.2rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  color: ${({ theme }) => `${theme.colors.text}aa`};
-  text-transform: uppercase;
-  margin-bottom: ${({ theme }) => theme.space.xs};
-  user-select: none;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
   
-  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    font-size: 0.9rem;
-    margin-bottom: ${({ theme }) => theme.space.xs};
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(800px 400px at 80% 10%, rgba(168, 85, 247, 0.1), transparent);
+    pointer-events: none;
   }
   
-  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
-    font-size: 1.2rem;
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+    height: 300px;
   }
 `;
 
-const Title = styled.h1<{ $visible: boolean }>`
-  font-weight: 900;
+const Name = styled.h1`
+  font-family: ${({ theme }) => theme.fonts.heading};
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: ${({ theme }) => theme.fontWeights.medium};
   color: ${({ theme }) => theme.colors.text};
-  line-height: 0.9;
-  text-transform: uppercase;
-  width: 100%;
-  max-width: 100%;
-  user-select: none;
-  opacity: ${props => props.$visible ? 1 : 0};
-  transform: ${props => props.$visible ? 'translateY(0)' : 'translateY(30px)'};
-  transition: opacity 1s ease-out, transform 1s ease-out;
-  box-sizing: border-box;
-  overflow-wrap: break-word;
-  word-break: break-word;
-  
-  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    font-size: clamp(50px, 12vw, 75px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    line-height: 1;
-  }
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
-    font-size: 130px;
-    margin-bottom: ${({ theme }) => theme.space.sm};
-  }
-`;
-
-const StyledVedia = styled.div`
-  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    margin-top: -15px;
-    display: flex;
-    justify-content: center;
-  }
-`;
-
-const StyledAlexis = styled.div`
-  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    display: flex;
-    justify-content: center;
-  }
-`;
-
-const fadeIn = keyframes`
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-`;
-
-const fadeOut = keyframes`
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-`;
-
-
-const ParallaxTitle = styled.div`
-  position: relative;
-  will-change: transform, filter, opacity;
-`;
-
-
-const ParallaxSubtitle = styled.div`
-  position: relative;
-  will-change: transform, filter, opacity;
-  margin-top: 0;
-  max-width: 800px;
-  
-  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    margin-top: ${({ theme }) => theme.space.xs};
-  }
-`;
-
-
-const Subtitle = styled.h2<{ $visible: boolean; $fadeOut: boolean }>`
-  font-size: 1rem;
-  font-weight: 400;
-  margin-bottom: 0;
-  color: ${({ theme }) => `${theme.colors.text}cc`};
+  margin: 0 0 1.5rem 0;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
   position: relative;
   z-index: 2;
-  opacity: ${props => props.$visible ? 1 : 0};
-  user-select: none;
-  animation: ${props => {
-    if (props.$fadeOut) return css`${fadeOut} 0.4s ease-out forwards`;
-    if (props.$visible) return css`${fadeIn} 0.8s ease-out forwards`;
-    return 'none';
-  }};
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    font-size: 0.9rem;
+  
+  @media (max-width: 768px) {
+    font-size: clamp(2rem, 8vw, 3rem);
+    margin-bottom: 1rem;
+    text-align: center;
   }
+`;
 
-  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+const Description = styled.p`
+  font-family: ${({ theme }) => theme.fonts.body};
+  font-size: clamp(1rem, 1.5vw, 1.125rem);
+  font-weight: ${({ theme }) => theme.fontWeights.normal};
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+  margin: 0;
+  position: relative;
+  z-index: 2;
+  
+  @media (max-width: 768px) {
     font-size: 1rem;
+    text-align: center;
+  }
+`;
+
+const HeroImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+  position: relative;
+  z-index: 2;
+  
+  @media (max-width: 768px) {
+    object-fit: contain;
   }
 `;
 
@@ -166,136 +142,45 @@ interface HeroSectionProps {
 }
 
 const HeroSection: React.FC<HeroSectionProps> = () => {
-  const { t, i18n } = useTranslation();
+  const [isVisible, setIsVisible] = useState(false);
 
-  const [isMobile, setIsMobile] = useState(false);
-  const [titleVisible, setTitleVisible] = useState(false);
-  const [subtitleVisible, setSubtitleVisible] = useState(false);
-  const [subtitleFadeOut, setSubtitleFadeOut] = useState(false);
-  const [currentSubtitleText, setCurrentSubtitleText] = useState('');
-
-  const titleRef = useRef<HTMLDivElement>(null);
-  const subtitleRef = useRef<HTMLDivElement>(null);
-  const prevLangRef = useRef(i18n.language);
-  
   useEffect(() => {
-    setCurrentSubtitleText(t('heroSubtitle'));
-
-    const titleTimer = setTimeout(() => {
-      setTitleVisible(true);
+    const timer = setTimeout(() => {
+      setIsVisible(true);
     }, 200);
 
-    const subtitleTimer = setTimeout(() => {
-      setSubtitleVisible(true);
-    }, 700);
-    return () => {
-      clearTimeout(titleTimer);
-      clearTimeout(subtitleTimer);
-    };
-  }, []);
-  
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-  
-
-  
-
-  
-  useEffect(() => {
-    if (i18n.language !== prevLangRef.current) {
-      if (subtitleVisible) {
-        setSubtitleFadeOut(true);
-        const timer = setTimeout(() => {
-          setCurrentSubtitleText(t('heroSubtitle'));
-          setSubtitleFadeOut(false);
-          setSubtitleVisible(false);
-          setTimeout(() => {
-            setSubtitleVisible(true);
-          }, 50);
-        }, 400); 
-        return () => clearTimeout(timer);
-      } else {
-        setCurrentSubtitleText(t('heroSubtitle'));
-        prevLangRef.current = i18n.language;
-      }
-    }
-  }, [i18n.language, subtitleVisible, t]);
-  
-  useEffect(() => {
-    prevLangRef.current = i18n.language;
-  }, [i18n.language]);
-  
-  useEffect(() => {
-    const titleElement = titleRef.current;
-    const subtitleElement = subtitleRef.current;
-    if (!titleElement || !subtitleElement) return;
-    const parallaxFactor = -0.4;
-    const subtitleParallaxFactor = -0.5;
-    const heroHeight = window.innerHeight;
-    const handleScroll = () => {
-      requestAnimationFrame(() => {
-        const scrollY = window.scrollY;
-        const offsetY = scrollY * parallaxFactor;
-        const subtitleOffsetY = scrollY * subtitleParallaxFactor;
-        const scrollProgress = Math.min(scrollY / heroHeight, 1);
-        const blurAmount = scrollProgress * 20;
-        const opacity = Math.max(1 - scrollProgress * 2, 0);
-        if (titleElement) {
-          titleElement.style.transform = `translateY(${offsetY}px)`;
-          titleElement.style.filter = `blur(${blurAmount}px)`;
-          titleElement.style.opacity = opacity.toString();
-        }
-        if (subtitleElement) {
-          subtitleElement.style.transform = `translateY(${subtitleOffsetY}px)`;
-          subtitleElement.style.filter = `blur(${blurAmount}px)`;
-          subtitleElement.style.opacity = opacity.toString();
-        }
-      });
-    };
-    handleScroll();
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => clearTimeout(timer);
   }, []);
 
-
-  
   return (
     <HeroContainer>
-      <CenteringWrapper>
-        <ParallaxTitle ref={titleRef}>
-          <RoleLabel>UX/UI Developer</RoleLabel>
-          <Title $visible={titleVisible}>
-            {isMobile ? (
-              <>
-                <StyledAlexis>
-                  ALEXIS
-                </StyledAlexis>
-                <StyledVedia>
-                  VEDIA
-                </StyledVedia>
-              </>
-            ) : (
-              "ALEXIS VEDIA"
-            )}
-          </Title>
-        </ParallaxTitle>
+      <ContentWrapper>
+        <LeftContainer style={{
+          opacity: isVisible ? 1 : 0,
+          transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
+          transition: 'opacity 1s ease-out, transform 1s ease-out'
+        }}>
+          <Name>Alexis Vedia</Name>
+          <Description>
+            Impulso a emprendedores, agencias y startups ideando soluciones innovadoras 
+            y llevándolas a la realidad con diseño UX/UI 
+            de alto nivel, desarrollo en código y 
+            herramientas de IA que optimizan procesos 
+            y maximizan resultados
+          </Description>
+        </LeftContainer>
         
-        <ParallaxSubtitle ref={subtitleRef}>
-          <Subtitle 
-            $visible={subtitleVisible} 
-            $fadeOut={subtitleFadeOut}
-          >
-            {currentSubtitleText}
-          </Subtitle>
-        </ParallaxSubtitle>
-      </CenteringWrapper>
+        <RightContainer style={{
+          opacity: isVisible ? 1 : 0,
+          transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
+          transition: 'opacity 1s ease-out 0.3s, transform 1s ease-out 0.3s'
+        }}>
+          <HeroImage 
+            src="/assets/newAssets/hero-alexis.webp" 
+            alt="Alexis Vedia"
+          />
+        </RightContainer>
+      </ContentWrapper>
     </HeroContainer>
   );
 };

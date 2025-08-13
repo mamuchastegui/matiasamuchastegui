@@ -21,7 +21,6 @@ const StyledMorphingTitle = styled(LanguageMorphingTitle)`
 `;
 
 const SectionContent = styled.div`
-  max-width: 800px;
   width: 100%;
   margin-bottom: 2rem;
 

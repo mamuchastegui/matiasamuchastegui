@@ -195,7 +195,6 @@ const SectionSubtitle = styled(motion.p)`
   color: ${({ theme }) => theme.colors.text};
   opacity: 0.8;
   margin-bottom: 4rem;
-  max-width: 600px;
   margin-left: auto;
   margin-right: auto;
   line-height: 1.6;
@@ -206,7 +205,6 @@ const SectionSubtitle = styled(motion.p)`
   @media (max-width: 768px) {
     font-size: 1.1rem;
     margin-bottom: 3rem;
-    max-width: 90%;
   }
 
   @media (max-width: 480px) {
@@ -218,7 +216,6 @@ const ServicesGrid = styled(motion.div)`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 2.5rem;
-  max-width: 1400px;
   margin: 0 auto;
   padding: 0 2rem;
   position: relative;

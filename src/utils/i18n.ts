@@ -72,6 +72,7 @@ const resources = {
       tooltip: {
         github: 'Visit GitHub Profile',
         linkedin: 'Visit LinkedIn Profile',
+        x: 'Visit X Profile',
         toggleTheme: 'Toggle Theme',
         selectLanguage: 'Select Language',
         viewOriginal: 'View original image in new tab',
@@ -246,6 +247,7 @@ const resources = {
       tooltip: {
         github: 'Visitar Perfil de GitHub',
         linkedin: 'Visitar Perfil de LinkedIn',
+        x: 'Visitar Perfil de X',
         toggleTheme: 'Cambiar Tema',
         selectLanguage: 'Seleccionar Idioma',
         viewOriginal: 'Ver imagen original en nueva pestaña',

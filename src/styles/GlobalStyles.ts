@@ -1,11 +1,12 @@
 import { createGlobalStyle } from 'styled-components';
 import './fonts.css';
+import './typography.css';
 
 
-const latoFontsUrl =
-  'https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap';
-const openSansFontsUrl =
-  'https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap';
+const interFontsUrl =
+  'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap';
+const manropeFontsUrl =
+  'https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap';
 
 
 const addFontLink = (url: string) => {
@@ -19,8 +20,8 @@ const addFontLink = (url: string) => {
 };
 
 
-addFontLink(latoFontsUrl);
-addFontLink(openSansFontsUrl);
+addFontLink(interFontsUrl);
+addFontLink(manropeFontsUrl);
 
 
 export const GlobalStyles = createGlobalStyle`
@@ -65,56 +66,74 @@ export const GlobalStyles = createGlobalStyle`
 
   body {
     margin: 0;
-    background: ${({ theme }) => theme.isDark 
-      ? `
-        /* Degradado principal para dark mode */
-        linear-gradient(
-          135deg,
-          ${theme.colors.background} 0%,
-          rgba(15, 15, 20, 1) 25%, 
-          rgba(10, 10, 15, 1) 50%, 
-          rgba(15, 15, 20, 1) 75%,
-          ${theme.colors.background} 100%
-        ),
-        /* Degradado radial superior izquierdo */
-        radial-gradient(
-          ellipse at top left,
-          rgba(30, 20, 50, 0.3) 0%, 
-          transparent 50%
-        ),
-        radial-gradient(
-          ellipse at bottom right,
-          rgba(50, 20, 30, 0.2) 0%, 
-          transparent 50%
-        )`
-      : theme.colors.background
-    };
-    
-    background-attachment: ${({ theme }) => theme.isDark ? 'fixed' : 'scroll'};
-    background-size: ${({ theme }) => theme.isDark ? '100% 100%, 150% 150%, 120% 120%' : 'auto'};
-    
+    background: transparent;
+    font-size: ${({ theme }) => theme.fontSizes.md};
     color: ${({ theme }) => theme.colors.text};
     font-family: ${({ theme }) => theme.fonts.body};
     line-height: 1.6;
     min-height: 100%;
     width: 100%;
-    max-width: 100vw;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1rem;
     overflow-x: hidden; 
     transition: background 0.5s ease, color 0.3s ease; 
+    
+    @media (max-width: 768px) {
+      padding: 0 0.75rem;
+    }
+    
+    @media (max-width: 480px) {
+      padding: 0 0.5rem;
+    }
   }
 
 
   p {
     font-family: ${({ theme }) => theme.fonts.body};
-    font-size: 16px;
+    font-size: ${({ theme }) => theme.fontSizes.lg}; /* 18px como en el ejemplo */
+    font-weight: ${({ theme }) => theme.fontWeights.normal};
     color: inherit;
     margin-bottom: 1rem;
+    line-height: 1.6;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1 {
     font-family: ${({ theme }) => theme.fonts.heading};
+    font-size: clamp(2.25rem, 5vw, 3.75rem); /* text-4xl a text-6xl responsive */
+    font-weight: ${({ theme }) => theme.fontWeights.medium};
+    line-height: 1.1;
+    letter-spacing: -0.025em; /* tracking-tight */
     color: ${({ theme }) => theme.colors.text};
+    margin: 0 0 1rem 0;
+  }
+
+  h2 {
+    font-family: ${({ theme }) => theme.fonts.heading};
+    font-size: ${({ theme }) => theme.fontSizes['3xl']}; /* 30px */
+    font-weight: ${({ theme }) => theme.fontWeights.semibold};
     line-height: 1.2;
+    letter-spacing: -0.025em;
+    color: ${({ theme }) => theme.colors.text};
+    margin: 0 0 1rem 0;
+  }
+
+  h3 {
+    font-family: ${({ theme }) => theme.fonts.heading};
+    font-size: ${({ theme }) => theme.fontSizes.xl}; /* 20px */
+    font-weight: ${({ theme }) => theme.fontWeights.medium};
+    line-height: 1.3;
+    letter-spacing: -0.025em;
+    color: ${({ theme }) => theme.colors.text};
+    margin: 0 0 1rem 0;
+  }
+
+  h4, h5, h6 {
+    font-family: ${({ theme }) => theme.fonts.heading};
+    font-size: ${({ theme }) => theme.fontSizes.lg}; /* 18px */
+    font-weight: ${({ theme }) => theme.fontWeights.medium};
+    line-height: 1.4;
+    color: ${({ theme }) => theme.colors.text};
     margin: 0 0 1rem 0;
   }
 

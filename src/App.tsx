@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import ContactButton from '@components/ContactButton';
 import { ThemeProvider } from './context/ThemeContext';
 import FontLoader from '@components/FontLoader/FontLoader';
-import SplineBackground from '@components/SplineBackground';
+import DotBackground from '@components/DotBackground';
 import Sidebar from '@components/Sidebar/Sidebar';
 import LoadingSpinner from '@components/LoadingSpinner';
 import { LazyLoadErrorBoundary } from '@components/ErrorBoundary';
@@ -287,7 +287,7 @@ const AppContent = () => {
         $isSidebarPresent={isSidebarOpen && !isMobile}
         $isSidebarCollapsed={isSidebarCollapsed}
       >
-        <SplineBackground 
+        <DotBackground 
           isSidebarPresent={isSidebarOpen && !isMobile}
           isSidebarCollapsed={isSidebarCollapsed}
         />

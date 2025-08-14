@@ -18,33 +18,23 @@ const CardContainer = styled.div`
 `;
 
 const CardTitle = styled.h3`
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
-  color: ${props => (props.theme.isDark ? '#FFFFFF' : '#1D1F23')};
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;
+  font-family: ${({ theme }) => theme.fonts.heading};
 `;
 
 const Period = styled.p`
   font-size: 0.9rem;
   color: ${props => (props.theme.isDark ? '#FFFFFF' : '#1D1F23')};
   margin-bottom: 1rem;
-  font-family: 'Inter', sans-serif;
+  font-family: ${({ theme }) => theme.fonts.body};
 `;
 
 const Role = styled.h4`
-  font-size: 1.1rem;
-  margin-bottom: 1rem;
-  color: ${props => (props.theme.isDark ? '#FFFFFF' : '#1D1F23')};
-  font-family: 'Inter', sans-serif;
+  font-family: ${({ theme }) => theme.fonts.heading};
   font-weight: 500;
 `;
 
 const SectionTitle = styled.h5`
-  font-size: 1rem;
-  margin: 1rem 0 0.25rem 0;
-  color: ${props => (props.theme.isDark ? '#FFFFFF' : '#1D1F23')};
-  font-family: 'Inter', sans-serif;
+  font-family: ${({ theme }) => theme.fonts.heading};
   font-weight: 700;
   text-transform: none;
 `;
@@ -61,7 +51,7 @@ const DividerLine = styled.hr`
 const List = styled.ul`
   padding-left: 1.5rem;
   margin-bottom: 1rem;
-  font-family: 'Inter', sans-serif;
+  font-family: ${({ theme }) => theme.fonts.body};
   list-style: disc;
 `;
 
@@ -85,7 +75,7 @@ const Tool = styled.span`
   padding: 0.3rem 0.8rem;
   border-radius: 20px;
   font-size: 0.85rem;
-  font-family: 'Inter', sans-serif;
+  font-family: ${({ theme }) => theme.fonts.body};
 `;
 
 const ExperienceCard: React.FC<ExperienceCardProps> = ({

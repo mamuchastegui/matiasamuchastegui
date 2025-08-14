@@ -2,28 +2,6 @@ import { createGlobalStyle } from 'styled-components';
 import './fonts.css';
 import './typography.css';
 
-
-const interFontsUrl =
-  'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap';
-const manropeFontsUrl =
-  'https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap';
-
-
-const addFontLink = (url: string) => {
-  if (!document.querySelector(`link[href="${url}"]`)) {
-  
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = url;
-    document.head.appendChild(link);
-  }
-};
-
-
-addFontLink(interFontsUrl);
-addFontLink(manropeFontsUrl);
-
-
 export const GlobalStyles = createGlobalStyle`
   *,
   *::before,
@@ -67,10 +45,11 @@ export const GlobalStyles = createGlobalStyle`
   body {
     margin: 0;
     background: transparent;
-    font-size: ${({ theme }) => theme.fontSizes.md};
+    font-size: ${({ theme }) => theme.fontSizes.base};
     color: ${({ theme }) => theme.colors.text};
     font-family: ${({ theme }) => theme.fonts.body};
-    line-height: 1.6;
+    line-height: ${({ theme }) => theme.lineHeights.normal};
+    letter-spacing: ${({ theme }) => theme.letterSpacings.normal};
     min-height: 100%;
     width: 100%;
     max-width: 1400px;
@@ -88,53 +67,75 @@ export const GlobalStyles = createGlobalStyle`
     }
   }
 
-
   p {
     font-family: ${({ theme }) => theme.fonts.body};
-    font-size: ${({ theme }) => theme.fontSizes.lg}; /* 18px como en el ejemplo */
+    font-size: ${({ theme }) => theme.fontSizes.lg}; /* 18px - mejor para legibilidad */
     font-weight: ${({ theme }) => theme.fontWeights.normal};
+    line-height: ${({ theme }) => theme.lineHeights.relaxed};
+    letter-spacing: ${({ theme }) => theme.letterSpacings.normal};
     color: inherit;
     margin-bottom: 1rem;
-    line-height: 1.6;
   }
 
+  /* Jerarquía tipográfica moderna y escalada */
   h1 {
     font-family: ${({ theme }) => theme.fonts.heading};
-    font-size: clamp(2.25rem, 5vw, 3.75rem); /* text-4xl a text-6xl responsive */
-    font-weight: ${({ theme }) => theme.fontWeights.medium};
-    line-height: 1.1;
-    letter-spacing: -0.025em; /* tracking-tight */
+    font-size: clamp(2.5rem, 5vw, ${({ theme }) => theme.fontSizes['5xl']}); /* 56px max responsive */
+    font-weight: ${({ theme }) => theme.fontWeights.bold};
+    line-height: ${({ theme }) => theme.lineHeights.tight};
+    letter-spacing: ${({ theme }) => theme.letterSpacings.tight};
     color: ${({ theme }) => theme.colors.text};
-    margin: 0 0 1rem 0;
+    margin: 0 0 1.5rem 0;
   }
 
   h2 {
     font-family: ${({ theme }) => theme.fonts.heading};
-    font-size: ${({ theme }) => theme.fontSizes['3xl']}; /* 30px */
+    font-size: ${({ theme }) => theme.fontSizes['4xl']}; /* 40px */
     font-weight: ${({ theme }) => theme.fontWeights.semibold};
-    line-height: 1.2;
-    letter-spacing: -0.025em;
+    line-height: ${({ theme }) => theme.lineHeights.snug};
+    letter-spacing: ${({ theme }) => theme.letterSpacings.tight};
     color: ${({ theme }) => theme.colors.text};
-    margin: 0 0 1rem 0;
+    margin: 0 0 1.25rem 0;
   }
 
   h3 {
     font-family: ${({ theme }) => theme.fonts.heading};
-    font-size: ${({ theme }) => theme.fontSizes.xl}; /* 20px */
-    font-weight: ${({ theme }) => theme.fontWeights.medium};
-    line-height: 1.3;
-    letter-spacing: -0.025em;
+    font-size: ${({ theme }) => theme.fontSizes['3xl']}; /* 32px */
+    font-weight: ${({ theme }) => theme.fontWeights.semibold};
+    line-height: ${({ theme }) => theme.lineHeights.snug};
+    letter-spacing: ${({ theme }) => theme.letterSpacings.tight};
     color: ${({ theme }) => theme.colors.text};
     margin: 0 0 1rem 0;
   }
 
-  h4, h5, h6 {
+  h4 {
+    font-family: ${({ theme }) => theme.fonts.heading};
+    font-size: ${({ theme }) => theme.fontSizes['2xl']}; /* 24px */
+    font-weight: ${({ theme }) => theme.fontWeights.medium};
+    line-height: ${({ theme }) => theme.lineHeights.normal};
+    letter-spacing: ${({ theme }) => theme.letterSpacings.normal};
+    color: ${({ theme }) => theme.colors.text};
+    margin: 0 0 0.75rem 0;
+  }
+
+  h5 {
+    font-family: ${({ theme }) => theme.fonts.heading};
+    font-size: ${({ theme }) => theme.fontSizes.xl}; /* 20px */
+    font-weight: ${({ theme }) => theme.fontWeights.medium};
+    line-height: ${({ theme }) => theme.lineHeights.normal};
+    letter-spacing: ${({ theme }) => theme.letterSpacings.normal};
+    color: ${({ theme }) => theme.colors.text};
+    margin: 0 0 0.5rem 0;
+  }
+
+  h6 {
     font-family: ${({ theme }) => theme.fonts.heading};
     font-size: ${({ theme }) => theme.fontSizes.lg}; /* 18px */
     font-weight: ${({ theme }) => theme.fontWeights.medium};
-    line-height: 1.4;
+    line-height: ${({ theme }) => theme.lineHeights.normal};
+    letter-spacing: ${({ theme }) => theme.letterSpacings.normal};
     color: ${({ theme }) => theme.colors.text};
-    margin: 0 0 1rem 0;
+    margin: 0 0 0.5rem 0;
   }
 
   a {

@@ -23,6 +23,7 @@ const resources = {
       '¡Hola! Soy tu AI Portfolio Assistant. ¿En qué puedo ayudarte hoy?':
         "Hello! I'm your AI Portfolio Assistant. How can I help you today?",
       'Escribe un mensaje...': 'Type a message...',
+      'Enviar mensaje': 'Send message',
       'Limpiar chat': 'Clean chat',
       'Cerrar chat': 'Close chat',
       'Conectado': 'Connected',
@@ -197,6 +198,7 @@ const resources = {
       '¡Hola! Soy tu AI Portfolio Assistant. ¿En qué puedo ayudarte hoy?':
         '¡Hola! Soy tu AI Portfolio Assistant. ¿En qué puedo ayudarte hoy?',
       'Escribe un mensaje...': 'Escribe un mensaje...',
+      'Enviar mensaje': 'Enviar mensaje',
       'Limpiar chat': 'Limpiar chat',
       'Cerrar chat': 'Cerrar chat',
       'Conectado': 'Conectado',

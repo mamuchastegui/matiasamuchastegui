@@ -126,34 +126,14 @@ const TextBlock = styled.div`
 `;
 
 const BlockTitle = styled.h3`
-  display: block;
-  margin-bottom: 0.99rem;
-  color: #141414;
-  font-family: "Inter", Trebuchet MS, sans-serif;
-  font-size: 1.2rem;
-  font-weight: 500;
-  line-height: 1.6;
-  
-  .line {
-    display: block;
-    padding: 0.3em 0;
-    margin: 0.1em 0;
-    min-height: 1.6em;
-  }
+  font-family: ${({ theme }) => theme.fonts.heading};
+  font-weight: 700;
+  letter-spacing: -0.01em;
 `;
 
 const BlockText = styled.p`
-  font-family: "Inter", Trebuchet MS, sans-serif;
-  font-size: 1rem;
-  line-height: 1.5;
-  color: #9D9D9D;
-  
-  .line {
-    display: block;
-    padding: 0.15em 0;
-    margin: 0.05em 0;
-    min-height: 1.5em;
-  }
+  font-family: ${({ theme }) => theme.fonts.body};
+  font-weight: 400;
 `;
 
 export default InfoBlocksAnimation;

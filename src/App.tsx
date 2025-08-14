@@ -15,10 +15,7 @@ import { LazyLoadErrorBoundary } from '@components/ErrorBoundary';
 
 
 const ChatbotAssistant = React.lazy(
-  () =>
-    new Promise<{ default: React.ComponentType<{ initialDelay?: number; n8nServerReady?: boolean }> }>(resolve =>
-      setTimeout(() => resolve(import('@components/ChatbotAssistant')), 2000)
-    )
+  () => import('@components/ChatbotAssistant')
 );
 
 const LazyComponentWrapper = ({ children }: { children: React.ReactNode }) => {
@@ -109,9 +106,6 @@ const ContactButtonStyled = styled(ContactButton)<{ $hideOnScroll: boolean }>`
 
   @media (max-width: 768px) {
     transform: translateY(${props => (props.$hideOnScroll ? '-100px' : '0')});
-  
-  
-  
   }
 `;
 
@@ -217,12 +211,8 @@ const AppContent = () => {
   }, []);
 
   useEffect(() => {
-    // El chatbot siempre debe aparecer después de un retraso, independientemente del estado de n8n
-    const timer = window.setTimeout(() => {
-      setChatbotVisible(true);
-    }, isMobile ? 1000 : 500);
-    return () => clearTimeout(timer);
-  }, [isMobile]);
+    setChatbotVisible(true);
+  }, []);
 
 
   useEffect(() => {
@@ -294,7 +284,12 @@ const AppContent = () => {
         <ContactButtonStyled initialDelay={500} $hideOnScroll={shouldHideContactButton} />
         {chatbotVisible && (
           <React.Suspense fallback={null}>
-            <ChatbotAssistant initialDelay={500} n8nServerReady={n8nServerReady} />
+            <ChatbotAssistant 
+              initialDelay={0} 
+              n8nServerReady={n8nServerReady}
+              isSidebarPresent={isSidebarOpen && !isMobile}
+              isSidebarCollapsed={isSidebarCollapsed}
+            />
           </React.Suspense>
         )}
 

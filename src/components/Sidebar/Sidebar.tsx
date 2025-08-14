@@ -364,9 +364,7 @@ const CollapseButton = styled.button`
     transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
   
-  &:hover svg {
-    transform: scale(1.1);
-  }
+
   
   @media (max-width: 768px) {
     display: none;
@@ -388,7 +386,7 @@ const ControlsContainer = styled.div<{ $isCollapsed?: boolean }>`
   will-change: gap, flex-direction;
 `;
 
-const LanguageSelectorWrapper = styled.div<{ $isCollapsed?: boolean; $index?: number }>`
+const LanguageSelectorWrapper = styled.div<{ $isCollapsed?: boolean; $index?: number; $phase?: 'visible' | 'fading' | 'hidden' | 'showing' }>`
   width: ${({ $isCollapsed }) => $isCollapsed ? '36px' : 'auto'};
   height: 36px;
   display: flex;
@@ -399,11 +397,10 @@ const LanguageSelectorWrapper = styled.div<{ $isCollapsed?: boolean; $index?: nu
   border: 1px solid transparent;
   position: relative;
   
-  /* Transiciones suaves para cambio de layout */
-  opacity: 1;
-  filter: none;
+  opacity: ${({ $phase }) => ($phase === 'hidden' ? 0 : $phase === 'fading' ? 0 : 1)};
+  filter: blur(${({ $phase }) => ($phase === 'hidden' ? '4px' : $phase === 'fading' ? '4px' : '0px')});
   transform: translateY(0) translateX(0) scale(1);
-  transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+  transition: opacity ${({ $phase }) => ($phase === 'showing' ? '1s' : '0.7s')} ease, filter ${({ $phase }) => ($phase === 'showing' ? '1s' : '0.7s')} ease, transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
   transition-delay: ${({ $isCollapsed, $index }) => 
     $isCollapsed 
       ? `${((4 - ($index || 0)) * 60)}ms` 
@@ -421,7 +418,7 @@ const LanguageSelectorWrapper = styled.div<{ $isCollapsed?: boolean; $index?: nu
   }
 `;
 
-const SocialMediaButton = styled.a<{ $isCollapsed?: boolean; $index?: number }>`
+const SocialMediaButton = styled.a<{ $isCollapsed?: boolean; $index?: number; $phase?: 'visible' | 'fading' | 'hidden' | 'showing' }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -436,11 +433,10 @@ const SocialMediaButton = styled.a<{ $isCollapsed?: boolean; $index?: number }>`
   cursor: pointer;
   box-shadow: none;
   
-  /* Transiciones suaves para cambio de layout */
-  opacity: 1;
-  filter: none;
+  opacity: ${({ $phase }) => ($phase === 'hidden' ? 0 : $phase === 'fading' ? 0 : 1)};
+  filter: blur(${({ $phase }) => ($phase === 'hidden' ? '4px' : $phase === 'fading' ? '4px' : '0px')});
   transform: translateY(0) translateX(0) scale(1);
-  transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+  transition: opacity ${({ $phase }) => ($phase === 'showing' ? '1s' : '0.7s')} ease, filter ${({ $phase }) => ($phase === 'showing' ? '1s' : '0.7s')} ease, transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
   transition-delay: ${({ $isCollapsed, $index }) => 
     $isCollapsed 
       ? `${((4 - ($index || 0)) * 60)}ms` 
@@ -472,7 +468,7 @@ const SocialMediaButton = styled.a<{ $isCollapsed?: boolean; $index?: number }>`
   }
 `;
 
-const ThemeToggleWrapper = styled.div<{ $isCollapsed?: boolean; $index?: number }>`
+const ThemeToggleWrapper = styled.div<{ $isCollapsed?: boolean; $index?: number; $phase?: 'visible' | 'fading' | 'hidden' | 'showing' }>`
   width: 36px;
   height: 36px;
   display: flex;
@@ -482,11 +478,10 @@ const ThemeToggleWrapper = styled.div<{ $isCollapsed?: boolean; $index?: number 
   border: 1px solid transparent;
   position: relative;
   
-  /* Transiciones suaves para cambio de layout */
-  opacity: 1;
-  filter: none;
+  opacity: ${({ $phase }) => ($phase === 'hidden' ? 0 : $phase === 'fading' ? 0 : 1)};
+  filter: blur(${({ $phase }) => ($phase === 'hidden' ? '4px' : $phase === 'fading' ? '4px' : '0px')});
   transform: translateY(0) translateX(0) scale(1);
-  transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+  transition: opacity ${({ $phase }) => ($phase === 'showing' ? '1s' : '0.7s')} ease, filter ${({ $phase }) => ($phase === 'showing' ? '1s' : '0.7s')} ease, transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
   transition-delay: ${({ $isCollapsed, $index }) => 
     $isCollapsed 
       ? `${((4 - ($index || 0)) * 60)}ms`
@@ -563,7 +558,7 @@ const MobileMenuButton = styled.button<{ $isMobile: boolean; $isOpen: boolean }>
   padding: ${({ theme }) => theme.space.xs};
   cursor: pointer;
   box-shadow: ${({ theme }) => theme.isDark ? 
-    '0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)' : 
+    '0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2)' : 
     '0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
   };
   transition: background-color 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.5s ease, transform 0.5s ease;
@@ -602,9 +597,27 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
   const [navBackgroundPosition, setNavBackgroundPosition] = useState({ top: 0, height: 0 });
   const navListRef = useRef<HTMLUListElement>(null);
 
+  // Estado para controlar la animación de fade de los iconos inferiores
+  const [iconsFadePhase, setIconsFadePhase] = useState<'visible' | 'fading' | 'hidden' | 'showing'>('visible');
+
   const handleToggleCollapse = () => {
     if (toggleCollapse) {
-      toggleCollapse();
+      // Iniciar animación de fade
+      setIconsFadePhase('fading');
+      
+      setTimeout(() => {
+        setIconsFadePhase('hidden');
+        toggleCollapse();
+        
+        // Después de que cambien las props, mostrar iconos de nuevo
+        setTimeout(() => {
+          setIconsFadePhase('showing');
+          setTimeout(() => {
+            setIconsFadePhase('visible');
+          }, 500); // 0.5s para completar la animación de mostrar
+        }, 50);
+      }, 200); // 0.2s para fade out
+
       if (!isCollapsed) {
         setOpenSubmenuKey(null); // Cerrar submenús al colapsar
       }
@@ -945,6 +958,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
              aria-label="GitHub"
              $isCollapsed={!isMobile && isCollapsed}
              $index={0}
+             $phase={iconsFadePhase}
              onMouseEnter={() => setShowGithubTooltip(true)}
              onMouseLeave={() => setShowGithubTooltip(false)}
            >
@@ -960,6 +974,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
              aria-label="LinkedIn"
              $isCollapsed={!isMobile && isCollapsed}
              $index={1}
+             $phase={iconsFadePhase}
              onMouseEnter={() => setShowLinkedinTooltip(true)}
              onMouseLeave={() => setShowLinkedinTooltip(false)}
            >
@@ -975,6 +990,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
               aria-label="X (Twitter)"
               $isCollapsed={!isMobile && isCollapsed}
               $index={2}
+              $phase={iconsFadePhase}
               onMouseEnter={() => setShowXTooltip(true)}
               onMouseLeave={() => setShowXTooltip(false)}
             >
@@ -987,6 +1003,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
           <ThemeToggleWrapper 
              $isCollapsed={!isMobile && isCollapsed}
              $index={3}
+             $phase={iconsFadePhase}
              style={{ lineHeight: 1, position: 'relative' }}
              onMouseEnter={() => setShowThemeTooltip(true)}
              onMouseLeave={() => setShowThemeTooltip(false)}
@@ -999,6 +1016,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
            <LanguageSelectorWrapper 
              $isCollapsed={!isMobile && isCollapsed}
              $index={4}
+             $phase={iconsFadePhase}
              style={{ lineHeight: 1, position: 'relative' }}
              onMouseEnter={() => setShowLanguageTooltip(true)}
              onMouseLeave={() => setShowLanguageTooltip(false)}

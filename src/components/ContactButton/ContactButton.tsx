@@ -1,45 +1,149 @@
-import React, { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import styles from './ContactButton.module.css';
+import React from 'react';
+import styled from 'styled-components';
+import { useTheme } from '../../context/ThemeContext';
 
 interface ContactButtonProps {
+  onClick?: () => void;
   className?: string;
   initialDelay?: number;
   $hideOnScroll?: boolean;
 }
 
-const ContactButton: React.FC<ContactButtonProps> = ({ className, initialDelay = 500 }) => {
-  const { t } = useTranslation();
-  const navigate = useNavigate();
-  const [isVisible, setIsVisible] = useState(false);
+const StyledButton = styled.button<{ $isDark: boolean }>`
+  position: relative;
+  padding: 16px 32px;
+  border: none;
+  border-radius: 50px;
+  background: ${({ $isDark }) => $isDark ? '#ffffff' : '#000000'};
+  color: ${({ $isDark }) => $isDark ? '#000000' : '#ffffff'};
+  font-size: 16px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transform: translateY(20px);
+  animation: slideInFade 0.8s ease-out 0.5s forwards;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.4),
+      transparent
+    );
+    transition: left 0.5s ease;
+  }
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(
+      circle,
+      ${({ $isDark }) => $isDark ? 'rgba(0, 0, 0, 0.1)' : 'rgba(0, 0, 0, 0.05)'}
+    );
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+  }
+  
+  &:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    background: ${({ $isDark }) => $isDark ? '#f8f8f8' : '#333333'};
+    
+    &::before {
+      left: 100%;
+    }
+    
+    &::after {
+      width: 300px;
+      height: 300px;
+    }
+  }
+  
+  &:active {
+    transform: translateY(0) scale(1.02);
+    transition: all 0.1s ease;
+  }
+  
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px ${({ $isDark }) => $isDark ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.1)'};
+  }
+`;
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsVisible(true);
-    }, initialDelay);
-    return () => clearTimeout(timer);
-  }, [initialDelay]);
+const ButtonText = styled.span`
+  position: relative;
+  z-index: 2;
+`;
+
+// Keyframe animation for smooth entrance
+const slideInFadeKeyframes = `
+  @keyframes slideInFade {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+`;
+
+// Inject keyframes into the document
+if (typeof document !== 'undefined') {
+  const style = document.createElement('style');
+  style.textContent = slideInFadeKeyframes;
+  document.head.appendChild(style);
+}
+
+const ContactButton: React.FC<ContactButtonProps> = ({ 
+  onClick, 
+  className 
+}) => {
+  const { themeMode } = useTheme();
+  const isDark = themeMode === 'dark';
 
   const handleClick = () => {
-    navigate('/', { state: { scrollToSection: 'contact' } });
+    if (onClick) {
+      onClick();
+    } else {
+      // Scroll to contact section
+      const contactElement = document.getElementById('contact');
+      if (contactElement) {
+        contactElement.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    }
   };
 
-
-  const combinedClassName = `${styles.contactButton} ${className || ''}`.trim();
-
   return (
-    <button 
-      className={combinedClassName} 
-      style={{
-        opacity: isVisible ? 1 : 0,
-        transition: 'opacity 0.6s ease-in-out'
-      }}
+    <StyledButton
+      $isDark={isDark}
       onClick={handleClick}
-      aria-label={t('contactMe')}
+      className={className}
+      type="button"
+      aria-label="Contactar"
     >
-      {t('contactMe')}
-    </button>
+      <ButtonText>Contáctame</ButtonText>
+    </StyledButton>
   );
 };
 

@@ -62,42 +62,26 @@ const ExperienceContentWrapper = styled.div`
   margin-bottom: 2rem;
 `;
 
-const ExperienceRoleTitle = styled.h3<{ $isDark: boolean }>`
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
-  color: ${props => (props.$isDark ? '#FFFFFF' : '#1D1F23')};
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;
+const ExperienceRoleTitle = styled.h3<{ $isDark?: boolean }>`
+  font-family: ${({ theme }) => theme.fonts.heading};
 `;
 
-const ExperienceRoleSubtitle = styled.h4<{ $isDark: boolean }>`
-  font-size: 1.1rem;
-  margin-bottom: 1rem;
-  color: ${props => (props.$isDark ? '#FFFFFF' : '#1D1F23')};
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
+const ExperienceRoleSubtitle = styled.h4<{ $isDark?: boolean }>`
+  font-family: ${({ theme }) => theme.fonts.heading};
 `;
 
-const ExperiencePeriod = styled.p<{ $isDark: boolean }>`
-  font-size: 0.9rem;
-  color: ${props => (props.$isDark ? '#FFFFFF' : '#1D1F23')};
-  margin-bottom: 1rem;
-  font-family: 'Inter', sans-serif;
+const ExperiencePeriod = styled.p<{ $isDark?: boolean }>`
+  font-family: ${({ theme }) => theme.fonts.body};
 `;
 
-const ExperienceListTitle = styled.h5<{ $isDark: boolean }>`
-  font-size: 1rem;
-  margin: 1rem 0 0.25rem 0;
-  color: ${props => (props.$isDark ? '#FFFFFF' : '#1D1F23')};
-  font-family: 'Inter', sans-serif;
-  font-weight: 700;
-  text-transform: none;
+const ExperienceListTitle = styled.h5<{ $isDark?: boolean }>`
+  font-family: ${({ theme }) => theme.fonts.heading};
 `;
 
 const ExperienceList = styled.ul`
+  font-family: ${({ theme }) => theme.fonts.body};
   padding-left: 1.5rem;
   margin-bottom: 1rem;
-  font-family: 'Inter', sans-serif;
   list-style: disc;
 `;
 
@@ -115,13 +99,8 @@ const ToolsContainer = styled.div`
   margin-bottom: 1rem;
 `;
 
-const Tool = styled.span<{ $isDark: boolean }>`
-  background-color: ${props => (props.$isDark ? '#2D2F33' : '#EEEEEE')};
-  color: ${props => (props.$isDark ? '#FFFFFF' : '#1D1F23')};
-  padding: 0.3rem 0.8rem;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-family: 'Inter', sans-serif;
+const Tool = styled.span<{ $isDark?: boolean }>`
+  font-family: ${({ theme }) => theme.fonts.body};
 `;
 
 const FrontendDevelopmentExperienceFc: React.FC<FrontendDevelopmentExperienceProps> = ({ title, experience, isDark }) => {

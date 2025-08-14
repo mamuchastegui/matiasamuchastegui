@@ -1,21 +1,22 @@
 const baseTheme = {
   fonts: {
-    body: "'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif",
-    heading: "'Manrope', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif",
+    body: "var(--font-satoshi, 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif)",
+    heading: "var(--font-satoshi, 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif)",
   },
   fontSizes: {
     xs: '0.75rem',     // 12px
     sm: '0.875rem',    // 14px
-    md: '1rem',        // 16px
+    base: '1rem',      // 16px - Base size
+    md: '1rem',        // 16px - Alias for base
     lg: '1.125rem',    // 18px
     xl: '1.25rem',     // 20px
     '2xl': '1.5rem',   // 24px
-    '3xl': '1.875rem', // 30px
-    '4xl': '2.25rem',  // 36px
-    '5xl': '3rem',     // 48px
-    '6xl': '4rem',     // 64px
-    '7xl': '5rem',     // 80px
-    '8xl': '6rem',     // 96px
+    '3xl': '2rem',     // 32px - Improved scale
+    '4xl': '2.5rem',   // 40px - Improved scale  
+    '5xl': '3.5rem',   // 56px - Improved scale
+    '6xl': '4.5rem',   // 72px - Improved scale
+    '7xl': '6rem',     // 96px - Improved scale
+    '8xl': '8rem',     // 128px - Improved scale
   },
   fontWeights: {
     light: 300,
@@ -23,6 +24,24 @@ const baseTheme = {
     medium: 500,
     semibold: 600,
     bold: 700,
+    extrabold: 800,
+    black: 900,
+  },
+  lineHeights: {
+    none: 1,
+    tight: 1.1,
+    snug: 1.25,
+    normal: 1.5,
+    relaxed: 1.625,
+    loose: 2,
+  },
+  letterSpacings: {
+    tighter: '-0.05em',
+    tight: '-0.025em',
+    normal: '0em',
+    wide: '0.025em',
+    wider: '0.05em',
+    widest: '0.1em',
   },
   radii: {
     sm: '2px',

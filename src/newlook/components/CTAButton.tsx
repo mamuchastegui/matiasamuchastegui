@@ -79,7 +79,7 @@ const StyledButton = styled.a`
   cursor: pointer;
   border-radius: 9999px;
   text-decoration: none;
-  font-family: "Inter", Trebuchet MS, sans-serif;
+  font-family: ${({ theme }) => theme.fonts.heading};
   font-size: 1rem;
   font-weight: 500;
 `;

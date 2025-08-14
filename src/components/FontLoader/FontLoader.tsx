@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 
 
 const dash = keyframes`
@@ -31,7 +31,8 @@ const LoaderContainer = styled.div<{ $isLoaded: boolean }>`
   justify-content: center;
   align-items: center;
   z-index: 9999;
-  animation: ${({ $isLoaded }) => $isLoaded ? fadeOut : 'none'} 0.6s ease-in-out forwards;
+-  animation: ${({ $isLoaded }) => $isLoaded ? fadeOut : 'none'} 0.6s ease-in-out forwards;
++  animation: ${({ $isLoaded }) => ($isLoaded ? css`${fadeOut} 0.6s ease-in-out forwards` : 'none')};
 `;
 
 const ECGContainer = styled.div`

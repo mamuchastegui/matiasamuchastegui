@@ -6,32 +6,32 @@ const HeroContainer = styled.section`
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  padding: 0 ${({ theme }) => theme.space.xl};
+  padding: 0; // antes: 0 ${({ theme }) => theme.space.xl}
   position: relative;
   overflow: hidden;
   width: 100%;
   box-sizing: border-box;
   
   @media (max-width: 768px) {
-    padding: 0 1rem;
+    padding: 0; // antes: 0 1rem
     flex-direction: column;
-    gap: 1rem;
+    gap: 0; // antes: 1rem
   }
 `;
 
 const ContentWrapper = styled.div`
   display: grid;
   grid-template-columns: 1.2fr 1.8fr;
-  gap: 2rem;
+  gap: 2rem; // restaurar separación entre columnas
   width: 100%;
   max-width: 1400px;
   height: 80vh;
-  margin: 0 auto;
-  
+  margin: 0 auto; // restaurar margen horizontal
+
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
     height: auto;
-    gap: 1rem;
+    gap: 1rem; // separación en mobile
     max-width: 100%;
   }
 `;
@@ -41,7 +41,7 @@ const LeftContainer = styled.div`
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 24px;
-  padding: 3rem 2rem;
+  padding: 3rem 2rem; // antes: 3rem 2rem
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -57,7 +57,7 @@ const LeftContainer = styled.div`
   }
   
   @media (max-width: 768px) {
-    padding: 2rem 1.5rem;
+    padding: 2rem 1.5rem; // antes: 2rem 1.5rem
     height: auto;
     min-height: 300px;
   }
@@ -68,7 +68,7 @@ const RightContainer = styled.div`
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 24px;
-  padding: 2rem;
+  padding: 0; // antes: 2rem
   display: flex;
   align-items: center;
   justify-content: center;
@@ -84,7 +84,7 @@ const RightContainer = styled.div`
   }
   
   @media (max-width: 768px) {
-    padding: 1.5rem;
+    padding: 0; // antes: 1.5rem
     height: 300px;
   }
 `;
@@ -111,7 +111,7 @@ const Description = styled.p`
   font-family: ${({ theme }) => theme.fonts.body};
   font-size: clamp(1rem, 1.5vw, 1.125rem);
   font-weight: ${({ theme }) => theme.fontWeights.normal};
-  color: rgba(255, 255, 255, 0.7);
+  color: ${({ theme }) => theme.isDark ? 'rgba(255, 255, 255, 0.7)' : 'rgba(29, 31, 35, 0.8)'};
   line-height: 1.6;
   margin: 0;
   position: relative;
@@ -123,16 +123,17 @@ const Description = styled.p`
   }
 `;
 
-const HeroImage = styled.img`
+const HeroVideo = styled.video`
   width: 100%;
   height: 100%;
+  display: block; // evita espacio por inline-video
   object-fit: cover;
-  border-radius: 16px;
+  border-radius: 0; // se recorta por el border-radius del contenedor
   position: relative;
   z-index: 2;
   
   @media (max-width: 768px) {
-    object-fit: contain;
+    object-fit: cover;
   }
 `;
 
@@ -175,9 +176,12 @@ const HeroSection: React.FC<HeroSectionProps> = () => {
           transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
           transition: 'opacity 1s ease-out 0.3s, transform 1s ease-out 0.3s'
         }}>
-          <HeroImage 
-            src="/assets/newAssets/hero-alexis.webp" 
-            alt="Alexis Vedia"
+          <HeroVideo 
+            src="/assets/newAssets/Alexis2.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
           />
         </RightContainer>
       </ContentWrapper>

@@ -81,46 +81,31 @@ const Form = styled.form<{ $isDark: boolean }>`
   flex-direction: column;
   align-items: center;
   gap: ${({ theme }) => theme.space.md};
-  padding: 1.5rem 2.5rem 2.5rem;
-  border-radius: 20px;
+  padding: 3rem 2rem;
+  border-radius: 24px;
   transition: all 0.3s ease;
   margin: 0 auto;
   width: 100%;
   box-sizing: border-box;
-  background: transparent;
-  backdrop-filter: blur(20px) saturate(150%);
-  -webkit-backdrop-filter: blur(20px) saturate(150%);
-  border: 1px solid
-    ${({ $isDark }) => ($isDark ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 0, 0, 0.1)')};
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
 
-  /* Textura granular superpuesta */
   &::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    opacity: 0.03;
+    inset: 0;
+    background: radial-gradient(600px 300px at 50% 0%, rgba(56, 189, 248, 0.1), transparent);
     pointer-events: none;
-    background-image: url('/images/AcrylicTexture.png');
-    background-repeat: repeat;
-    mix-blend-mode: ${({ $isDark }) => ($isDark ? 'overlay' : 'multiply')};
   }
 
   @media (max-width: 768px) {
-    padding: 0.5rem 0.5rem 1.5rem 0.5rem;
-    border-radius: 0;
-    background: none;
-    border: none;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    width: 100%;
-    box-shadow: none;
-    position: static;
-    &::before {
-      display: none;
-    }
+    padding: 2rem 1.5rem;
+    border-radius: 20px;
+    min-height: auto;
   }
 `;
 
@@ -207,24 +192,84 @@ const ButtonContainer = styled.div`
 `;
 
 const SubmitButton = styled.button<{ $isDark: boolean }>`
-  padding: 1rem 1.5rem;
-  color: ${({ $isDark }) => ($isDark ? 'black !important' : 'white !important')};
+  position: relative;
+  padding: 14px 28px;
   border: none;
-  border-radius: 8px;
+  border-radius: 9999px;
+  background: ${({ $isDark }) => ($isDark ? '#ffffff' : '#000000')};
+  color: ${({ $isDark }) => ($isDark ? '#000000' : '#ffffff')};
   font-size: ${({ theme }) => theme.fontSizes.md};
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   width: auto;
-  background: ${({ $isDark }) => ($isDark ? 'white !important' : 'black !important')};
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.4),
+      transparent
+    );
+    transition: left 0.5s ease;
+    pointer-events: none;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(
+      circle,
+      ${({ $isDark }) => ($isDark ? 'rgba(0, 0, 0, 0.1)' : 'rgba(0, 0, 0, 0.05)')}
+    );
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+  }
+
+  &:hover:not(:disabled) {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    background: ${({ $isDark }) => ($isDark ? '#f8f8f8' : '#333333')};
+
+    &::before {
+      left: 100%;
+    }
+
+    &::after {
+      width: 300px;
+      height: 300px;
+    }
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+    transition: all 0.1s ease;
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${props => props.$isDark ? '#ffffff' : '#000000'};
+    outline-offset: 2px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  }
 
   &:disabled {
-    background: ${({ $isDark }) =>
-      $isDark ? 'rgba(200, 200, 205, 0.5) !important' : 'rgba(60, 60, 65, 0.5) !important'};
-    color: ${({ $isDark }) =>
-      $isDark ? 'rgba(0,0,0,0.4) !important' : 'rgba(255,255,255,0.4) !important'};
+    opacity: 0.6;
     cursor: not-allowed;
     transform: none;
+    box-shadow: none;
   }
 `;
 

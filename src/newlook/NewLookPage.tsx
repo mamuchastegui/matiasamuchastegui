@@ -508,7 +508,7 @@ const PageWrapper = styled(motion.div)`
   width: 100%;
   min-height: 100vh;
   background: white;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: ${({ theme }) => theme.fonts.body};
   color: #1a1a1a;
   overflow-x: hidden;
   position: relative;
@@ -644,7 +644,7 @@ const NavItem = styled.li`
   }
   
   a {
-    font-family: "Inter Tight", Trebuchet MS, sans-serif;
+    font-family: ${({ theme }) => theme.fonts.heading};
     font-size: 2.03rem;
     font-weight: 800;
     line-height: 115%;
@@ -717,7 +717,7 @@ const SubheadingSection = styled(motion.div)`
 `;
 
 const SubheadingTitle = styled.h2`
-  font-family: "Inter", Trebuchet MS, sans-serif;
+  font-family: ${({ theme }) => theme.fonts.heading};
   font-size: 16px;
   font-weight: 700;
   line-height: 1.2;
@@ -735,7 +735,7 @@ const SubheadingTitle = styled.h2`
 `;
 
 const SubheadingText = styled.div`
-  font-family: "Inter", Trebuchet MS, sans-serif;
+  font-family: ${({ theme }) => theme.fonts.body};
   font-size: 16px;
   font-weight: 400;
   line-height: 22px;
@@ -794,7 +794,7 @@ const HeroTitle = styled.h1`
   bottom: -10px;
   left: 0;
   right: 0;
-  font-family: "Inter", Trebuchet MS, sans-serif;
+  font-family: ${({ theme }) => theme.fonts.heading};
   font-weight: 700;
   font-size: clamp(100px, 15vw, 500px);
   line-height: 0.8;
@@ -958,7 +958,7 @@ const ServicesSection = styled.section`
 `;
 
 const ServicesTitle = styled.h2`
-  font-family: "Inter", Trebuchet MS, sans-serif;
+  font-family: ${({ theme }) => theme.fonts.heading};
   font-size: 43.22px;
   font-weight: 700;
   line-height: 1.2;
@@ -1006,7 +1006,7 @@ const ServiceCard = styled.div`
 `;
 
 const ServiceNumber = styled.div`
-  font-family: "Inter", Trebuchet MS, sans-serif;
+  font-family: ${({ theme }) => theme.fonts.heading};
   font-size: 24px;
   font-weight: 700;
   color: #646CFF;
@@ -1029,7 +1029,7 @@ const ServiceNumber = styled.div`
 `;
 
 const ServiceName = styled.h3`
-  font-family: "Inter", Trebuchet MS, sans-serif;
+  font-family: ${({ theme }) => theme.fonts.heading};
   font-size: 18px;
   font-weight: 600;
   color: #141414;
@@ -1042,7 +1042,7 @@ const ServiceName = styled.h3`
 `;
 
 const ServiceDescription = styled.p`
-  font-family: "Inter", Trebuchet MS, sans-serif;
+  font-family: ${({ theme }) => theme.fonts.body};
   font-size: 14px;
   font-weight: 400;
   color: #666666;

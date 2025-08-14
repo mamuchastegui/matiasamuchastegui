@@ -133,11 +133,6 @@ const ServicesSection: React.FC = () => {
           <ServiceCard
             key={service.id}
             variants={itemVariants}
-            whileHover={{ 
-              y: -12,
-              scale: 1.02,
-              transition: { duration: 0.3, ease: 'easeOut' }
-            }}
             gradient={service.gradient}
           >
             <ServiceIconContainer>
@@ -274,7 +269,6 @@ const ServiceCard = styled(motion.div)<{ gradient: string }>`
   }
 
   &:hover {
-    transform: translateY(-8px);
     border-color: ${({ theme }) => theme.isDark ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.15)'};
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1),
                 0 0 0 1px ${({ theme }) => theme.isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.03)'};

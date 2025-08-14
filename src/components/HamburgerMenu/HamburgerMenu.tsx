@@ -214,7 +214,7 @@ const Branding = styled.a`
 `;
 
 const LogoText = styled.span`
-  font-family: 'Inter Tight', sans-serif;
+  font-family: ${({ theme }) => theme.fonts.heading};
   font-size: 1.5rem;
   font-weight: 700;
   color: #FFFFFF;
@@ -562,7 +562,7 @@ const LiInner = styled.div`
 `;
 
 const NavLink = styled.a`
-  font-family: "Inter Tight", Trebuchet MS, sans-serif;
+  font-family: ${({ theme }) => theme.fonts.heading};
   font-size: 4.69rem;
   font-weight: 700;
   line-height: 1.05em;
@@ -676,7 +676,7 @@ const SocialsCt = styled.div`
 `;
 
 const SocialLink = styled.a`
-  font-family: 'Inter Tight', sans-serif;
+  font-family: ${({ theme }) => theme.fonts.heading};
   font-size: 0.94rem;
   font-weight: 500;
   color: #666;

@@ -42,7 +42,7 @@ interface MasonryProps {
 
 
 const ModalInfoTitle = styled.h2`
-  font-family: 'Inter', sans-serif;
+  font-family: ${({ theme }) => theme.fonts.heading};
   font-weight: 500;
   font-size: 1.2rem;
   color: ${({ theme }) =>
@@ -57,7 +57,7 @@ const DocumentLinksContainer = styled.div`
 `;
 
 const DocumentLinksTitle = styled.h3`
-  font-family: 'Inter', sans-serif;
+  font-family: ${({ theme }) => theme.fonts.heading};
   font-weight: 500;
   font-size: 1rem;
   color: ${({ theme }) => (theme.isDark || theme.themeMode === 'dark' ? '#E0E0E0' : '#333333')};
@@ -95,7 +95,7 @@ const AcrylicButton = styled.a<{ $isDark: boolean }>`
   padding: 7px 14px;
   border-radius: 100px;
   font-size: 0.92em;
-  font-family: 'Inter', sans-serif;
+  font-family: ${({ theme }) => theme.fonts.heading};
   font-weight: 500;
   text-align: center;
   text-decoration: none;

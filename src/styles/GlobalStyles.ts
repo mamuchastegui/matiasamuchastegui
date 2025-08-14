@@ -67,6 +67,35 @@ export const GlobalStyles = createGlobalStyle`
     }
   }
 
+  /* Beautiful, smooth theme transitions */
+  html.theme-transitioning *, html.theme-transitioning {
+    transition-property: background, background-color, color, border-color, fill, stroke, box-shadow, outline-color, text-shadow, filter, backdrop-filter;
+    transition-duration: 380ms;
+    transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html.theme-transitioning *, html.theme-transitioning {
+      transition: none !important;
+    }
+  }
+
+  /* Subtle vignette flash to smooth the eye adaptation during theme change */
+  html.theme-transitioning body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 99999;
+    background: radial-gradient(1200px 800px at 50% 50%, rgba(127,127,127,0.10), rgba(0,0,0,0.08) 40%, transparent 70%);
+    opacity: 0.25;
+    transition: opacity 420ms ease;
+  }
+
+  html:not(.theme-transitioning) body::before {
+    opacity: 0;
+  }
+
   p {
     font-family: ${({ theme }) => theme.fonts.body};
     font-size: ${({ theme }) => theme.fontSizes.lg}; /* 18px - mejor para legibilidad */

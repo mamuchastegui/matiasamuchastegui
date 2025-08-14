@@ -65,6 +65,7 @@ const Home: React.FC<HomeProps> = ({ onAnimationComplete, fontsLoaded, onContact
     <PageTransition>
       <HomeContainer id="home">
         <SEOContent />
+        {/* Removed abstract 3D background experiment */}
         <ContentWrapper>
           <HeroSection onAnimationComplete={onAnimationComplete} fontsLoaded={fontsLoaded} />
           <BioSection />

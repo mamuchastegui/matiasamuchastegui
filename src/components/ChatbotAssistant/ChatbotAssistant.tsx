@@ -82,7 +82,7 @@ const FloatingInputContainer = styled.div<{
   transform: translateX(-50%);
   z-index: 10000;
   width: ${({ $isExpanded }) => ($isExpanded ? '450px' : '300px')};
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.22s ease, width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: auto;
 
   @media (max-width: 768px) {
@@ -90,6 +90,13 @@ const FloatingInputContainer = styled.div<{
     left: 16px;
     transform: none;
   }
+  
+  /* Hover lift when chat is closed (smooth) */
+  ${({ $isExpanded }) => !$isExpanded && css`
+    &:hover {
+      transform: translateX(-50%) translateY(-3px);
+    }
+  `}
 `;
 
 // Overlay fijo para blur y fondo negro/transparente - NO se mueve con sidebar
@@ -112,10 +119,10 @@ const FixedBlurOverlay = styled.div<{
   background: ${({ $isVisible, $isDark }) => $isVisible 
     ? `linear-gradient(
         to top,
-        ${$isDark ? 'rgba(0, 0, 0, 0.85)' : 'rgba(0, 0, 0, 0.75)'} 0%,
-        ${$isDark ? 'rgba(0, 0, 0, 0.6)' : 'rgba(0, 0, 0, 0.5)'} 25%,
-        ${$isDark ? 'rgba(0, 0, 0, 0.3)' : 'rgba(0, 0, 0, 0.25)'} 50%,
-        ${$isDark ? 'rgba(0, 0, 0, 0.1)' : 'rgba(0, 0, 0, 0.08)'} 75%,
+        ${$isDark ? 'rgba(0, 0, 0, 1)' : 'rgba(255, 255, 255, 0.98)'} 0%,
+        ${$isDark ? 'rgba(0, 0, 0, 0.90)' : 'rgba(255, 255, 255, 0.85)'} 25%,
+        ${$isDark ? 'rgba(0, 0, 0, 0.65)' : 'rgba(255, 255, 255, 0.58)'} 50%,
+        ${$isDark ? 'rgba(0, 0, 0, 0.40)' : 'rgba(255, 255, 255, 0.34)'} 75%,
         transparent 100%
       )`
     : 'transparent'};
@@ -131,10 +138,8 @@ const ColorGlowOverlay = styled.div<{
 }>`
   position: fixed;
   top: 0;
-  left: ${({ $isSidebarPresent, $isSidebarCollapsed }) => {
-    if (!$isSidebarPresent) return '0';
-    return $isSidebarCollapsed ? '80px' : '280px';
-  }};
+  /* Ocupa siempre todo el ancho de la ventana */
+  left: 0;
   right: 0;
   bottom: 0;
   z-index: 9999;
@@ -165,6 +170,8 @@ const ColorGlowOverlay = styled.div<{
     }
   }
 
+  
+
   /* Resplandor principal */
   &::before {
     content: '';
@@ -172,22 +179,38 @@ const ColorGlowOverlay = styled.div<{
     left: 0;
     right: 0;
     bottom: 0;
-    top: 58%;
+    /* Lower the glow a bit */
+    top: 64%;
     z-index: 2;
     opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
     animation: ${({ $isVisible }) => ($isVisible ? 'colorShift 10s ease-in-out infinite both, float 8s ease-in-out infinite' : 'none')};
     filter: blur(3px);
     transition: opacity 1.2s ease, transform 1.2s ease;
     pointer-events: none;
+    will-change: opacity, transform;
     mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.65) 20%, rgba(0,0,0,0.35) 45%, rgba(0,0,0,0.15) 65%, rgba(0,0,0,0) 90%);
     -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.65) 20%, rgba(0,0,0,0.35) 45%, rgba(0,0,0,0.15) 65%, rgba(0,0,0,0) 90%);
     background:
-      radial-gradient(ellipse 950px 420px at 50% 100%, rgba(59,130,246,0.48) 0%, rgba(56,189,248,0.42) 35%, rgba(37,99,235,0.36) 60%, transparent 75%),
-      radial-gradient(ellipse 720px 320px at 28% 112%, rgba(14,165,233,0.38) 0%, transparent 70%),
-      radial-gradient(ellipse 720px 320px at 72% 112%, rgba(2,132,199,0.38) 0%, transparent 70%);
+      ${({ $isSidebarPresent, $isSidebarCollapsed }) => {
+        const expanded = $isSidebarPresent && !$isSidebarCollapsed;
+        const size1 = expanded ? '1400px 520px' : '950px 420px';
+        const size2 = expanded ? '900px 380px' : '720px 320px';
+        const leftFiller = expanded
+          ? `, radial-gradient(ellipse 900px 380px at 0% 108%, rgba(59,130,246,0.10) 0%, transparent 70%)`
+          : '';
+        return `radial-gradient(ellipse ${size1} at 50% 100%, rgba(59,130,246,0.38) 0%, rgba(56,189,248,0.32) 35%, rgba(37,99,235,0.26) 60%, transparent 75%),
+                radial-gradient(ellipse ${size2} at 28% 112%, rgba(14,165,233,0.26) 0%, transparent 70%),
+                radial-gradient(ellipse ${size2} at 72% 112%, rgba(2,132,199,0.26) 0%, transparent 70%)${leftFiller}`;
+      }};
     background-repeat: no-repeat;
     background-size: cover, cover, cover;
-    background-position: 50% 100%, 30% 110%, 70% 110%;
+    background-position: 
+      ${({ $isSidebarPresent, $isSidebarCollapsed }) => {
+        const expanded = $isSidebarPresent && !$isSidebarCollapsed;
+        const offset = expanded ? '140px' : '0px';
+        const base = `calc(50% + ${offset}) 100%, calc(30% + ${offset}) 110%, calc(70% + ${offset}) 110%`;
+        return expanded ? `${base}, 0% 110%` : base;
+      }};
   }
 
   /* Resplandor secundario */
@@ -197,44 +220,72 @@ const ColorGlowOverlay = styled.div<{
     left: 0;
     right: 0;
     bottom: 0;
-    top: 65%;
+    /* Lower the secondary glow slightly more */
+    top: 72%;
     z-index: 1;
     opacity: ${({ $isVisible }) => ($isVisible ? 0.7 : 0)};
     animation: ${({ $isVisible }) => ($isVisible ? 'colorShift 12s ease-in-out infinite reverse, float 10s ease-in-out infinite reverse' : 'none')};
     filter: blur(8px);
     transition: opacity 1.5s ease;
     pointer-events: none;
+    will-change: opacity, transform;
     mask-image: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 25%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0) 75%);
     -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 25%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0) 75%);
     background:
-      radial-gradient(ellipse 800px 350px at 50% 100%, rgba(99,102,241,0.35) 0%, rgba(139,92,246,0.28) 40%, transparent 70%),
-      radial-gradient(ellipse 600px 250px at 35% 105%, rgba(168,85,247,0.25) 0%, transparent 60%),
-      radial-gradient(ellipse 600px 250px at 65% 105%, rgba(59,130,246,0.25) 0%, transparent 60%);
+      ${({ $isSidebarPresent, $isSidebarCollapsed }) => {
+        const expanded = $isSidebarPresent && !$isSidebarCollapsed;
+        const size1 = expanded ? '1100px 420px' : '800px 350px';
+        const size2 = expanded ? '820px 300px' : '600px 250px';
+        const leftFiller = expanded
+          ? `, radial-gradient(ellipse 820px 300px at 0% 106%, rgba(99,102,241,0.08) 0%, transparent 60%)`
+          : '';
+        return `radial-gradient(ellipse ${size1} at 50% 100%, rgba(99,102,241,0.25) 0%, rgba(139,92,246,0.20) 40%, transparent 70%),
+                radial-gradient(ellipse ${size2} at 35% 105%, rgba(168,85,247,0.18) 0%, transparent 60%),
+                radial-gradient(ellipse ${size2} at 65% 105%, rgba(59,130,246,0.18) 0%, transparent 60%)${leftFiller}`;
+      }};
     background-repeat: no-repeat;
     background-size: cover, cover, cover;
-    background-position: 50% 100%, 35% 105%, 65% 105%;
+    background-position:
+      ${({ $isSidebarPresent, $isSidebarCollapsed }) => {
+        const expanded = $isSidebarPresent && !$isSidebarCollapsed;
+        const offset = expanded ? '140px' : '0px';
+        const base = `calc(50% + ${offset}) 100%, calc(35% + ${offset}) 105%, calc(65% + ${offset}) 105%`;
+        return expanded ? `${base}, 0% 105%` : base;
+      }};
   }
+  
+  /* Smooth hover lift when chat is closed */
+  ${({ $isExpanded }) => !$isExpanded && css`
+    &:hover {
+      transform: translateX(-50%) translateY(-3px);
+    }
+  `}
 `;
 
 const InputWrapper = styled.div<{ $isExpanded: boolean; $isDark: boolean; $animate: boolean }>`
   position: relative;
   display: flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 0; /* base for hover lift when closed */
+  background: ${({ $isDark }) => ($isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.88)')};
+  border: ${({ $isDark }) => ($isDark ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.06)')};
   border-radius: 32px;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   box-shadow: ${({ $isDark }) => $isDark ? '0 4px 20px rgba(0, 0, 0, 0.15), 0 1px 3px rgba(0, 0, 0, 0.1)' : '0 2px 12px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.06)'};
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  will-change: transform, opacity;
+  /* Transición suave para el lift en hover */
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  will-change: transform, box-shadow;
   overflow: hidden;
   
   &::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(600px 300px at 50% 0%, rgba(56, 189, 248, 0.1), transparent);
+    /* Neutral grayish accent instead of bluish */
+    background: ${({ $isDark }) => 
+      `radial-gradient(600px 300px at 50% 0%, ${$isDark ? 'rgba(255, 255, 255, 0.06)' : 'rgba(0, 0, 0, 0.06)'}, transparent)`
+    };
     pointer-events: none;
     border-radius: 32px;
   }
@@ -245,10 +296,8 @@ const InputWrapper = styled.div<{ $isExpanded: boolean; $isDark: boolean; $anima
   animation: ${({ $animate }) => ($animate ? slideUpSpringPunch : 'none')} 2500ms cubic-bezier(0.22, 1, 0.36, 1);
   animation-fill-mode: both;
 
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: ${({ $isDark }) => $isDark ? '0 8px 30px rgba(0, 0, 0, 0.2), 0 2px 6px rgba(0, 0, 0, 0.15)' : '0 4px 20px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.08)'};
-  }
+  /* Hover lift only when chat is closed */
+  /* Hover lift is handled on FloatingInputContainer to avoid transform conflicts */
 `;
 
 // Nuevo keyframe para el efecto shiny del placeholder
@@ -264,9 +313,10 @@ const ChatInput = styled.input<{ $isDark: boolean; $isExpanded: boolean }>`
   outline: none;
   background: transparent;
   font-size: 16px;
-  color: ${({ $isDark, $isExpanded }) => 
-    $isExpanded ? '#ffffff' : ($isDark ? '#ffffff' : 'rgba(100, 100, 100, 0.8)')
-  };
+  color: ${({ $isDark, $isExpanded }) => (
+    $isExpanded ? ($isDark ? '#ffffff' : '#000000') : ($isDark ? '#ffffff' : 'rgba(30, 30, 30, 0.8)')
+  )};
+  cursor: ${({ $isExpanded }) => ($isExpanded ? 'text' : 'pointer')};
   position: relative;
   z-index: 1;
   
@@ -278,12 +328,12 @@ const ChatInput = styled.input<{ $isDark: boolean; $isExpanded: boolean }>`
 
   &:focus {
     outline: none;
-    color: #ffffff;
+    color: ${({ $isDark }) => ($isDark ? '#ffffff' : '#000000')};
   }
 `;
 
 // Nuevo componente para el overlay del efecto shiny del placeholder
-const ShinyPlaceholderOverlay = styled.div<{ $isDark: boolean; $hasValue: boolean; $isFocused: boolean }>`
+const ShinyPlaceholderOverlay = styled.div<{ $isDark: boolean; $hasValue: boolean; $isFocused: boolean; $isExpanded: boolean }>`
   position: absolute;
   top: 50%;
   left: 20px;
@@ -296,9 +346,7 @@ const ShinyPlaceholderOverlay = styled.div<{ $isDark: boolean; $hasValue: boolea
   opacity: ${({ $hasValue }) => ($hasValue ? 0 : 1)};
   transition: opacity 0.2s ease;
   
-  color: ${({ $isDark, $isFocused }) => 
-    $isFocused ? 'rgba(255, 255, 255, 0.6)' : ($isDark ? 'rgba(255, 255, 255, 0.6)' : 'rgba(100, 100, 100, 0.6)')
-  };
+  color: ${({ $isDark }) => ($isDark ? 'rgba(255, 255, 255, 0.6)' : 'rgba(30, 30, 30, 0.6)')};
   
   &::before {
     content: attr(data-text);
@@ -319,7 +367,8 @@ const ShinyPlaceholderOverlay = styled.div<{ $isDark: boolean; $hasValue: boolea
     -webkit-text-fill-color: transparent;
     color: transparent;
     filter: drop-shadow(0 0 0.2em rgba(255, 255, 255, 0.15));
-    animation: ${({ $isFocused }) => $isFocused ? 'none' : css`${shine} 3.5s linear infinite reverse 5s`};
+    /* Mantener la dirección original del brillo (reverse) cuando corresponde */
+    animation: ${({ $isFocused, $isExpanded }) => ($isFocused || $isExpanded) ? 'none' : css`${shine} 3.5s linear infinite reverse 5s`};
     will-change: background-position;
     transform: translateZ(0);
   }
@@ -349,7 +398,7 @@ const welcomeEntrance = keyframes`
   }
 `;
 
-const SendButton = styled.button<{ $isDark: boolean; disabled?: boolean }>`
+const SendButton = styled.button<{ $isDark: boolean; $isExpanded: boolean; $hasValue: boolean; disabled?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -358,11 +407,12 @@ const SendButton = styled.button<{ $isDark: boolean; disabled?: boolean }>`
   margin-right: 8px;
   border: none;
   border-radius: 50%;
-  background: ${({ $isDark }) => $isDark ? '#ffffff' : '#000000'};
-  color: ${({ $isDark }) => $isDark ? '#000000' : '#ffffff'};
-  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+  /* Transparent background so the SVG circle defines the visual shape (avoids any ring) */
+  background: transparent;
+  color: inherit;
+  cursor: ${({ $isExpanded, disabled }) => (!$isExpanded ? 'pointer' : (disabled ? 'not-allowed' : 'pointer'))};
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
+  opacity: ${({ $isExpanded, disabled }) => ($isExpanded && disabled ? 0.5 : 1)};
   padding: 0;
   outline: none;
   position: relative;
@@ -402,20 +452,8 @@ const SendButton = styled.button<{ $isDark: boolean; disabled?: boolean }>`
     pointer-events: none;
   }
 
-  &:hover:not(:disabled) {
-    transform: translateY(-2px) scale(1.05);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-    background: ${({ $isDark }) => $isDark ? '#f8f8f8' : '#333333'};
-    
-    &::before {
-      left: 100%;
-    }
-    
-    &::after {
-      width: 80px;
-      height: 80px;
-    }
-  }
+  /* No hover animations for send button */
+  &:hover { }
 
   &:active:not(:disabled) {
     transform: translateY(0) scale(1.02);
@@ -438,7 +476,8 @@ const FloatingMessagesContainer = styled.div<{
   $isSidebarCollapsed?: boolean;
 }>`
   position: fixed;
-  bottom: 120px;
+  /* Reduce gap between messages and input */
+  bottom: 72px;
   left: ${({ $isSidebarPresent, $isSidebarCollapsed }) => {
     if (!$isSidebarPresent) return '50%';
     const sidebarWidth = $isSidebarCollapsed ? '80px' : '280px';
@@ -467,13 +506,33 @@ const FloatingMessagesScrollContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 16px;
+  /* Aleja el contenido del fade superior para que el primer mensaje no se oculte al tope */
+  padding: 28px 16px 16px;
   position: relative;
   touch-action: pan-y;
+
+  /* Un pequeño margen extra para el primer mensaje */
+  & > *:first-child {
+    margin-top: 8px;
+  }
   
-  /* Fade-out de los mensajes en la parte superior */
-  mask-image: linear-gradient(to top, rgba(0,0,0,1) 85%, rgba(0,0,0,0.3) 95%, rgba(0,0,0,0) 100%);
-  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 85%, rgba(0,0,0,0.3) 95%, rgba(0,0,0,0) 100%);
+  /* Fade-out superior un poco más amplio: 0 antes del borde, sin línea */
+  mask-image: linear-gradient(
+    to top,
+    rgba(0,0,0,1) 78%,
+    rgba(0,0,0,0.4) 90%,
+    rgba(0,0,0,0.15) 96%,
+    rgba(0,0,0,0) 99%,
+    rgba(0,0,0,0) 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to top,
+    rgba(0,0,0,1) 78%,
+    rgba(0,0,0,0.4) 90%,
+    rgba(0,0,0,0.15) 96%,
+    rgba(0,0,0,0) 99%,
+    rgba(0,0,0,0) 100%
+  );
   
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -491,7 +550,7 @@ const FloatingMessagesScrollContainer = styled.div`
 const MessageBubble = styled.div<{ $isUser: boolean; $isDark: boolean; $index: number }>`
   position: relative;
   max-width: 85%;
-  padding: ${({ $isUser }) => $isUser ? '6px 15px' : '12px 16px'};
+  padding: ${({ $isUser }) => $isUser ? '6px 13px' : '12px 16px'};
   border-radius: 24px;
   align-self: ${props => (props.$isUser ? 'flex-end' : 'flex-start')};
   
@@ -517,7 +576,7 @@ const MessageBubble = styled.div<{ $isUser: boolean; $isDark: boolean; $index: n
       : 'transparent'
   };
   
-  color: #ffffff;
+  color: ${({ $isDark }) => ($isDark ? '#ffffff' : '#000000')};
   
   /* Backdrop filter solo para mensajes del usuario */
   backdrop-filter: ${({ $isUser }) => $isUser ? 'blur(20px) saturate(180%) brightness(110%)' : 'none'};
@@ -558,22 +617,26 @@ const MessageBubble = styled.div<{ $isUser: boolean; $isDark: boolean; $index: n
     margin: 0;
   }
 
+  /* Mensajes del usuario: sin delay y animación más rápida */
   animation: ${({ $index, $isUser }) => 
-    $index === 0 && !$isUser 
-      ? css`${welcomeEntrance} 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)` 
-      : css`${floatIn} 0.5s ease-out`
+    $isUser
+      ? css`${floatIn} 0.3s ease-out`
+      : ($index === 0
+          ? css`${welcomeEntrance} 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)`
+          : css`${floatIn} 0.5s ease-out`)
   };
-  animation-delay: ${props => props.$index === 0 && !props.$isUser ? '0s' : `${props.$index * 0.1}s`};
+  animation-delay: ${props => props.$isUser ? '0s' : (props.$index === 0 ? '0s' : `${props.$index * 0.1}s`)};
   animation-fill-mode: both;
 
   pointer-events: auto;
 
+  /* Removemos el movimiento continuo (gentleFloat) en mensajes de la AI */
   ${({ $isUser, $index }) => !$isUser && $index !== 0 && css`
-    animation: ${css`${floatIn} 0.5s ease-out`}, ${css`${gentleFloat} 6s ease-in-out infinite 0.5s`};
+    animation: ${css`${floatIn} 0.5s ease-out`};
   `}
 
   ${({ $isUser, $index }) => !$isUser && $index === 0 && css`
-    animation: ${css`${welcomeEntrance} 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)`}, ${css`${gentleFloat} 6s ease-in-out infinite 0.7s`};
+    animation: ${css`${welcomeEntrance} 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)`};
   `}
 
   /* Pseudo-elemento para resplandor adicional en burbujas del usuario */
@@ -626,19 +689,29 @@ const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
   const [isExpanded, setIsExpanded] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [hasBeenExpanded, setHasBeenExpanded] = useState(false);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { themeMode } = useTheme();
   const isDark = themeMode === 'dark';
   // Nuevo: estado para disparar animación inicial del input
   const [inputAnimated, setInputAnimated] = useState(false);
 
   // Chat state
-  const welcomeMessageKey = '¡Hola! Soy tu AI Portfolio Assistant. ¿En qué puedo ayudarte hoy?';
   const getWelcomeMessage = useCallback(() => {
-    return t(welcomeMessageKey);
-  }, [t, welcomeMessageKey]);
+    const lang = (i18n?.language || 'es').toLowerCase();
+    if (lang.startsWith('en')) {
+      return `Hi, I’m Alexis Vedia’s assistant. Developed with n8n and powered by AI, I’m here to help.\n\nWould you like a tour of projects, to talk about the stack, or to explore ideas for your next step?`;
+    }
+    return `Hola, soy el asistente de Alexis Vedia. Desarrollado con n8n y potenciado por IA, estoy acá para ayudarte.\n\n¿Te muestro proyectos, hablamos del stack o exploramos ideas para tu próximo paso?`;
+  }, [i18n?.language]);
 
-  const [messages, setMessages] = useState(() => [{ text: t(welcomeMessageKey), isUser: false }]);
+  // Placeholder según idioma
+  const getPlaceholder = useCallback(() => {
+    const lang = (i18n?.language || 'es').toLowerCase();
+    if (lang.startsWith('en')) return 'Tell me how I can help…';
+    return 'Contame en qué te ayudo…';
+  }, [i18n?.language]);
+
+  const [messages, setMessages] = useState(() => [{ text: getWelcomeMessage(), isUser: false }]);
   const [inputValue, setInputValue] = useState('');
   const [inputFocused, setInputFocused] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
@@ -686,6 +759,28 @@ const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
     };
   }, [isExpanded]);
 
+  // Close on ESC key when expanded
+  useEffect(() => {
+    if (!isExpanded) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsExpanded(false);
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isExpanded]);
+
+  // Reset welcome message when language changes
+  useEffect(() => {
+    const newWelcome = getWelcomeMessage();
+    setMessages([{ text: newWelcome, isUser: false }]);
+    setHasBeenExpanded(false);
+    setIsTyping(false);
+    setInputValue('');
+    setAutoScrollEnabled(true);
+  }, [i18n?.language, getWelcomeMessage]);
+
   // Auto scroll messages
   useEffect(() => {
     if (messagesEndRef.current && isExpanded && autoScrollEnabled) {
@@ -714,6 +809,44 @@ const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
     scrollContainer.addEventListener('scroll', handleScroll);
     return () => scrollContainer.removeEventListener('scroll', handleScroll);
   }, [isExpanded]);
+
+  // Smooth auto-scroll while content grows (e.g., typewriter)
+  useEffect(() => {
+    const scrollContainer = scrollContainerRef.current;
+    if (!scrollContainer || !isExpanded) return;
+
+    let rafId: number | null = null;
+
+    const scrollToBottom = () => {
+      if (!autoScrollEnabled) return;
+      // Scroll only if we're near the bottom or auto-scroll explicitly on
+      scrollContainer.scrollTo({ top: scrollContainer.scrollHeight, behavior: 'smooth' });
+    };
+
+    const scheduleScroll = () => {
+      if (rafId != null) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = null;
+        scrollToBottom();
+      });
+    };
+
+    const observer = new MutationObserver(() => {
+      // Any change in messages (including text updates) triggers a scheduled scroll
+      scheduleScroll();
+    });
+
+    observer.observe(scrollContainer, {
+      childList: true,
+      subtree: true,
+      characterData: true,
+    });
+
+    return () => {
+      observer.disconnect();
+      if (rafId != null) cancelAnimationFrame(rafId);
+    };
+  }, [isExpanded, autoScrollEnabled]);
 
   // Focus input when expanded
   useEffect(() => {
@@ -850,12 +983,12 @@ const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
           $isDark={isDark}
           $animate={inputAnimated}
           onClick={handleInputClick}
-          style={{ cursor: isExpanded ? 'default' : 'pointer' }}
+          style={{ cursor: isExpanded ? 'text' : 'pointer' }}
         >
           <ChatInput
             ref={inputRef}
             type="text"
-            placeholder={t('Escribe un mensaje...')}
+            placeholder={getPlaceholder()}
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyPress={handleKeyPress}
@@ -874,21 +1007,31 @@ const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
             $isDark={isDark}
             $hasValue={!!inputValue}
             $isFocused={inputFocused}
-            data-text={t('Escribe un mensaje...')}
+            $isExpanded={isExpanded}
+            data-text={getPlaceholder()}
           >
-            {t('Escribe un mensaje...')}
+            {getPlaceholder()}
           </ShinyPlaceholderOverlay>
           <SendButton
             $isDark={isDark}
-            onClick={handleSendMessage}
-            disabled={!inputValue.trim()}
+            $isExpanded={isExpanded}
+            $hasValue={!!inputValue.trim()}
+            onClick={(e) => {
+              e.stopPropagation();
+              if (!isExpanded) {
+                handleInputClick();
+                return;
+              }
+              handleSendMessage();
+            }}
+            disabled={isExpanded ? !inputValue.trim() : false}
             aria-label={t('Enviar mensaje')}
           >
 
 <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style={{border: 'none', outline: 'none'}}>
-  <circle cx="20" cy="20" r="16" fill={isDark ? '#ffffff' : (isExpanded ? '#ffffff' : '#000000')} stroke="none" strokeWidth="0"/>
-  <path d="M20 26 V14" stroke={isDark ? '#000000' : (isExpanded ? '#000000' : '#ffffff')} strokeWidth="2.5" strokeLinecap="round" vectorEffect="non-scaling-stroke"/>
-  <path d="M14 20 L20 14 L26 20" stroke={isDark ? '#000000' : (isExpanded ? '#000000' : '#ffffff')} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke"/>
+  <circle cx="20" cy="20" r="16" fill={isDark ? '#ffffff' : '#000000'} stroke="none" strokeWidth="0"/>
+  <path d="M20 26 V14" stroke={isDark ? '#000000' : '#ffffff'} strokeWidth="2.5" strokeLinecap="round" vectorEffect="non-scaling-stroke"/>
+  <path d="M14 20 L20 14 L26 20" stroke={isDark ? '#000000' : '#ffffff'} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke"/>
 </svg>
 
           </SendButton>

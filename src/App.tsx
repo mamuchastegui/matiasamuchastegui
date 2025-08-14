@@ -127,6 +127,7 @@ const HomeWrapper = () => {
 };
 
 const AppContent = () => {
+  // Removed Lenis smooth scrolling for native behavior
   const location = useLocation();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [isContactSectionInView, setIsContactSectionInView] = useState(false);

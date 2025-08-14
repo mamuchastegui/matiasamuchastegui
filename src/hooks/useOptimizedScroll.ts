@@ -65,14 +65,14 @@ export const useOptimizedScroll = (options: LenisOptions = {}) => {
       // Configuración optimizada y suave
       if (window.Lenis && !lenisRef.current) {
         const smoothOptions = {
-          duration: options.duration || 1.2, // Duración más natural
-          easing: options.easing || ((t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t))),
+          duration: options.duration ?? 0.6, // más responsivo por defecto
+          easing: options.easing ?? ((t: number) => t), // lineal por defecto para trackpad
           direction: 'vertical' as const,
           gestureDirection: 'vertical' as const,
           smooth: options.smooth !== false,
-          mouseMultiplier: options.mouseMultiplier || 1, // Valor estándar
-          smoothTouch: options.smoothTouch !== false, // Habilitado para mejor experiencia móvil
-          touchMultiplier: options.touchMultiplier || 1.5, // Valor más natural para touch
+          mouseMultiplier: options.mouseMultiplier ?? 1,
+          smoothTouch: options.smoothTouch !== false,
+          touchMultiplier: options.touchMultiplier ?? 1.25,
           infinite: false,
           autoResize: options.autoResize !== false,
           ...options

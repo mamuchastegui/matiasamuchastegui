@@ -162,7 +162,7 @@ const NavList = styled.ul`
   position: relative;
 `;
 
-const NavBackground = styled.div<{ $top: number; $height: number; $isVisible: boolean }>`
+const NavBackground = styled.div<{ $top: number; $height: number; $isVisible: boolean; $animate: boolean }>`
   position: absolute;
   left: 0;
   right: 0;
@@ -172,9 +172,29 @@ const NavBackground = styled.div<{ $top: number; $height: number; $isVisible: bo
   border: 1px solid ${({ theme }) => theme.isDark ? 'rgba(255, 255, 255, 0.06)' : 'rgba(0, 0, 0, 0.04)'};
   border-radius: 8px;
   backdrop-filter: blur(8px);
-  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: ${({ $animate }) => $animate
+    ? 'all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+    : 'opacity 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)'};
   opacity: ${({ $isVisible }) => $isVisible ? 1 : 0};
   transform: ${({ $isVisible }) => $isVisible ? 'scale(1)' : 'scale(0.95)'};
+  pointer-events: none;
+  z-index: 0;
+`;
+
+// Fondo de hover para los controles inferiores (GitHub, LinkedIn, toggles)
+const ControlsHoverBackground = styled.div<{ $top: number; $left: number; $width: number; $height: number; $isVisible: boolean }>`
+  position: absolute;
+  top: ${({ $top }) => $top}px;
+  left: ${({ $left }) => $left}px;
+  width: ${({ $width }) => $width}px;
+  height: ${({ $height }) => $height}px;
+  background: ${({ theme }) => theme.isDark ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.02)'};
+  border: 1px solid ${({ theme }) => theme.isDark ? 'rgba(255, 255, 255, 0.06)' : 'rgba(0, 0, 0, 0.04)'};
+  border-radius: 8px;
+  backdrop-filter: blur(8px);
+  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
+  transform: ${({ $isVisible }) => ($isVisible ? 'scale(1)' : 'scale(0.95)')};
   pointer-events: none;
   z-index: 0;
 `;
@@ -384,6 +404,7 @@ const ControlsContainer = styled.div<{ $isCollapsed?: boolean }>`
   transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
   transform: scale(1);
   will-change: gap, flex-direction;
+  position: relative; /* para posicionar el fondo hover interno */
 `;
 
 const LanguageSelectorWrapper = styled.div<{ $isCollapsed?: boolean; $index?: number; $phase?: 'visible' | 'fading' | 'hidden' | 'showing' }>`
@@ -599,6 +620,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
 
   // Estado para controlar la animación de fade de los iconos inferiores
   const [iconsFadePhase, setIconsFadePhase] = useState<'visible' | 'fading' | 'hidden' | 'showing'>('visible');
+  const [navBgAnimate, setNavBgAnimate] = useState(true);
+  const navBgIdleTimeout = useRef<number | null>(null);
 
   const handleToggleCollapse = () => {
     if (toggleCollapse) {
@@ -705,12 +728,31 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
     const top = navItemRect.top - navListRect.top;
     const height = navItemRect.height;
     
-    setHoveredNavItem(href);
-    setNavBackgroundPosition({ top, height });
+    // Si estuvo inactivo, evitamos animación de deslizamiento en la primera aparición
+    if (navBgIdleTimeout.current) {
+      window.clearTimeout(navBgIdleTimeout.current);
+      navBgIdleTimeout.current = null;
+    }
+
+    if (!hoveredNavItem && !navBgAnimate) {
+      // Posicionar primero sin animar top/height, y mostrar
+      setNavBackgroundPosition({ top, height });
+      setHoveredNavItem(href);
+      // Rehabilitar animación para siguientes movimientos
+      requestAnimationFrame(() => setNavBgAnimate(true));
+    } else {
+      setHoveredNavItem(href);
+      setNavBackgroundPosition({ top, height });
+    }
   };
 
   const handleNavItemLeave = () => {
     setHoveredNavItem(null);
+    // Tras un breve idle, desactivar animación de posición para que la próxima aparición no deslice
+    if (navBgIdleTimeout.current) window.clearTimeout(navBgIdleTimeout.current);
+    navBgIdleTimeout.current = window.setTimeout(() => {
+      setNavBgAnimate(false);
+    }, 400);
   };
 
   useEffect(() => {
@@ -830,6 +872,26 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
     }
   }, []);
 
+  // Hover background state for bottom controls
+  const controlsRef = useRef<HTMLDivElement>(null);
+  const [controlsBgVisible, setControlsBgVisible] = useState(false);
+  const [controlsBg, setControlsBg] = useState({ top: 0, left: 0, width: 0, height: 0 });
+
+  const handleControlHover = (el: HTMLElement | null) => {
+    if (!el || !controlsRef.current) return;
+    const crect = controlsRef.current.getBoundingClientRect();
+    const r = el.getBoundingClientRect();
+    setControlsBg({
+      top: r.top - crect.top,
+      left: r.left - crect.left,
+      width: r.width,
+      height: r.height,
+    });
+    setControlsBgVisible(true);
+  };
+
+  const handleControlLeave = () => setControlsBgVisible(false);
+
   return (
     <>
 
@@ -882,6 +944,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
             $top={navBackgroundPosition.top}
             $height={navBackgroundPosition.height}
             $isVisible={hoveredNavItem !== null}
+            $animate={navBgAnimate}
           />
           {navLinks.map((linkItemMap) => {
             const { href: itemHref, labelKey, defaultLabel, IconComponent: ItemIconComponent, subLinks: itemSubLinks } = linkItemMap;
@@ -950,7 +1013,14 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
 
 
 
-        <ControlsContainer $isCollapsed={!isMobile && isCollapsed}>
+        <ControlsContainer $isCollapsed={!isMobile && isCollapsed} ref={controlsRef}>
+          <ControlsHoverBackground 
+            $top={controlsBg.top}
+            $left={controlsBg.left}
+            $width={controlsBg.width}
+            $height={controlsBg.height}
+            $isVisible={controlsBgVisible}
+          />
           <SocialMediaButton 
              href="https://github.com/AlexisVedia" 
              target="_blank" 
@@ -959,8 +1029,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
              $isCollapsed={!isMobile && isCollapsed}
              $index={0}
              $phase={iconsFadePhase}
-             onMouseEnter={() => setShowGithubTooltip(true)}
-             onMouseLeave={() => setShowGithubTooltip(false)}
+             onMouseEnter={(e) => { setShowGithubTooltip(true); handleControlHover(e.currentTarget); }}
+             onMouseLeave={() => { setShowGithubTooltip(false); handleControlLeave(); }}
            >
              <FaGithub />
              <TechTooltip $isVisible={showGithubTooltip} $isDarkMode={theme.isDark} $isCollapsed={!isMobile && isCollapsed} $distance={30}>
@@ -975,8 +1045,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
              $isCollapsed={!isMobile && isCollapsed}
              $index={1}
              $phase={iconsFadePhase}
-             onMouseEnter={() => setShowLinkedinTooltip(true)}
-             onMouseLeave={() => setShowLinkedinTooltip(false)}
+             onMouseEnter={(e) => { setShowLinkedinTooltip(true); handleControlHover(e.currentTarget); }}
+             onMouseLeave={() => { setShowLinkedinTooltip(false); handleControlLeave(); }}
            >
              <FaLinkedin />
              <TechTooltip $isVisible={showLinkedinTooltip} $isDarkMode={theme.isDark} $isCollapsed={!isMobile && isCollapsed} $distance={30}>
@@ -991,8 +1061,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
               $isCollapsed={!isMobile && isCollapsed}
               $index={2}
               $phase={iconsFadePhase}
-              onMouseEnter={() => setShowXTooltip(true)}
-              onMouseLeave={() => setShowXTooltip(false)}
+              onMouseEnter={(e) => { setShowXTooltip(true); handleControlHover(e.currentTarget); }}
+              onMouseLeave={() => { setShowXTooltip(false); handleControlLeave(); }}
             >
               <FaXTwitter />
               <TechTooltip $isVisible={showXTooltip} $isDarkMode={theme.isDark} $isCollapsed={!isMobile && isCollapsed} $distance={30}>
@@ -1005,8 +1075,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
              $index={3}
              $phase={iconsFadePhase}
              style={{ lineHeight: 1, position: 'relative' }}
-             onMouseEnter={() => setShowThemeTooltip(true)}
-             onMouseLeave={() => setShowThemeTooltip(false)}
+             onMouseEnter={(e) => { setShowThemeTooltip(true); handleControlHover(e.currentTarget as HTMLDivElement); }}
+             onMouseLeave={() => { setShowThemeTooltip(false); handleControlLeave(); }}
            >
              <ThemeToggle />
              <TechTooltip $isVisible={showThemeTooltip} $isDarkMode={theme.isDark} $isCollapsed={!isMobile && isCollapsed} $distance={30}>
@@ -1018,8 +1088,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
              $index={4}
              $phase={iconsFadePhase}
              style={{ lineHeight: 1, position: 'relative' }}
-             onMouseEnter={() => setShowLanguageTooltip(true)}
-             onMouseLeave={() => setShowLanguageTooltip(false)}
+             onMouseEnter={(e) => { setShowLanguageTooltip(true); handleControlHover(e.currentTarget as HTMLDivElement); }}
+             onMouseLeave={() => { setShowLanguageTooltip(false); handleControlLeave(); }}
            >
              <LanguageSelector isCollapsed={!isMobile && isCollapsed} />
              <TechTooltip $isVisible={showLanguageTooltip} $isDarkMode={theme.isDark} $isCollapsed={!isMobile && isCollapsed} $distance={30}>

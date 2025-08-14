@@ -48,6 +48,8 @@
   grid-column: 1 / 1;
   grid-row: 1 / 1;
   transition: transform 500ms;
+  transform-origin: 50% 50%;
+  will-change: transform;
   line-height: 0.1;
 }
 
@@ -66,4 +68,32 @@
 #switch:checked ~ .icon--sun {
   transition-delay: 200ms;
   transform: scale(1) rotate(360deg);
+}
+
+/* Enhance icon motion during theme transition */
+html.theme-transitioning .toggle .icon {
+  transition: transform 420ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes toggle-pop {
+  0% { transform: scale(0.95) rotate(0deg); }
+  60% { transform: scale(1.08) rotate(180deg); }
+  100% { transform: scale(1) rotate(360deg); }
+}
+
+html.theme-transitioning #switch:checked ~ .icon--sun {
+  animation: toggle-pop 420ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+html.theme-transitioning #switch:not(:checked) + .icon--moon {
+  animation: toggle-pop 420ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.theme-transitioning .toggle .icon,
+  html.theme-transitioning #switch:checked ~ .icon--sun,
+  html.theme-transitioning #switch:not(:checked) + .icon--moon {
+    animation: none !important;
+    transition: none !important;
+  }
 }

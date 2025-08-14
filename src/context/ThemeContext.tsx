@@ -30,7 +30,17 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   }, [themeMode]);
 
   const toggleTheme = () => {
-    setThemeMode(prevMode => (prevMode === 'light' ? 'dark' : 'light'));
+    const root = document.documentElement;
+    // Add a short-lived class so CSS transitions can apply globally
+    root.classList.add('theme-transitioning');
+    // Switch theme on next frame to ensure transitions are applied
+    requestAnimationFrame(() => {
+      setThemeMode(prevMode => (prevMode === 'light' ? 'dark' : 'light'));
+      // Remove the class after the animation window
+      window.setTimeout(() => {
+        root.classList.remove('theme-transitioning');
+      }, 600);
+    });
   };
 
   const theme = themeMode === 'light' ? lightTheme : darkTheme;

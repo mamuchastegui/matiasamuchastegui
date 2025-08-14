@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import ReactMarkdown from 'react-markdown';
 import { useTypewriter } from '../../hooks/useTypewriter';
 
@@ -12,25 +12,9 @@ export interface TypewriterTextProps {
   useMarkdown?: boolean;
 }
 
-// Animación del cursor parpadeante
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-    filter: blur(4px);
-  }
-  to {
-    opacity: 1;
-    filter: blur(0px);
-  }
-`;
-
 const TypewriterContainer = styled.span`
   display: inline;
   position: relative;
-  
-  & > * {
-    animation: ${fadeIn} 0.3s ease-out;
-  }
 `;
 
 

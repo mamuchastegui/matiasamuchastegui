@@ -5,7 +5,6 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SplitType from 'split-type';
 import InfoBlocksAnimation from './components/InfoBlocksAnimation';
-import { useOptimizedScroll } from '../hooks/useOptimizedScroll';
 
 import HamburgerMenu from '../components/HamburgerMenu';
 
@@ -79,8 +78,7 @@ const NewLookPage: React.FC<NewLookPageProps> = () => {
   const sectionTitleRef = useRef<HTMLDivElement>(null);
   const servicesSectionRef = useRef<HTMLDivElement>(null);
 
-  // Inicializar scroll optimizado
-  const { isLoaded } = useOptimizedScroll();
+  // Scroll optimizado ya se inicializa globalmente en App
 
   useEffect(() => {
     const handleScroll = () => {
@@ -108,10 +106,10 @@ const NewLookPage: React.FC<NewLookPageProps> = () => {
   const [animationsReady, setAnimationsReady] = useState(false);
 
   useEffect(() => {
-    if (isLoaded) {
-      setAnimationsReady(true);
-    }
-  }, [isLoaded]);
+    // Preparar animaciones tras el primer frame para asegurar layout listo
+    const id = requestAnimationFrame(() => setAnimationsReady(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
 
   const handleNavHover = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const navItems = Array.from(navigationRef.current?.children || []);

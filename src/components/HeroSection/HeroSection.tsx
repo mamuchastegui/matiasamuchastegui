@@ -63,32 +63,6 @@ const LeftContainer = styled.div`
   }
 `;
 
-const RightContainer = styled.div`
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 24px;
-  padding: 0; // antes: 2rem
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(800px 400px at 80% 10%, rgba(168, 85, 247, 0.1), transparent);
-    pointer-events: none;
-  }
-  
-  @media (max-width: 768px) {
-    padding: 0; // antes: 1.5rem
-    height: 300px;
-  }
-`;
-
 const Name = styled.h1`
   font-family: ${({ theme }) => theme.fonts.heading};
   font-size: clamp(2.5rem, 5vw, 4rem);
@@ -123,6 +97,49 @@ const Description = styled.p`
   }
 `;
 
+const Subtitle = styled.h2`
+  font-family: ${({ theme }) => theme.fonts.body};
+  font-size: clamp(1rem, 1.4vw, 1.125rem);
+  font-weight: ${({ theme }) => theme.fontWeights.medium};
+  color: ${({ theme }) => theme.isDark ? 'rgba(255, 255, 255, 0.85)' : 'rgba(29, 31, 35, 0.9)'};
+  margin: 0 0 0.75rem 0;
+  line-height: 1.4;
+  letter-spacing: 0.2px;
+  position: relative;
+  z-index: 2;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+    text-align: center;
+  }
+`;
+
+const RightContainer = styled.div`
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 0; // antes: 2rem
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(800px 400px at 80% 10%, rgba(168, 85, 247, 0.1), transparent);
+    pointer-events: none;
+  }
+  
+  @media (max-width: 768px) {
+    padding: 0; // antes: 1.5rem
+    height: 300px;
+  }
+`;
+
 const HeroVideo = styled.video`
   width: 100%;
   height: 100%;
@@ -136,6 +153,8 @@ const HeroVideo = styled.video`
     object-fit: cover;
   }
 `;
+
+// no overlay in two-column layout
 
 interface HeroSectionProps {
   onAnimationComplete?: () => void;
@@ -162,12 +181,10 @@ const HeroSection: React.FC<HeroSectionProps> = () => {
           transition: 'opacity 1s ease-out, transform 1s ease-out'
         }}>
           <Name>Alexis Vedia</Name>
+          <Subtitle>UX/UI Developer & AI Integration Specialist</Subtitle>
           <Description>
-            Impulso a emprendedores, agencias y startups ideando soluciones innovadoras 
-            y llevándolas a la realidad con diseño UX/UI 
-            de alto nivel, desarrollo en código y 
-            herramientas de IA que optimizan procesos 
-            y maximizan resultados
+            Acompaño a agencias, emprendedores y startups en el diseño de soluciones innovadoras,
+            materializarlas en productos reales e impulsarlas con Inteligencia Artficial
           </Description>
         </LeftContainer>
         

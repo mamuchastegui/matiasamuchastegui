@@ -182,7 +182,7 @@ const NavBackground = styled.div<{ $top: number; $height: number; $isVisible: bo
 `;
 
 // Fondo de hover para los controles inferiores (GitHub, LinkedIn, toggles)
-const ControlsHoverBackground = styled.div<{ $top: number; $left: number; $width: number; $height: number; $isVisible: boolean }>`
+const ControlsHoverBackground = styled.div<{ $top: number; $left: number; $width: number; $height: number; $isVisible: boolean; $animate: boolean }>`
   position: absolute;
   top: ${({ $top }) => $top}px;
   left: ${({ $left }) => $left}px;
@@ -192,7 +192,9 @@ const ControlsHoverBackground = styled.div<{ $top: number; $left: number; $width
   border: 1px solid ${({ theme }) => theme.isDark ? 'rgba(255, 255, 255, 0.06)' : 'rgba(0, 0, 0, 0.04)'};
   border-radius: 8px;
   backdrop-filter: blur(8px);
-  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: ${({ $animate }) => $animate
+    ? 'all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+    : 'opacity 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)'};
   opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
   transform: ${({ $isVisible }) => ($isVisible ? 'scale(1)' : 'scale(0.95)')};
   pointer-events: none;
@@ -395,7 +397,7 @@ const ControlsContainer = styled.div<{ $isCollapsed?: boolean }>`
   margin-top: auto;
   padding-top: ${({ theme }) => theme.space.md};
   margin-bottom: 0;
-  border-top: 1px solid ${({ theme }) => (theme.isDark ? theme.colors.border : '#dee2e6')};
+  /* top divider handled by ControlsTopDivider for smooth transitions */
   display: flex;
   flex-direction: ${({ $isCollapsed }) => $isCollapsed ? 'column' : 'row'};
   align-items: center;
@@ -405,9 +407,43 @@ const ControlsContainer = styled.div<{ $isCollapsed?: boolean }>`
   transform: scale(1);
   will-change: gap, flex-direction;
   position: relative; /* para posicionar el fondo hover interno */
+  overflow: visible; /* permitir que los tooltips sobresalgan sin ser recortados */
+  min-height: 48px; /* asegura espacio estable mientras cambia la dirección */
 `;
 
-const LanguageSelectorWrapper = styled.div<{ $isCollapsed?: boolean; $index?: number; $phase?: 'visible' | 'fading' | 'hidden' | 'showing' }>`
+const ControlsFade = styled.div<{ $hidden: boolean }>`
+  display: flex;
+  flex-direction: inherit;
+  align-items: center;
+  justify-content: center;
+  gap: inherit;
+  width: 100%;
+  opacity: ${({ $hidden }) => ($hidden ? 0 : 1)};
+  transform: ${({ $hidden }) => ($hidden ? 'translateY(6px)' : 'translateY(0)')};
+  transition: ${({ $hidden }) =>
+    $hidden
+      ? 'none'
+      : 'opacity 160ms ease, transform 180ms cubic-bezier(0.25, 0.1, 0.25, 1)'};
+  visibility: ${({ $hidden }) => ($hidden ? 'hidden' : 'visible')};
+  pointer-events: ${({ $hidden }) => ($hidden ? 'none' : 'auto')};
+`;
+
+const ControlsTopDivider = styled.div<{ $phase?: 'visible' | 'fading' | 'hidden' | 'showing'; $hidden?: boolean }>`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: ${({ theme }) => (theme.isDark ? theme.colors.border : '#dee2e6')};
+  opacity: ${({ $phase }) => ($phase === 'hidden' ? 0 : 1)};
+  filter: blur(${({ $phase }) => ($phase === 'showing' ? '0px' : $phase === 'hidden' ? '4px' : '0px')});
+  transition: ${({ $hidden }) => ($hidden ? 'none' : 'opacity 220ms ease, filter 220ms ease')};
+  visibility: ${({ $hidden }) => ($hidden ? 'hidden' : 'visible')};
+  pointer-events: none;
+`;
+
+
+const LanguageSelectorWrapper = styled.div<{ $isCollapsed?: boolean; $index?: number; $total?: number; $phase?: 'visible' | 'fading' | 'hidden' | 'showing' }>`
   width: ${({ $isCollapsed }) => $isCollapsed ? '36px' : 'auto'};
   height: 36px;
   display: flex;
@@ -421,25 +457,15 @@ const LanguageSelectorWrapper = styled.div<{ $isCollapsed?: boolean; $index?: nu
   opacity: ${({ $phase }) => ($phase === 'hidden' ? 0 : $phase === 'fading' ? 0 : 1)};
   filter: blur(${({ $phase }) => ($phase === 'hidden' ? '4px' : $phase === 'fading' ? '4px' : '0px')});
   transform: translateY(0) translateX(0) scale(1);
-  transition: opacity ${({ $phase }) => ($phase === 'showing' ? '1s' : '0.7s')} ease, filter ${({ $phase }) => ($phase === 'showing' ? '1s' : '0.7s')} ease, transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
-  transition-delay: ${({ $isCollapsed, $index }) => 
-    $isCollapsed 
-      ? `${((4 - ($index || 0)) * 60)}ms` 
-      : `${(($index || 0) * 80)}ms`
-  };
+  transition: opacity 220ms ease, filter 220ms ease, transform 200ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  /* delay set inline per-instance to ensure correct order */
   will-change: transform, opacity;
+  /* No visibility/pointer-events toggling during collapse/expand */
 
-  &:hover {
-    background: ${({ theme }) => theme.isDark ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.02)'};
-    border: 1px solid ${({ theme }) => theme.isDark ? 'rgba(255, 255, 255, 0.06)' : 'rgba(0, 0, 0, 0.04)'};
-    backdrop-filter: blur(8px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, ${({ theme }) => theme.isDark ? '0.4' : '0.15'});
-    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-    transition-delay: 0ms;
-  }
+  /* hover visual handled by ControlsHoverBackground */
 `;
 
-const SocialMediaButton = styled.a<{ $isCollapsed?: boolean; $index?: number; $phase?: 'visible' | 'fading' | 'hidden' | 'showing' }>`
+const SocialMediaButton = styled.a<{ $isCollapsed?: boolean; $index?: number; $total?: number; $phase?: 'visible' | 'fading' | 'hidden' | 'showing' }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -457,22 +483,12 @@ const SocialMediaButton = styled.a<{ $isCollapsed?: boolean; $index?: number; $p
   opacity: ${({ $phase }) => ($phase === 'hidden' ? 0 : $phase === 'fading' ? 0 : 1)};
   filter: blur(${({ $phase }) => ($phase === 'hidden' ? '4px' : $phase === 'fading' ? '4px' : '0px')});
   transform: translateY(0) translateX(0) scale(1);
-  transition: opacity ${({ $phase }) => ($phase === 'showing' ? '1s' : '0.7s')} ease, filter ${({ $phase }) => ($phase === 'showing' ? '1s' : '0.7s')} ease, transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
-  transition-delay: ${({ $isCollapsed, $index }) => 
-    $isCollapsed 
-      ? `${((4 - ($index || 0)) * 60)}ms` 
-      : `${(($index || 0) * 80)}ms`
-  };
+  transition: opacity 220ms ease, filter 220ms ease, transform 200ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  /* delay set inline per-instance to ensure correct order */
   will-change: transform, opacity;
+  /* No visibility/pointer-events toggling during collapse/expand */
 
-  &:hover {
-    background: ${({ theme }) => theme.isDark ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.02)'};
-    border: 1px solid ${({ theme }) => theme.isDark ? 'rgba(255, 255, 255, 0.06)' : 'rgba(0, 0, 0, 0.04)'};
-    backdrop-filter: blur(8px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, ${({ theme }) => theme.isDark ? '0.4' : '0.15'});
-    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-    transition-delay: 0ms;
-  }
+  /* hover visual handled by ControlsHoverBackground */
 
   &:active {
     transform: translateY(0) scale(0.98);
@@ -481,15 +497,12 @@ const SocialMediaButton = styled.a<{ $isCollapsed?: boolean; $index?: number; $p
 
   svg {
     display: block;
-    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: none;
   }
-
-  &:hover svg {
-    transform: scale(1.1);
-  }
+  /* icon scale removed to match nav hover */
 `;
 
-const ThemeToggleWrapper = styled.div<{ $isCollapsed?: boolean; $index?: number; $phase?: 'visible' | 'fading' | 'hidden' | 'showing' }>`
+const ThemeToggleWrapper = styled.div<{ $isCollapsed?: boolean; $index?: number; $total?: number; $phase?: 'visible' | 'fading' | 'hidden' | 'showing' }>`
   width: 36px;
   height: 36px;
   display: flex;
@@ -502,22 +515,11 @@ const ThemeToggleWrapper = styled.div<{ $isCollapsed?: boolean; $index?: number;
   opacity: ${({ $phase }) => ($phase === 'hidden' ? 0 : $phase === 'fading' ? 0 : 1)};
   filter: blur(${({ $phase }) => ($phase === 'hidden' ? '4px' : $phase === 'fading' ? '4px' : '0px')});
   transform: translateY(0) translateX(0) scale(1);
-  transition: opacity ${({ $phase }) => ($phase === 'showing' ? '1s' : '0.7s')} ease, filter ${({ $phase }) => ($phase === 'showing' ? '1s' : '0.7s')} ease, transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
-  transition-delay: ${({ $isCollapsed, $index }) => 
-    $isCollapsed 
-      ? `${((4 - ($index || 0)) * 60)}ms`
-      : `${(($index || 0) * 80)}ms`
-  };
+  transition: opacity 220ms ease, filter 220ms ease, transform 200ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  /* delay set inline per-instance to ensure correct order */
   will-change: transform, opacity, filter;
-
-  &:hover {
-    background: ${({ theme }) => theme.isDark ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.02)'};
-    border: 1px solid ${({ theme }) => theme.isDark ? 'rgba(255, 255, 255, 0.06)' : 'rgba(0, 0, 0, 0.04)'};
-    backdrop-filter: blur(8px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, ${({ theme }) => theme.isDark ? '0.4' : '0.15'});
-    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-    transition-delay: 0ms;
-  }
+  /* No visibility/pointer-events toggling during collapse/expand */
+  /* hover visual handled by ControlsHoverBackground */
 
   label.toggle {
     transform: scale(1);
@@ -554,13 +556,15 @@ const TechTooltip = styled.div<{ $isVisible: boolean; $isDarkMode: boolean; $isC
   border: 1px solid ${({ $isDarkMode }) => $isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.08)'};
 `;
 
-const ControlsSeparator = styled.div<{ $isCollapsed?: boolean }>`
+const ControlsSeparator = styled.div<{ $isCollapsed?: boolean; $phase?: 'visible' | 'fading' | 'hidden' | 'showing' }>`
   width: ${({ $isCollapsed }) => $isCollapsed ? '24px' : '1px'};
   height: ${({ $isCollapsed }) => $isCollapsed ? '1px' : '24px'};
   background: ${({ theme }) => theme.isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'};
   border-radius: 1px;
-  transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+  transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 220ms ease, filter 220ms ease;
   flex-shrink: 0;
+  opacity: ${({ $phase }) => ($phase === 'hidden' ? 0 : 1)};
+  filter: blur(${({ $phase }) => ($phase === 'showing' ? '0px' : $phase === 'hidden' ? '4px' : '0px')});
 `;
 
 /* Duplicate LanguageSelectorWrapper removed: consolidated earlier definition with flex sizing */
@@ -620,31 +624,37 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
 
   // Estado para controlar la animación de fade de los iconos inferiores
   const [iconsFadePhase, setIconsFadePhase] = useState<'visible' | 'fading' | 'hidden' | 'showing'>('visible');
+  const [controlsHidden, setControlsHidden] = useState(false);
   const [navBgAnimate, setNavBgAnimate] = useState(true);
   const navBgIdleTimeout = useRef<number | null>(null);
 
   const handleToggleCollapse = () => {
-    if (toggleCollapse) {
-      // Iniciar animación de fade
-      setIconsFadePhase('fading');
-      
-      setTimeout(() => {
-        setIconsFadePhase('hidden');
-        toggleCollapse();
-        
-        // Después de que cambien las props, mostrar iconos de nuevo
-        setTimeout(() => {
-          setIconsFadePhase('showing');
-          setTimeout(() => {
-            setIconsFadePhase('visible');
-          }, 500); // 0.5s para completar la animación de mostrar
-        }, 50);
-      }, 200); // 0.2s para fade out
-
-      if (!isCollapsed) {
-        setOpenSubmenuKey(null); // Cerrar submenús al colapsar
-      }
+    if (!toggleCollapse) return;
+    // Ocultar de inmediato (sin animación) y resetear fases para un stagger limpio
+    setControlsHidden(true);
+    setIconsFadePhase('hidden');
+    setControlsBgVisible(false);
+    toggleCollapse();
+    const sidebarWidthTransitionMs = 400;
+    const bufferMs = -140; // iniciar y terminar un pelín antes
+    window.setTimeout(() => {
+      setControlsHidden(false);
+      setIconsFadePhase('showing');
+      // Pasar a visible tras el desblur
+      window.setTimeout(() => setIconsFadePhase('visible'), 220);
+    }, sidebarWidthTransitionMs + bufferMs);
+    if (!isCollapsed) {
+      setOpenSubmenuKey(null);
     }
+  };
+
+  // Helper: stagger order depending on layout
+  const totalControls = 5;
+  const isCollapsedLayout = !isMobile && isCollapsed;
+  const getStaggerDelay = (index: number) => {
+    const step = 40; // ms, más inmediato
+    const ms = isCollapsedLayout ? (totalControls - 1 - index) * step : index * step;
+    return `${ms}ms`;
   };
 
 
@@ -876,21 +886,44 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
   const controlsRef = useRef<HTMLDivElement>(null);
   const [controlsBgVisible, setControlsBgVisible] = useState(false);
   const [controlsBg, setControlsBg] = useState({ top: 0, left: 0, width: 0, height: 0 });
+  const [controlsBgAnimate, setControlsBgAnimate] = useState(true);
+  const controlsBgIdleTimeout = useRef<number | null>(null);
 
   const handleControlHover = (el: HTMLElement | null) => {
     if (!el || !controlsRef.current) return;
     const crect = controlsRef.current.getBoundingClientRect();
     const r = el.getBoundingClientRect();
-    setControlsBg({
+    // Clear idle timer when re-entering
+    if (controlsBgIdleTimeout.current) {
+      window.clearTimeout(controlsBgIdleTimeout.current);
+      controlsBgIdleTimeout.current = null;
+    }
+
+    const next = {
       top: r.top - crect.top,
       left: r.left - crect.left,
       width: r.width,
       height: r.height,
-    });
-    setControlsBgVisible(true);
+    };
+
+    if (!controlsBgVisible && !controlsBgAnimate) {
+      // First appearance after idle: position without sliding, then enable animation
+      setControlsBg(next);
+      setControlsBgVisible(true);
+      requestAnimationFrame(() => setControlsBgAnimate(true));
+    } else {
+      setControlsBg(next);
+      setControlsBgVisible(true);
+    }
   };
 
-  const handleControlLeave = () => setControlsBgVisible(false);
+  const handleControlLeave = () => {
+    setControlsBgVisible(false);
+    if (controlsBgIdleTimeout.current) window.clearTimeout(controlsBgIdleTimeout.current);
+    controlsBgIdleTimeout.current = window.setTimeout(() => {
+      setControlsBgAnimate(false);
+    }, 400);
+  };
 
   return (
     <>
@@ -1014,13 +1047,16 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
 
 
         <ControlsContainer $isCollapsed={!isMobile && isCollapsed} ref={controlsRef}>
+          <ControlsTopDivider $phase={iconsFadePhase} $hidden={controlsHidden} />
           <ControlsHoverBackground 
             $top={controlsBg.top}
             $left={controlsBg.left}
             $width={controlsBg.width}
             $height={controlsBg.height}
             $isVisible={controlsBgVisible}
+            $animate={controlsBgAnimate}
           />
+          <ControlsFade $hidden={controlsHidden}>
           <SocialMediaButton 
              href="https://github.com/AlexisVedia" 
              target="_blank" 
@@ -1028,9 +1064,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
              aria-label="GitHub"
              $isCollapsed={!isMobile && isCollapsed}
              $index={0}
+             $total={5}
              $phase={iconsFadePhase}
              onMouseEnter={(e) => { setShowGithubTooltip(true); handleControlHover(e.currentTarget); }}
              onMouseLeave={() => { setShowGithubTooltip(false); handleControlLeave(); }}
+             style={{ transitionDelay: getStaggerDelay(0) }}
            >
              <FaGithub />
              <TechTooltip $isVisible={showGithubTooltip} $isDarkMode={theme.isDark} $isCollapsed={!isMobile && isCollapsed} $distance={30}>
@@ -1044,9 +1082,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
              aria-label="LinkedIn"
              $isCollapsed={!isMobile && isCollapsed}
              $index={1}
+             $total={5}
              $phase={iconsFadePhase}
              onMouseEnter={(e) => { setShowLinkedinTooltip(true); handleControlHover(e.currentTarget); }}
              onMouseLeave={() => { setShowLinkedinTooltip(false); handleControlLeave(); }}
+             style={{ transitionDelay: getStaggerDelay(1) }}
            >
              <FaLinkedin />
              <TechTooltip $isVisible={showLinkedinTooltip} $isDarkMode={theme.isDark} $isCollapsed={!isMobile && isCollapsed} $distance={30}>
@@ -1054,48 +1094,54 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
              </TechTooltip>
            </SocialMediaButton>
            <SocialMediaButton 
-              href="https://x.com/AlexisVedia" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              aria-label="X (Twitter)"
-              $isCollapsed={!isMobile && isCollapsed}
-              $index={2}
-              $phase={iconsFadePhase}
-              onMouseEnter={(e) => { setShowXTooltip(true); handleControlHover(e.currentTarget); }}
-              onMouseLeave={() => { setShowXTooltip(false); handleControlLeave(); }}
-            >
+               href="https://x.com/AlexisVedia" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               aria-label="X (Twitter)"
+               $isCollapsed={!isMobile && isCollapsed}
+               $index={2}
+               $total={5}
+               $phase={iconsFadePhase}
+               onMouseEnter={(e) => { setShowXTooltip(true); handleControlHover(e.currentTarget); }}
+               onMouseLeave={() => { setShowXTooltip(false); handleControlLeave(); }}
+               style={{ transitionDelay: getStaggerDelay(2) }}
+             >
               <FaXTwitter />
               <TechTooltip $isVisible={showXTooltip} $isDarkMode={theme.isDark} $isCollapsed={!isMobile && isCollapsed} $distance={30}>
                 {t('tooltip.x')}
               </TechTooltip>
             </SocialMediaButton>
-          <ControlsSeparator $isCollapsed={!isMobile && isCollapsed} />
+          <ControlsSeparator $isCollapsed={!isMobile && isCollapsed} $phase={iconsFadePhase} />
           <ThemeToggleWrapper 
-             $isCollapsed={!isMobile && isCollapsed}
-             $index={3}
-             $phase={iconsFadePhase}
-             style={{ lineHeight: 1, position: 'relative' }}
-             onMouseEnter={(e) => { setShowThemeTooltip(true); handleControlHover(e.currentTarget as HTMLDivElement); }}
-             onMouseLeave={() => { setShowThemeTooltip(false); handleControlLeave(); }}
-           >
-             <ThemeToggle />
-             <TechTooltip $isVisible={showThemeTooltip} $isDarkMode={theme.isDark} $isCollapsed={!isMobile && isCollapsed} $distance={30}>
-               {t('tooltip.toggleTheme')}
-             </TechTooltip>
-           </ThemeToggleWrapper>
-           <LanguageSelectorWrapper 
-             $isCollapsed={!isMobile && isCollapsed}
-             $index={4}
-             $phase={iconsFadePhase}
-             style={{ lineHeight: 1, position: 'relative' }}
-             onMouseEnter={(e) => { setShowLanguageTooltip(true); handleControlHover(e.currentTarget as HTMLDivElement); }}
-             onMouseLeave={() => { setShowLanguageTooltip(false); handleControlLeave(); }}
-           >
-             <LanguageSelector isCollapsed={!isMobile && isCollapsed} />
-             <TechTooltip $isVisible={showLanguageTooltip} $isDarkMode={theme.isDark} $isCollapsed={!isMobile && isCollapsed} $distance={30}>
-               {t('tooltip.selectLanguage')}
-             </TechTooltip>
-          </LanguageSelectorWrapper>
+              $isCollapsed={!isMobile && isCollapsed}
+              $index={3}
+              $total={5}
+              $phase={iconsFadePhase}
+              style={{ lineHeight: 1, position: 'relative', transitionDelay: getStaggerDelay(3) }}
+              onMouseEnter={(e) => { setShowThemeTooltip(true); handleControlHover(e.currentTarget as HTMLDivElement); }}
+              onMouseLeave={() => { setShowThemeTooltip(false); handleControlLeave(); }}
+              
+            >
+              <ThemeToggle />
+              <TechTooltip $isVisible={showThemeTooltip} $isDarkMode={theme.isDark} $isCollapsed={!isMobile && isCollapsed} $distance={30}>
+                {t('tooltip.toggleTheme')}
+              </TechTooltip>
+            </ThemeToggleWrapper>
+            <LanguageSelectorWrapper 
+              $isCollapsed={!isMobile && isCollapsed}
+              $index={4}
+              $total={5}
+              $phase={iconsFadePhase}
+              style={{ lineHeight: 1, position: 'relative', transitionDelay: getStaggerDelay(4) }}
+              onMouseEnter={(e) => { setShowLanguageTooltip(true); handleControlHover(e.currentTarget as HTMLDivElement); }}
+              onMouseLeave={() => { setShowLanguageTooltip(false); handleControlLeave(); }}
+            >
+              <LanguageSelector isCollapsed={!isMobile && isCollapsed} />
+              <TechTooltip $isVisible={showLanguageTooltip} $isDarkMode={theme.isDark} $isCollapsed={!isMobile && isCollapsed} $distance={30}>
+                {t('tooltip.selectLanguage')}
+              </TechTooltip>
+           </LanguageSelectorWrapper>
+          </ControlsFade>
         </ControlsContainer>
       </SidebarContainer>
     </>

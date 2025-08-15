@@ -21,21 +21,27 @@ const Tooltip = styled.div<{ $isVisible: boolean; $isDarkMode: boolean }>`
   position: absolute;
   top: -35px;
   left: 50%;
-  transform: translateX(-50%);
+  transform: ${({ $isVisible }) =>
+    $isVisible
+      ? 'translateX(-50%) translateY(0) scale(1)'
+      : 'translateX(-50%) translateY(-4px) scale(0.95)'};
   padding: 8px 12px;
   border-radius: 100px;
   font-size: 12px;
   white-space: nowrap;
   background: ${({ $isDarkMode }) =>
-    $isDarkMode ? 'rgba(20, 20, 25, 0.9)' : 'rgba(240, 240, 245, 0.9)'};
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    $isDarkMode ? 'rgba(20, 20, 25, 0.95)' : 'rgba(240, 240, 245, 0.95)'};
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, ${({ $isDarkMode }) => ($isDarkMode ? '0.4' : '0.15')});
   opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
-  transition: opacity 0.2s ease;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition-delay: ${({ $isVisible }) => ($isVisible ? '300ms' : '0ms')};
   pointer-events: none;
   z-index: 10000;
   color: ${({ $isDarkMode }) => ($isDarkMode ? '#ffffff' : '#000000')};
+  border: 1px solid
+    ${({ $isDarkMode }) => ($isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.08)')};
 `;
 
 const slideAnimation = keyframes`
@@ -50,8 +56,8 @@ const slideAnimation = keyframes`
 const SliderContainer = styled.div`
   width: 100%;
   overflow: visible;
-  padding: 20px 0;
-  margin: 30px 0;
+  padding: 8px 0;
+  margin: 6px 0 0;
   position: relative;
   background: ${({ theme }) =>
     theme.isDark ? 'rgba(29, 31, 35, 0.7)' : 'rgba(246, 246, 246, 0.7)'};
@@ -63,7 +69,7 @@ const SliderContainer = styled.div`
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   box-shadow: ${({ theme }) =>
-    theme.isDark ? '0 8px 32px rgba(0, 0, 0, 0.2)' : '0 8px 32px rgba(0, 0, 0, 0.05)'};
+    theme.isDark ? '0 6px 20px rgba(0,0,0,0.18)' : '0 6px 18px rgba(0,0,0,0.06)'};
   margin-left: auto;
   margin-right: auto;
 
@@ -75,7 +81,7 @@ const SliderContainer = styled.div`
 const SliderInner = styled.div`
   position: relative;
   width: 100%;
-  height: 60px;
+  height: 52px;
   display: flex;
   justify-content: center;
 `;

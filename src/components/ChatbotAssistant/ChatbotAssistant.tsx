@@ -50,20 +50,7 @@ const floatIn = keyframes`
   }
 `;
 
-const gentleFloat = keyframes`
-  0%, 100% { 
-    transform: translateY(0px) translateX(0px) rotate(0deg); 
-  }
-  25% { 
-    transform: translateY(-3px) translateX(1px) rotate(0.5deg); 
-  }
-  50% { 
-    transform: translateY(-6px) translateX(-1px) rotate(-0.5deg); 
-  }
-  75% { 
-    transform: translateY(-3px) translateX(1px) rotate(0.3deg); 
-  }
-`;
+// removed unused gentleFloat keyframes
 
 // Styled components
 const FloatingInputContainer = styled.div<{ 
@@ -415,6 +402,7 @@ const SendButton = styled.button<{ $isDark: boolean; $isExpanded: boolean; $hasV
   opacity: ${({ $isExpanded, disabled }) => ($isExpanded && disabled ? 0.5 : 1)};
   padding: 0;
   outline: none;
+  -webkit-tap-highlight-color: transparent;
   position: relative;
   overflow: hidden;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -456,13 +444,19 @@ const SendButton = styled.button<{ $isDark: boolean; $isExpanded: boolean; $hasV
   &:hover { }
 
   &:active:not(:disabled) {
-    transform: translateY(0) scale(1.02);
-    transition: all 0.1s ease;
+    /* Remove press/click visual effect */
+    transform: none;
+    transition: none;
   }
   
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 3px ${({ $isDark }) => $isDark ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.1)'};
+    box-shadow: none;
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: none;
   }
 `;
 

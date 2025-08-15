@@ -49,7 +49,7 @@ const Content = styled.div`
 `;
 
 const About: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   return (
     <PageTransition>
@@ -88,22 +88,55 @@ const About: React.FC = () => {
             </div>
 
             <div style={{ order: 2 }}>
+              {/* Intro */}
               <ScrollReveal
                 baseOpacity={0}
                 enableBlur={true}
                 baseRotation={10}
                 blurStrength={15}
               >
-                {t('about.bio.part1')}
+                {i18n.language === 'es'
+                  ? 'Impulso a emprendedores, agencias y startups ideando soluciones innovadoras y llevándolas a la realidad con diseño UX/UI de alto nivel, desarrollo en código y herramientas de IA que optimizan procesos y maximizan resultados.'
+                  : 'I empower entrepreneurs, agencies, and startups by ideating innovative solutions and bringing them to life with high‑level UX/UI design, production‑ready code, and AI tools that streamline processes and maximize results.'}
               </ScrollReveal>
-              <ScrollReveal
-                baseOpacity={0}
-                enableBlur={true}
-                baseRotation={10}
-                blurStrength={15}
-              >
-                {t('about.bio.part2')}
-              </ScrollReveal>
+
+              {/* Block 1: De principio a fin */}
+              <div style={{ marginTop: '1rem' }}>
+                <ScrollReveal
+                  baseOpacity={0}
+                  enableBlur={true}
+                  baseRotation={10}
+                  blurStrength={15}
+                >
+                  <strong style={{ display: 'block', marginBottom: '0.25rem' }}>
+                    {i18n.language === 'es' ? 'De principio a fin' : 'End‑to‑End'}
+                  </strong>
+                  <span style={{ color: 'rgba(255, 255, 255, 0.8)' }}>
+                    {i18n.language === 'es'
+                      ? 'Desde investigación UX y prototipos de alta fidelidad en Figma, hasta una impecable implementación completa. ¿No es suficiente? Elevo el nivel de tu producto con AI: búsquedas vectoriales semánticas, diseño de agentes autónomos, flujos en n8n, RAG, etc. Pruebo nuevas herramientas a diario y comparto mis hallazgos en redes. Tu proyecto siempre se beneficia de lo más avanzado.'
+                      : 'From UX research and high‑fidelity Figma prototypes to a polished end‑to‑end implementation. Need more? I supercharge your product with AI: semantic vector search, autonomous agent design, n8n workflows, RAG, and more. I test new tools daily and share findings — your project always benefits from the cutting edge.'}
+                  </span>
+                </ScrollReveal>
+              </div>
+
+              {/* Block 2: Solo o en equipo */}
+              <div style={{ marginTop: '1rem' }}>
+                <ScrollReveal
+                  baseOpacity={0}
+                  enableBlur={true}
+                  baseRotation={10}
+                  blurStrength={15}
+                >
+                  <strong style={{ display: 'block', marginBottom: '0.25rem' }}>
+                    {i18n.language === 'es' ? 'Solo o en equipo' : 'Solo or Team Player'}
+                  </strong>
+                  <span style={{ color: 'rgba(255, 255, 255, 0.8)' }}>
+                    {i18n.language === 'es'
+                      ? 'Trabajo de forma autónoma o integrado a tu equipo, adaptándome a las necesidades del proyecto para entregar resultados sobresalientes, ya sea como fuerza individual o en colaboración multidisciplinaria.'
+                      : 'I work autonomously or embedded in your team, adapting to project needs to deliver outstanding outcomes — either as an individual contributor or within a multidisciplinary collaboration.'}
+                  </span>
+                </ScrollReveal>
+              </div>
             </div>
           </div>
         </SectionContent>

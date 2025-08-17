@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "packageManager": "npm@10.9.3",
   "scripts": {
     "dev": "vite --open",
     "dev:lan": "vite --host",
@@ -14,6 +15,10 @@
     "format": "prettier --write \"src/**/*.{ts,tsx}\"",
     "prepare": "husky install",
     "test": "jest"
+  },
+  "engines": {
+    "node": "20.x",
+    "npm": ">=9 <11"
   },
   "lint-staged": {
     "*.{ts,tsx}": [

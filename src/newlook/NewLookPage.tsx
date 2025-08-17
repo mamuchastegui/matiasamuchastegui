@@ -105,6 +105,9 @@ const NewLookPage: React.FC<NewLookPageProps> = () => {
   // Estado para controlar cuando las animaciones deben ejecutarse
   const [animationsReady, setAnimationsReady] = useState(false);
 
+  // Minimal: bandera de carga (evita referencia no definida)
+  const isLoaded = true;
+
   useEffect(() => {
     // Preparar animaciones tras el primer frame para asegurar layout listo
     const id = requestAnimationFrame(() => setAnimationsReady(true));

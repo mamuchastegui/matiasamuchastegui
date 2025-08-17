@@ -78,7 +78,10 @@ const SidebarContainer = styled.aside<{ $isOpen: boolean; $isMobile: boolean; $i
   z-index: 1000;
   display: flex;
   flex-direction: column;
-  transition: transform 0.5s ease-in-out, box-shadow 0.3s ease-in-out, background 0.3s ease-in-out, width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.6s ease-in-out, box-shadow 0.3s ease-in-out, background 0.3s ease-in-out, width 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.7s ease, filter 0.7s ease;
+  opacity: ${({ $isFirstRender }) => ($isFirstRender ? 0 : 1)};
+  filter: ${({ $isFirstRender }) => ($isFirstRender ? 'blur(6px)' : 'none')};
+  will-change: transform, opacity, filter;
 
   ${({ $isMobile, $isOpen }) =>
     $isMobile &&
@@ -87,20 +90,13 @@ const SidebarContainer = styled.aside<{ $isOpen: boolean; $isMobile: boolean; $i
       box-shadow: ${$isOpen ? '0 0 20px rgba(0,0,0,0.3)' : 'none'};
     `}
   
-  ${({ $isMobile, $isFirstRender }) => 
-    !$isMobile && 
+  ${({ $isMobile, $isFirstRender }) =>
+    !$isMobile &&
     css`
+      /* Slide in from left + fade/blur on first render (desktop) */
       transform: ${$isFirstRender ? 'translateX(-100%)' : 'translateX(0)'};
-      animation: ${$isFirstRender ? 'slideIn 0.7s ease-in-out forwards 0.3s' : 'none'};
-
-      @keyframes slideIn {
-        from {
-          transform: translateX(-100%);
-        }
-        to {
-          transform: translateX(0);
-        }
-      }
+      opacity: ${$isFirstRender ? 0 : 1};
+      filter: ${$isFirstRender ? 'blur(6px)' : 'blur(0)'};
     `}
 `;
 
@@ -959,10 +955,36 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
         
         <LogoContainer 
           $isCollapsed={!isMobile && isCollapsed}
+          role="button"
+          tabIndex={0}
           onClick={() => {
-            navigate('/');
+            if (location.pathname === '/') {
+              const el = document.getElementById('home');
+              if (el) {
+                try {
+                  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } catch {}
+              } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }
+            } else {
+              navigate('/', { state: { scrollToSection: 'home' } });
+            }
             if (isMobile && isOpen) {
               toggleSidebar();
+            }
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              if (location.pathname === '/') {
+                const el = document.getElementById('home');
+                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                else window.scrollTo({ top: 0, behavior: 'smooth' });
+              } else {
+                navigate('/', { state: { scrollToSection: 'home' } });
+              }
+              if (isMobile && isOpen) toggleSidebar();
             }
           }}
           style={{ cursor: 'pointer' }}

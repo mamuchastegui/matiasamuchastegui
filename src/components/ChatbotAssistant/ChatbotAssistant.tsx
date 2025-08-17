@@ -58,9 +58,10 @@ const FloatingInputContainer = styled.div<{
   $isDark: boolean;
   $isSidebarPresent?: boolean;
   $isSidebarCollapsed?: boolean;
+  $hasText: boolean;
 }>`
   position: fixed;
-  bottom: 20px;
+  bottom: 14px;
   left: ${({ $isSidebarPresent, $isSidebarCollapsed }) => {
     if (!$isSidebarPresent) return '50%';
     const sidebarWidth = $isSidebarCollapsed ? '80px' : '280px';
@@ -68,7 +69,7 @@ const FloatingInputContainer = styled.div<{
   }};
   transform: translateX(-50%);
   z-index: 10000;
-  width: ${({ $isExpanded }) => ($isExpanded ? '450px' : '300px')};
+  width: ${({ $isExpanded, $hasText }) => ($isExpanded || $hasText ? '450px' : '275px')};
   transition: transform 0.22s ease, width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: auto;
 
@@ -78,10 +79,13 @@ const FloatingInputContainer = styled.div<{
     transform: none;
   }
   
-  /* Hover lift when chat is closed (smooth) */
-  ${({ $isExpanded }) => !$isExpanded && css`
+  /* Subtle lift when closed and hovered */
+  ${({ $isExpanded, $hasText }) => (!$isExpanded && !$hasText) && css`
     &:hover {
-      transform: translateX(-50%) translateY(-3px);
+      transform: translateX(-50%) translateY(-4px);
+    }
+    @media (max-width: 768px) {
+      &:hover { transform: translateY(-4px); }
     }
   `}
 `;
@@ -241,15 +245,10 @@ const ColorGlowOverlay = styled.div<{
       }};
   }
   
-  /* Smooth hover lift when chat is closed */
-  ${({ $isExpanded }) => !$isExpanded && css`
-    &:hover {
-      transform: translateX(-50%) translateY(-3px);
-    }
-  `}
+  /* Hover lift disabled per request */
 `;
 
-const InputWrapper = styled.div<{ $isExpanded: boolean; $isDark: boolean; $animate: boolean }>`
+const InputWrapper = styled.div<{ $isExpanded: boolean; $isDark: boolean; $animate: boolean; $hasText: boolean }>`
   position: relative;
   display: flex;
   align-items: center;
@@ -260,9 +259,15 @@ const InputWrapper = styled.div<{ $isExpanded: boolean; $isDark: boolean; $anima
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   box-shadow: ${({ $isDark }) => $isDark ? '0 4px 20px rgba(0, 0, 0, 0.15), 0 1px 3px rgba(0, 0, 0, 0.1)' : '0 2px 12px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.06)'};
-  /* Transición suave para el lift en hover */
-  transition: transform 0.22s ease, box-shadow 0.22s ease;
-  will-change: transform, box-shadow;
+  /* Transiciones base (entrada hover):
+     - Interior (::after) 200ms
+     - Placeholder 200ms (ver override en el componente)
+     - Borde (ring) 250ms */
+  transition: box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 250ms cubic-bezier(0.4, 0, 0.2, 1),
+              background-color 250ms cubic-bezier(0.4, 0, 0.2, 1),
+              transform 220ms cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: box-shadow, border-color, background-color, transform;
   overflow: hidden;
   
   &::before {
@@ -276,6 +281,29 @@ const InputWrapper = styled.div<{ $isExpanded: boolean; $isDark: boolean; $anima
     pointer-events: none;
     border-radius: 32px;
   }
+
+  /* Subtle modern glow ring (disabled on hover below) */
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 32px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 420ms cubic-bezier(0.4, 0, 0.2, 1), filter 420ms cubic-bezier(0.4, 0, 0.2, 1);
+    /* Subtle interior glow inspired by open chatbot colors (very low alpha) */
+    background:
+      radial-gradient(120% 180% at 50% 0%,
+        ${({ $isDark }) => $isDark ? 'rgba(56,189,248,0.06)' : 'rgba(56,189,248,0.05)'} 0%,
+        transparent 62%
+      ),
+      linear-gradient(135deg,
+        ${({ $isDark }) => $isDark ? 'rgba(59,130,246,0.08)' : 'rgba(59,130,246,0.07)'} 0%,
+        ${({ $isDark }) => $isDark ? 'rgba(14,165,233,0.06)' : 'rgba(14,165,233,0.05)'} 45%,
+        ${({ $isDark }) => $isDark ? 'rgba(99,102,241,0.05)' : 'rgba(99,102,241,0.04)'} 100%
+      );
+    filter: blur(4px);
+  }
   /* Estado inicial: oculto y ligeramente desplazado; se corrige al animar */
   opacity: ${({ $animate }) => ($animate ? 1 : 0)};
   transform: ${({ $animate }) => ($animate ? 'translateY(0) scale(1)' : 'translateY(24px) scale(0.94)')};
@@ -283,8 +311,16 @@ const InputWrapper = styled.div<{ $isExpanded: boolean; $isDark: boolean; $anima
   animation: ${({ $animate }) => ($animate ? slideUpSpringPunch : 'none')} 2500ms cubic-bezier(0.22, 1, 0.36, 1);
   animation-fill-mode: both;
 
-  /* Hover lift only when chat is closed */
-  /* Hover lift is handled on FloatingInputContainer to avoid transform conflicts */
+  /* Hover effect only when chat is closed */
+  /* Keep interior hover effect, remove border glow; add subtle lift */
+  ${({ $isExpanded, $isDark }) => !$isExpanded && css`
+    &:hover {
+      /* no border-color or external glow changes */
+      --placeholder-opacity: ${$isDark ? 0.78 : 0.72};
+    }
+    &:hover::after { opacity: 0.85; filter: blur(6px); transition-duration: 460ms; }
+    &:hover .placeholder-overlay { transition: opacity 420ms cubic-bezier(0.4, 0, 0.2, 1), color 420ms cubic-bezier(0.4, 0, 0.2, 1); }
+  `}
 `;
 
 // Nuevo keyframe para el efecto shiny del placeholder
@@ -293,13 +329,23 @@ const shine = keyframes`
   to { background-position: 125% 0; }
 `;
 
-const ChatInput = styled.input<{ $isDark: boolean; $isExpanded: boolean }>`
+const ChatInput = styled.textarea<{ $isDark: boolean; $isExpanded: boolean }>`
   flex: 1;
-  padding: 16px 20px;
+  padding: 16px 12px 16px 18px; /* restored left padding to pre-icon spacing */
   border: none;
   outline: none;
   background: transparent;
   font-size: 16px;
+  line-height: 1.4;
+  resize: none;
+  overflow-y: hidden; /* control via JS until max rows */
+  overflow-x: hidden; /* keep single-line look when collapsed */
+  /* Hide scrollbars but keep scrollable when overflow-y becomes auto */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+  &::-webkit-scrollbar { display: none; width: 0; height: 0; }
+  &::-webkit-scrollbar-thumb { background: transparent; }
+  height: auto; /* adjusted via JS */
   color: ${({ $isDark, $isExpanded }) => (
     $isExpanded ? ($isDark ? '#ffffff' : '#000000') : ($isDark ? '#ffffff' : 'rgba(30, 30, 30, 0.8)')
   )};
@@ -323,7 +369,7 @@ const ChatInput = styled.input<{ $isDark: boolean; $isExpanded: boolean }>`
 const ShinyPlaceholderOverlay = styled.div<{ $isDark: boolean; $hasValue: boolean; $isFocused: boolean; $isExpanded: boolean }>`
   position: absolute;
   top: 50%;
-  left: 20px;
+  left: 18px; /* align with restored input left padding */
   transform: translateY(-50%);
   pointer-events: none;
   font-size: 16px;
@@ -331,9 +377,12 @@ const ShinyPlaceholderOverlay = styled.div<{ $isDark: boolean; $hasValue: boolea
   white-space: nowrap;
   z-index: 0;
   opacity: ${({ $hasValue }) => ($hasValue ? 0 : 1)};
-  transition: opacity 0.2s ease;
+  /* Entrada hover (desde InputWrapper): 200ms; salida hover se controla desde InputWrapper:hover */
+  transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1), color 200ms cubic-bezier(0.4, 0, 0.2, 1);
   
-  color: ${({ $isDark }) => ($isDark ? 'rgba(255, 255, 255, 0.6)' : 'rgba(30, 30, 30, 0.6)')};
+  color: ${({ $isDark }) => ($isDark 
+    ? 'rgba(255, 255, 255, var(--placeholder-opacity, 0.6))' 
+    : 'rgba(30, 30, 30, var(--placeholder-opacity, 0.6))')};
   
   &::before {
     content: attr(data-text);
@@ -391,7 +440,7 @@ const SendButton = styled.button<{ $isDark: boolean; $isExpanded: boolean; $hasV
   justify-content: center;
   width: 40px;
   height: 40px;
-  margin-right: 8px;
+  margin-right: 8px; /* right edge spacing as requested */
   border: none;
   border-radius: 50%;
   /* Transparent background so the SVG circle defines the visual shape (avoids any ring) */
@@ -462,16 +511,18 @@ const SendButton = styled.button<{ $isDark: boolean; $isExpanded: boolean; $hasV
 
 
 
+
 // Nuevo contenedor para mensajes flotantes
 const FloatingMessagesContainer = styled.div<{ 
   $isVisible: boolean; 
   $isDark: boolean;
   $isSidebarPresent?: boolean;
   $isSidebarCollapsed?: boolean;
+  $inputBarHeight: number;
 }>`
   position: fixed;
-  /* Reduce gap between messages and input */
-  bottom: 72px;
+  /* Keep messages just above the input bar dynamically */
+  bottom: ${({ $inputBarHeight }) => `${14 + Math.max(0, Math.min(200, Math.round($inputBarHeight || 0)))}px`};
   left: ${({ $isSidebarPresent, $isSidebarCollapsed }) => {
     if (!$isSidebarPresent) return '50%';
     const sidebarWidth = $isSidebarCollapsed ? '80px' : '280px';
@@ -497,6 +548,7 @@ const FloatingMessagesScrollContainer = styled.div`
   max-height: 400px;
   overflow-y: auto;
   overflow-x: hidden;
+  scroll-behavior: smooth;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -544,9 +596,13 @@ const FloatingMessagesScrollContainer = styled.div`
 const MessageBubble = styled.div<{ $isUser: boolean; $isDark: boolean; $index: number }>`
   position: relative;
   max-width: 85%;
-  padding: ${({ $isUser }) => $isUser ? '6px 13px' : '12px 16px'};
+  padding: 12px 16px; /* unified inner padding for user and AI bubbles */
   border-radius: 24px;
   align-self: ${props => (props.$isUser ? 'flex-end' : 'flex-start')};
+  /* Ensure long text/URLs wrap inside the bubble */
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
   
   /* Efecto translúcido para mensajes del usuario */
   background: ${({ $isUser, $isDark }) =>
@@ -595,6 +651,9 @@ const MessageBubble = styled.div<{ $isUser: boolean; $isDark: boolean; $index: n
     font-size: inherit;
     line-height: inherit;
     font-family: inherit;
+    white-space: inherit;
+    word-break: inherit;
+    overflow-wrap: inherit;
   }
   & :where(p + p) {
     margin-top: 0.5em;
@@ -603,12 +662,18 @@ const MessageBubble = styled.div<{ $isUser: boolean; $isDark: boolean; $index: n
     font-size: inherit;
     line-height: inherit;
     font-family: inherit;
+    white-space: inherit;
+    word-break: inherit;
+    overflow-wrap: inherit;
   }
   & :where(h1, h2, h3, h4, h5, h6) {
     font-size: 1em;
     line-height: inherit;
     font-weight: 600;
     margin: 0;
+    white-space: inherit;
+    word-break: inherit;
+    overflow-wrap: inherit;
   }
 
   /* Mensajes del usuario: sin delay y animación más rápida */
@@ -667,6 +732,111 @@ const LoadingDot = styled.div<{ $delay: number }>`
   animation-delay: ${props => props.$delay}s;
 `;
 
+// Actions row under AI messages (copy, etc.)
+const MessageActions = styled.div<{ $isDark: boolean; $alignRight?: boolean }>`
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+  justify-content: flex-start;
+  opacity: 0.8;
+  user-select: none;
+`;
+
+const IconButton = styled.button<{ $isDark: boolean }>`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: ${({ $isDark }) => ($isDark ? 'rgba(255,255,255,0.9)' : 'rgba(0,0,0,0.9)')};
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.2s ease, transform 0.08s ease, opacity 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, backdrop-filter 0.2s ease;
+  opacity: 0.85;
+
+  &:hover {
+    opacity: 1;
+    background: ${({ $isDark }) => ($isDark ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.02)')};
+    backdrop-filter: blur(8px);
+    box-shadow: 0 2px 8px ${({ $isDark }) => ($isDark ? 'rgba(0, 0, 0, 0.1)' : 'rgba(0, 0, 0, 0.05)')};
+  }
+  &:active { transform: scale(0.96); }
+  &:focus-visible { outline: 2px solid ${({ $isDark }) => ($isDark ? '#fff' : '#000')}; outline-offset: 2px; }
+`;
+
+// Tooltip style matched to TechSlider/Sidebar hover feel
+const CopyButtonWrapper = styled.div`
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+`;
+
+const IconSwap = styled.span<{ $copied: boolean }>`
+  position: relative;
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+`;
+
+const SwapIcon = styled.span<{ $show: boolean }>`
+  position: absolute;
+  inset: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: ${({ $show }) => ($show ? 1 : 0)};
+  transform: ${({ $show }) => ($show ? 'scale(1) rotate(0deg)' : 'scale(0.8) rotate(-8deg)')};
+  transition: opacity 180ms ease, transform 220ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  pointer-events: none;
+`;
+
+const ChatTooltip = styled.div<{ $isDark: boolean }>`
+  position: absolute;
+  top: 50%;
+  left: calc(100% + 8px); /* to the right of the icon */
+  transform: translateY(-50%) translateX(4px) scale(0.95);
+  padding: 8px 12px;
+  border-radius: 100px;
+  font-size: 12px;
+  white-space: nowrap;
+  /* Stronger blur and slightly darker bg for legibility */
+  background: ${({ $isDark }) => ($isDark ? 'rgba(20, 20, 25, 0.88)' : 'rgba(240, 240, 245, 0.88)')};
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, ${({ $isDark }) => ($isDark ? '0.4' : '0.15')});
+  border: 1px solid ${({ $isDark }) => ($isDark ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.1)')};
+  opacity: 0;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  pointer-events: none;
+  z-index: 20000;
+  color: ${({ $isDark }) => ($isDark ? '#ffffff' : '#000000')};
+  text-shadow: 0 1px 1px rgba(0,0,0,0.25);
+
+  ${CopyButtonWrapper}:hover & {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0) scale(1);
+    transition-delay: 300ms;
+  }
+`;
+
+const TooltipSwap = styled.span`
+  display: inline-grid;
+  align-items: center;
+  justify-items: center;
+`;
+
+const TooltipText = styled.span<{ $show: boolean }>`
+  grid-area: 1 / 1;
+  opacity: ${({ $show }) => ($show ? 1 : 0)};
+  transform: ${({ $show }) => ($show ? 'translateY(0) scale(1)' : 'translateY(2px) scale(0.98)')};
+  transition: opacity 160ms ease, transform 180ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  pointer-events: none;
+`;
+
+
 // Main component
 interface ChatbotAssistantProps {
   initialDelay?: number;
@@ -678,7 +848,8 @@ interface ChatbotAssistantProps {
 const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({ 
   initialDelay = 0, 
   isSidebarPresent = false, 
-  isSidebarCollapsed = false 
+  isSidebarCollapsed = false,
+  n8nServerReady: _n8nServerReady = false,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
@@ -710,11 +881,19 @@ const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
   const [inputFocused, setInputFocused] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const [autoScrollEnabled, setAutoScrollEnabled] = useState(true);
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+  const [completedIndexes, setCompletedIndexes] = useState<Set<number>>(() => new Set());
+  const isEn = (i18n?.language || 'es').toLowerCase().startsWith('en');
+  const copyLabel = t('tooltip.copy', isEn ? 'Copy' : 'Copiar');
+  const copiedLabel = t('tooltip.copied', isEn ? 'Copied' : 'Copiado');
 
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const inputBarRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [inputBarHeight, setInputBarHeight] = useState<number>(0);
 
   // Initialize visibility
   useEffect(() => {
@@ -732,10 +911,24 @@ const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
     return () => clearTimeout(t);
   }, [isVisible]);
 
+  // Measure input bar height (initial and on resize)
+  useEffect(() => {
+    const measure = () => {
+      const h = inputBarRef.current?.getBoundingClientRect().height || 0;
+      setInputBarHeight(h);
+    };
+    measure();
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, []);
+
   // Handle click outside
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (isExpanded && containerRef.current && !containerRef.current.contains(e.target as Node)) {
+      const target = e.target as Node;
+      const insideInput = containerRef.current?.contains(target);
+      const insideMessages = messagesContainerRef.current?.contains(target);
+      if (isExpanded && !insideInput && !insideMessages) {
         setIsExpanded(false);
       }
     };
@@ -851,6 +1044,62 @@ const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
     }
   }, [isExpanded]);
 
+  // Auto-resize input up to 4 rows, then enable internal scroll
+  useEffect(() => {
+    const el = inputRef.current;
+    if (!el) return;
+
+    // Reset height to compute new scrollHeight from content only
+    el.style.height = '0px';
+
+    const cs = window.getComputedStyle(el);
+    const lineHeight = parseFloat(cs.lineHeight || '20');
+    const paddingTop = parseFloat(cs.paddingTop || '0');
+    const paddingBottom = parseFloat(cs.paddingBottom || '0');
+    const borderTop = parseFloat(cs.borderTopWidth || '0');
+    const borderBottom = parseFloat(cs.borderBottomWidth || '0');
+    const maxRows = 4;
+    const maxHeight = lineHeight * maxRows + paddingTop + paddingBottom + borderTop + borderBottom;
+    const baseHeight = lineHeight + paddingTop + paddingBottom + borderTop + borderBottom; // 1 row
+
+    const hasText = inputValue.trim().length > 0;
+    // When collapsed: if no text, force single-row; if has text, preserve content height (up to max)
+    if (!isExpanded) {
+      if (!hasText) {
+        el.style.height = `${baseHeight}px`;
+        el.style.overflowY = 'hidden';
+        el.style.overflowX = 'hidden';
+        el.scrollTop = 0;
+        el.scrollLeft = 0;
+      } else {
+        const scrollHCollapsed = el.scrollHeight;
+        const newHCollapsed = Math.min(Math.max(scrollHCollapsed, baseHeight), maxHeight);
+        el.style.height = `${newHCollapsed}px`;
+        el.style.overflowY = 'hidden'; // no internal scroll when collapsed
+        el.style.overflowX = 'hidden';
+        el.scrollTop = newHCollapsed; // ensure viewport sits at bottom visually
+      }
+      requestAnimationFrame(() => {
+        const h = inputBarRef.current?.getBoundingClientRect().height || 0;
+        setInputBarHeight(h);
+      });
+      return;
+    }
+
+    const scrollH = el.scrollHeight;
+    const newH = Math.min(Math.max(scrollH, baseHeight), maxHeight);
+    el.style.height = `${newH}px`;
+    el.style.overflowY = scrollH > newH ? 'auto' : 'hidden';
+    // While typing open, keep caret line visible at bottom
+    el.scrollTop = el.scrollHeight;
+
+    // After resizing textarea, re-measure the input bar height next frame
+    requestAnimationFrame(() => {
+      const h = inputBarRef.current?.getBoundingClientRect().height || 0;
+      setInputBarHeight(h);
+    });
+  }, [inputValue, isExpanded]);
+
   // Handle input click
   const handleInputClick = () => {
     if (!isExpanded) {
@@ -868,6 +1117,11 @@ const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
     // Add user message immediately
     setMessages(prev => [...prev, { text: userMessage, isUser: true }]);
     setInputValue('');
+    // Smoothly nudge scroll to bottom right after DOM updates
+    requestAnimationFrame(() => {
+      const sc = scrollContainerRef.current;
+      if (sc) sc.scrollTo({ top: sc.scrollHeight, behavior: 'smooth' });
+    });
     
     // Re-enable auto-scroll when sending a new message
     setAutoScrollEnabled(true);
@@ -892,9 +1146,28 @@ const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
     }
   };
 
-  // Handle key press
+  const handleCopyMessage = async (index: number, text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedIndex(index);
+      setTimeout(() => setCopiedIndex(null), 1500);
+    } catch (e) {
+      console.error('No se pudo copiar al portapapeles', e);
+    }
+  };
+
+  const markMessageComplete = (index: number) => {
+    setCompletedIndexes(prev => {
+      const next = new Set(prev);
+      next.add(index);
+      return next;
+    });
+  };
+
+  // Handle key press (send on Enter, prevent newline)
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
       handleSendMessage();
     }
   };
@@ -924,15 +1197,46 @@ const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
 
       {/* Mensajes flotantes independientes del contenedor */}
       <FloatingMessagesContainer 
+        ref={messagesContainerRef}
         $isVisible={isExpanded} 
         $isDark={isDark}
         $isSidebarPresent={isSidebarPresent}
         $isSidebarCollapsed={isSidebarCollapsed}
+        $inputBarHeight={inputBarHeight}
       >
         <FloatingMessagesScrollContainer ref={scrollContainerRef}>
           {!hasBeenExpanded ? (
             <MessageBubble $isUser={false} $isDark={isDark} $index={0}>
               <ReactMarkdown>{getWelcomeMessage()}</ReactMarkdown>
+              <MessageActions $isDark={isDark}>
+                <CopyButtonWrapper>
+                  <IconButton
+                    $isDark={isDark}
+                    aria-label={t('Copiar respuesta')}
+                    onClick={(e) => { e.stopPropagation(); handleCopyMessage(0, getWelcomeMessage()); }}
+                  >
+                    <IconSwap $copied={copiedIndex === 0}>
+                      <SwapIcon $show={copiedIndex !== 0}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <rect x="9" y="9" width="10" height="12" rx="2" stroke="currentColor" strokeWidth="1.6"/>
+                          <rect x="5" y="3" width="10" height="12" rx="2" stroke="currentColor" strokeWidth="1.6" opacity="0.7"/>
+                        </svg>
+                      </SwapIcon>
+                      <SwapIcon $show={copiedIndex === 0}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M5 12l4 4L19 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      </SwapIcon>
+                    </IconSwap>
+                  </IconButton>
+                  <ChatTooltip $isDark={isDark}>
+                    <TooltipSwap>
+                      <TooltipText $show={copiedIndex !== 0}>{copyLabel}</TooltipText>
+                      <TooltipText $show={copiedIndex === 0}>{copiedLabel}</TooltipText>
+                    </TooltipSwap>
+                  </ChatTooltip>
+                </CopyButtonWrapper>
+              </MessageActions>
             </MessageBubble>
           ) : (
             <>
@@ -941,11 +1245,45 @@ const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
                   {message.isUser ? (
                     message.text
                   ) : (
-                    <TypewriterText
-                      text={message.text}
-                      speed={10}
-                      delay={index === 0 ? 700 : 50}
-                    />
+                    <>
+                      <TypewriterText
+                        text={message.text}
+                        speed={10}
+                        delay={index === 0 ? 700 : 50}
+                        onComplete={() => markMessageComplete(index)}
+                      />
+                      {completedIndexes.has(index) && (
+                        <MessageActions $isDark={isDark}>
+                          <CopyButtonWrapper>
+                            <IconButton
+                              $isDark={isDark}
+                              aria-label={t('Copiar respuesta')}
+                              onClick={(e) => { e.stopPropagation(); handleCopyMessage(index, message.text); }}
+                            >
+                              <IconSwap $copied={copiedIndex === index}>
+                                <SwapIcon $show={copiedIndex !== index}>
+                                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="9" y="9" width="10" height="12" rx="2" stroke="currentColor" strokeWidth="1.6"/>
+                                    <rect x="5" y="3" width="10" height="12" rx="2" stroke="currentColor" strokeWidth="1.6" opacity="0.7"/>
+                                  </svg>
+                                </SwapIcon>
+                                <SwapIcon $show={copiedIndex === index}>
+                                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M5 12l4 4L19 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                  </svg>
+                                </SwapIcon>
+                              </IconSwap>
+                            </IconButton>
+                            <ChatTooltip $isDark={isDark}>
+                              <TooltipSwap>
+                                <TooltipText $show={copiedIndex !== index}>{copyLabel}</TooltipText>
+                                <TooltipText $show={copiedIndex === index}>{copiedLabel}</TooltipText>
+                              </TooltipSwap>
+                            </ChatTooltip>
+                          </CopyButtonWrapper>
+                        </MessageActions>
+                      )}
+                    </>
                   )}
                 </MessageBubble>
               ))}
@@ -970,22 +1308,25 @@ const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
         $isDark={isDark}
         $isSidebarPresent={isSidebarPresent}
         $isSidebarCollapsed={isSidebarCollapsed}
+        $hasText={!!inputValue.trim()}
       >
         {/* Input Bar */}
         <InputWrapper 
+          ref={inputBarRef}
           $isExpanded={isExpanded} 
           $isDark={isDark}
           $animate={inputAnimated}
+          $hasText={!!inputValue.trim()}
           onClick={handleInputClick}
           style={{ cursor: isExpanded ? 'text' : 'pointer' }}
         >
           <ChatInput
             ref={inputRef}
-            type="text"
+            rows={1}
             placeholder={getPlaceholder()}
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            onKeyPress={handleKeyPress}
+            onKeyDown={handleKeyPress}
             onFocus={() => setInputFocused(true)}
             onBlur={() => setInputFocused(false)}
             onClick={(e) => {
@@ -998,6 +1339,7 @@ const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
             $isExpanded={isExpanded}
           />
           <ShinyPlaceholderOverlay
+            className="placeholder-overlay"
             $isDark={isDark}
             $hasValue={!!inputValue}
             $isFocused={inputFocused}
@@ -1013,7 +1355,13 @@ const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
             onClick={(e) => {
               e.stopPropagation();
               if (!isExpanded) {
-                handleInputClick();
+                if (inputValue.trim()) {
+                  setIsExpanded(true);
+                  setHasBeenExpanded(true);
+                  handleSendMessage();
+                } else {
+                  handleInputClick();
+                }
                 return;
               }
               handleSendMessage();

@@ -7,7 +7,9 @@ import confetti from 'canvas-confetti';
 import Tooltip from '../Tooltip';
 
 const SectionContainer = styled.section`
+  /* Keep current top spacing, slightly increased bottom spacing (reduced) */
   padding: ${({ theme }) => theme.space['2xl']} 0;
+  padding-bottom: ${({ theme }) => theme.space['2xl']};
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
@@ -15,10 +17,12 @@ const SectionContainer = styled.section`
   
   @media (max-width: 768px) {
     padding: ${({ theme }) => theme.space.xl} ${({ theme }) => theme.space.md};
+    padding-bottom: ${({ theme }) => theme.space.xl};
   }
   
   @media (max-width: 480px) {
     padding: ${({ theme }) => theme.space.lg} ${({ theme }) => theme.space.sm};
+    padding-bottom: ${({ theme }) => theme.space.lg};
   }
 `;
 
@@ -205,7 +209,7 @@ const SubmitButton = styled.button<{ $isDark: boolean }>`
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   width: auto;
-
+  
   &::before {
     content: '';
     position: absolute;
@@ -437,7 +441,11 @@ const ContactSection = forwardRef<HTMLDivElement, ContactSectionProps>(({ id }, 
             />
           </FormGroup>
           <ButtonContainer>
-            <SubmitButton type="submit" disabled={isLoading} $isDark={isDark}>
+            <SubmitButton
+              type="submit"
+              disabled={isLoading}
+              $isDark={isDark}
+            >
               {isLoading ? t('sending') : t('send')}
             </SubmitButton>
           </ButtonContainer>

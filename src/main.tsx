@@ -15,6 +15,14 @@ link.rel = 'icon';
 link.href = favicon;
 document.head.appendChild(link);
 
+// Ensure page always starts at top on load/refresh
+try {
+  if ('scrollRestoration' in window.history) {
+    window.history.scrollRestoration = 'manual';
+  }
+  window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+} catch {}
+
 
 
 // Service worker is now handled automatically by vite-plugin-pwa

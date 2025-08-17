@@ -1,5 +1,5 @@
 import React from 'react';
-import { createBrowserRouter, RouterProvider, Outlet, useLocation, ScrollRestoration, useOutletContext } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Outlet, useLocation, useOutletContext } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { store, setLoaded } from '@store/index';
@@ -295,11 +295,7 @@ const AppContent = () => {
         )}
 
         <Container>
-          <ScrollRestoration 
-            getKey={(location) => {
-              return location.pathname;
-            }}
-          />
+          {/* Removed ScrollRestoration to avoid unexpected scroll restore on reload */}
           <LazyComponentWrapper>
             <Outlet context={{ handleAnimationComplete, fontsLoaded, setIsContactSectionInView }} />
           </LazyComponentWrapper>

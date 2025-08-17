@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useTheme } from '../../context/ThemeContext';
+import { useTranslation } from 'react-i18next';
 
 interface ContactButtonProps {
   onClick?: () => void;
@@ -117,7 +118,11 @@ const ContactButton: React.FC<ContactButtonProps> = ({
   className 
 }) => {
   const { themeMode } = useTheme();
+  const { i18n } = useTranslation();
   const isDark = themeMode === 'dark';
+  const isEn = (i18n?.language || 'es').toLowerCase().startsWith('en');
+  const labelText = isEn ? 'Start project' : 'Iniciar proyecto';
+  const ariaText = isEn ? 'Start project' : 'Iniciar proyecto';
 
   const handleClick = () => {
     if (onClick) {
@@ -140,9 +145,9 @@ const ContactButton: React.FC<ContactButtonProps> = ({
       onClick={handleClick}
       className={className}
       type="button"
-      aria-label="Contactar"
+      aria-label={ariaText}
     >
-      <ButtonText>Contáctame</ButtonText>
+      <ButtonText>{labelText}</ButtonText>
     </StyledButton>
   );
 };

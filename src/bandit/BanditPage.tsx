@@ -3,16 +3,23 @@ import styled, { css } from 'styled-components';
 import { useSearchParams } from 'react-router-dom';
 import { useTheme, ThemeMode } from '../context/ThemeContext';
 import { useTranslation } from 'react-i18next';
+
+// Assets
 import banditLogo from '../assets/Proyectos Bandit/Logo Bandit Oscuro.png';
 import banditFondo from '../assets/Proyectos Bandit/fondo-bandit.svg';
 import banditApp from '../assets/Proyectos Bandit/Bandit-app.png';
+
+// Shared components
 import PageTransition from '@components/PageTransition/PageTransition';
 import StandardSectionTitle from '@components/shared/StandardSectionTitle';
-import Masonry from '../xcons/components/Masonry';
-import { UXUIDesignExperience } from './components/Experiences';
+
+// Section components/data (Bandit)
+import UXUIDesignExperience from './components/Experiences/UXUIDesignExperience';
 import { uxUIExperiences } from './data/experiencesData';
+import Masonry from '../xcons/components/Masonry';
 import { createMasonryData } from './data/masonryData';
 
+// Layout containers (parity with FusionAds/XCONS)
 const PageContainer = styled.div`
   max-width: 1000px;
   margin: 0 auto;
@@ -62,6 +69,7 @@ const BannerContent = styled.div`
   @media (max-width: 992px) {
     flex-direction: column;
     gap: 20px;
+    text-align: center;
   }
 `;
 
@@ -100,8 +108,9 @@ const BannerText = styled.p`
 `;
 
 const LocationText = styled.span`
-  color: #888888;
+  color: #666;
   font-size: 0.9rem;
+  font-weight: 500;
   margin-bottom: 8px;
 `;
 
@@ -127,14 +136,15 @@ const RightContent = styled.div`
   max-width: 35%;
 
   @media (max-width: 992px) {
-    max-width: 80%;
+    max-width: 70%;
+    margin-top: 20px;
   }
 
   img {
     max-width: 100%;
     height: auto;
     border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     display: block;
   }
 `;
@@ -163,9 +173,7 @@ const DividerLine = styled.hr<{ $isDark?: boolean }>`
   border: none;
   height: 1px;
   background-color: ${({ $isDark }) =>
-    $isDark
-      ? 'rgba(255,255,255,0.2)'
-      : 'rgba(0,0,0,0.15)'};
+    $isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.15)'};
   margin-top: 0.75rem;
   margin-bottom: 1.5rem;
 `;
@@ -195,26 +203,11 @@ const SummaryText = styled.p<{ $isDark: boolean }>`
 `;
 
 const ExperienceContainer = styled.div`
-  display: flex;
+  display: flex; 
   flex-direction: column;
-  gap: 3rem;
-  margin-top: 3rem;
-
-  @media (min-width: 992px) {
-    grid-template-columns: 1fr;
-  }
-  @media (max-width: 767px) {
-    gap: 1.5rem;
-    padding: 0;
-    background: none;
-    border: none;
-    border-radius: 0;
-  }
+  gap: 3rem; 
+  margin-top: 3rem; 
 `;
-
-
-
-
 
 const MasonryWrapper = styled.div<{ $isDark?: boolean }>`
   margin-top: 4rem;
@@ -239,17 +232,14 @@ const MasonryWrapper = styled.div<{ $isDark?: boolean }>`
   }
 `;
 
-
-
 const BanditPage: React.FC = () => {
   const { themeMode } = useTheme();
   const { i18n } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
   const language = i18n.language.startsWith('en') ? 'en' : 'es';
   const isDark = themeMode === 'dark';
-  
-  const initialProject = searchParams.get('project');
 
+  const initialProject = searchParams.get('project');
   const masonryData = createMasonryData(language);
 
   const translations = {
@@ -266,17 +256,13 @@ const BanditPage: React.FC = () => {
       es: 'Bandit es una plataforma enfocada en la gestión de giras y conciertos en vivo, diseñada para simplificar la logística tanto para artistas como para managers y agencias.',
       en: 'Bandit is a platform focused on tour and live concert management, designed to simplify logistics for artists, managers, and agencies.',
     },
-    location: {
-      es: 'España',
-      en: 'Spain',
-    },
+    location: { es: 'España', en: 'Spain' },
   };
-
-
 
   return (
     <PageTransition>
       <PageContainer>
+        {/* SR-only main title for semantics */}
         <StandardSectionTitle
           as="h1"
           style={{
@@ -293,20 +279,15 @@ const BanditPage: React.FC = () => {
           {translations.mainTitle[language]}
         </StandardSectionTitle>
 
+        {/* Banner */}
         <BanditBanner>
           <BannerBackground />
           <BannerContent>
             <LeftContent>
               <LogoImage src={banditLogo} alt="Bandit Logo" />
-              <BannerText>
-                {translations.bannerDescription[language]}
-              </BannerText>
+              <BannerText>{translations.bannerDescription[language]}</BannerText>
               <LocationText>{translations.location[language]}</LocationText>
-              <StyledSiteButton
-                href="https://app.bandit.show/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <StyledSiteButton href="https://app.bandit.show/" target="_blank" rel="noopener noreferrer">
                 {translations.visitSiteButton[language]}
               </StyledSiteButton>
             </LeftContent>
@@ -316,6 +297,7 @@ const BanditPage: React.FC = () => {
           </BannerContent>
         </BanditBanner>
 
+        {/* Role Summary */}
         <Summary $themeMode={themeMode}>
           <DescriptionBox $isDark={isDark}>
             <SectionTitleInsideBox $isDark={isDark}>
@@ -326,25 +308,25 @@ const BanditPage: React.FC = () => {
           </DescriptionBox>
         </Summary>
 
+        {/* Experiences */}
         <ExperienceContainer>
           <UXUIDesignExperience
-            title={
-              <StandardSectionTitle>{translations.designTitle[language]}</StandardSectionTitle>
-            }
+            title={<StandardSectionTitle>{translations.designTitle[language]}</StandardSectionTitle>}
             experiences={uxUIExperiences[language]}
             language={language}
             isDark={isDark}
           />
         </ExperienceContainer>
 
+        {/* Masonry Projects */}
         <MasonryWrapper $isDark={isDark}>
           <StandardSectionTitle style={{ textAlign: 'left' }}>
             {translations.projectsTitle[language]}
           </StandardSectionTitle>
           <DividerLine $isDark={isDark} />
-          <Masonry 
-            data={masonryData} 
-            themeMode={themeMode} 
+          <Masonry
+            data={masonryData}
+            themeMode={themeMode}
             initialSelectedProject={initialProject}
             onModalStateChange={(isOpen, projectId) => {
               if (isOpen && projectId) {
@@ -361,3 +343,4 @@ const BanditPage: React.FC = () => {
 };
 
 export default BanditPage;
+

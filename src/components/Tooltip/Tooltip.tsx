@@ -26,7 +26,8 @@ const TooltipContent = styled.div<{
   $isDark: boolean;
 }>`
   position: absolute;
-  z-index: 1000;
+  /* Ensure it appears above chatbot overlays and UI */
+  z-index: 20000;
   padding: 8px 12px;
   border-radius: 8px;
   font-size: 0.875rem;

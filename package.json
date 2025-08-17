@@ -5,9 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite --open",
+    "dev:lan": "vite --host",
     "build": "tsc && vite build",
     "lint": "eslint src",
     "preview": "vite preview",
+    "preview:lan": "vite preview --host",
+    "expose": "npx localtunnel --port 5173",
     "format": "prettier --write \"src/**/*.{ts,tsx}\"",
     "prepare": "husky install",
     "test": "jest"

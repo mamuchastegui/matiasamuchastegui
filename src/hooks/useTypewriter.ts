@@ -23,6 +23,11 @@ export const useTypewriter = (
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  const onCompleteRef = useRef<typeof onComplete>(onComplete);
+  useEffect(() => {
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
+
   useEffect(() => {
     // Reset states when text changes
     setDisplayText('');
@@ -55,7 +60,7 @@ export const useTypewriter = (
           }
           setIsTyping(false);
           setIsComplete(true);
-          onComplete?.();
+          onCompleteRef.current?.();
         }
       }, speed);
     }, delay);
@@ -69,7 +74,7 @@ export const useTypewriter = (
         clearTimeout(timeoutRef.current);
       }
     };
-  }, [text, speed, delay, onComplete]);
+  }, [text, speed, delay]);
 
   return {
     displayText,

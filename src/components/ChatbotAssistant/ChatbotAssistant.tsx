@@ -169,7 +169,8 @@ const ColorGlowOverlay = styled.div<{
     position: absolute;
     left: 0;
     right: 0;
-    bottom: 0;
+    /* Extend below viewport to avoid gap when floating up */
+    bottom: -48px;
     /* Lower the glow a bit */
     top: 64%;
     z-index: 2;
@@ -210,7 +211,8 @@ const ColorGlowOverlay = styled.div<{
     position: absolute;
     left: 0;
     right: 0;
-    bottom: 0;
+    /* Extend below viewport to avoid gap when floating up */
+    bottom: -48px;
     /* Lower the secondary glow slightly more */
     top: 72%;
     z-index: 1;
@@ -1035,14 +1037,33 @@ const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
     };
   }, [isExpanded, autoScrollEnabled]);
 
-  // Focus input when expanded
-  useEffect(() => {
-    if (isExpanded) {
-      setTimeout(() => {
-        inputRef.current?.focus();
-      }, 300);
+  // Focus and caret handling when expanded handled below
+  
+  // Helper: place caret at the end of current input value
+  const placeCaretAtEnd = useCallback(() => {
+    const el = inputRef.current;
+    if (!el) return;
+    const len = el.value.length;
+    try {
+      el.setSelectionRange(len, len);
+    } catch {
+      // no-op in unsupported environments
     }
-  }, [isExpanded]);
+    // ensure view is scrolled to the bottom of the textarea
+    el.scrollTop = el.scrollHeight;
+  }, []);
+
+  // When expanding (opening) the chat, focus and move caret to the end
+  useEffect(() => {
+    if (!isExpanded) return;
+    const id = window.setTimeout(() => {
+      if (inputRef.current) {
+        inputRef.current.focus();
+        placeCaretAtEnd();
+      }
+    }, 300);
+    return () => window.clearTimeout(id);
+  }, [isExpanded, placeCaretAtEnd]);
 
   // Auto-resize input up to 4 rows, then enable internal scroll
   useEffect(() => {
@@ -1077,7 +1098,9 @@ const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
         el.style.height = `${newHCollapsed}px`;
         el.style.overflowY = 'hidden'; // no internal scroll when collapsed
         el.style.overflowX = 'hidden';
-        el.scrollTop = newHCollapsed; // ensure viewport sits at bottom visually
+        // Keep the last typed line visible within the collapsed viewport
+        // Bottom is scrollHeight - clientHeight; assigning scrollHeight clamps to bottom
+        el.scrollTop = el.scrollHeight;
       }
       requestAnimationFrame(() => {
         const h = inputBarRef.current?.getBoundingClientRect().height || 0;
@@ -1327,7 +1350,12 @@ const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyPress}
-            onFocus={() => setInputFocused(true)}
+            onFocus={() => {
+              setInputFocused(true);
+              // On refocus, put caret after existing text for immediate continuation
+              // Use rAF to run after focus settles
+              requestAnimationFrame(placeCaretAtEnd);
+            }}
             onBlur={() => setInputFocused(false)}
             onClick={(e) => {
               e.stopPropagation();

@@ -13,7 +13,8 @@ const MaintenanceContainer = styled.div< { $isDark: boolean } >`
   min-height: calc(100vh - 160px);
   padding: 2rem;
   text-align: center;
-  background-color: ${({ theme }) => theme.colors.background};
+  /* Fondo transparente para integrarse con el background global */
+  background-color: transparent;
   color: ${({ theme }) => theme.colors.text};
 `;
 

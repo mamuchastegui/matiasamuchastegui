@@ -2,24 +2,19 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import { useSearchParams } from 'react-router-dom';
 import { useTheme, ThemeMode } from '../context/ThemeContext';
+import UXUIDesignExperience from '../bandit/components/Experiences/UXUIDesignExperience';
+import { uxUIExperiences } from '../bandit/data/experiencesData';
 import { useTranslation } from 'react-i18next';
+import xFondo from '../assets/x-fondo.png';
+import xconLogoVerde from '../assets/xcon-logo-verde.png';
+import xconsComercial from '../assets/xcons-comercial.png';
+import Masonry from './components/Masonry';
+import { createMasonryData } from '../bandit/data/masonryData';
 
-// Assets
-import banditLogo from '../assets/Proyectos Bandit/Logo Bandit Oscuro.png';
-import banditFondo from '../assets/Proyectos Bandit/fondo-bandit.svg';
-import banditApp from '../assets/Proyectos Bandit/Bandit-app.png';
-
-// Shared components
+// Removed XCONS masonry assets; XCONS 2 now shows Bandit projects
+import StandardSectionTitle from '../components/shared/StandardSectionTitle';
 import PageTransition from '@components/PageTransition/PageTransition';
-import StandardSectionTitle from '@components/shared/StandardSectionTitle';
 
-// Section components/data (Bandit)
-import UXUIDesignExperience from './components/Experiences/UXUIDesignExperience';
-import { uxUIExperiences } from './data/experiencesData';
-import Masonry from '../xcons/components/Masonry';
-import { createMasonryData } from './data/masonryData';
-
-// Layout containers (parity with FusionAds/XCONS)
 const PageContainer = styled.div`
   max-width: 1000px;
   margin: 0 auto;
@@ -27,7 +22,7 @@ const PageContainer = styled.div`
   padding-top: 4rem;
 `;
 
-const BanditBanner = styled.div`
+const XconsBanner = styled.div`
   position: relative;
   width: 100%;
   background-color: white;
@@ -49,11 +44,9 @@ const BannerBackground = styled.div`
   height: 100%;
   z-index: 1;
   overflow: hidden;
-  background-image: url(${banditFondo});
+  background-image: url(${xFondo});
   background-repeat: no-repeat;
-  background-position: center center;
-  background-size: 600px auto;
-  opacity: 0.5;
+  background-position: left center;
 `;
 
 const BannerContent = styled.div`
@@ -69,7 +62,7 @@ const BannerContent = styled.div`
   @media (max-width: 992px) {
     flex-direction: column;
     gap: 20px;
-    text-align: center;
+    
   }
 `;
 
@@ -99,7 +92,7 @@ const BannerText = styled.p`
   margin-bottom: 10px;
 
   a {
-    color: #F70F43;
+    color: #15814b;
     text-decoration: underline;
     &:hover {
       text-decoration: none;
@@ -108,15 +101,14 @@ const BannerText = styled.p`
 `;
 
 const LocationText = styled.span`
-  color: #666;
+  color: #888888;
   font-size: 0.9rem;
-  font-weight: 500;
   margin-bottom: 8px;
 `;
 
 const StyledSiteButton = styled.a`
   display: inline-block;
-  background-color: #F70F43;
+  background-color: #15814b;
   color: white;
   padding: 8px 16px;
   border-radius: 6px;
@@ -127,7 +119,7 @@ const StyledSiteButton = styled.a`
   transition: background-color 0.2s ease-in-out;
 
   &:hover {
-    background-color: #D90D3A;
+    background-color: #106a3c;
     text-decoration: none;
   }
 `;
@@ -136,15 +128,14 @@ const RightContent = styled.div`
   max-width: 35%;
 
   @media (max-width: 992px) {
-    max-width: 70%;
-    margin-top: 20px;
+    max-width: 80%;
   }
 
   img {
     max-width: 100%;
     height: auto;
     border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     display: block;
   }
 `;
@@ -173,7 +164,9 @@ const DividerLine = styled.hr<{ $isDark?: boolean }>`
   border: none;
   height: 1px;
   background-color: ${({ $isDark }) =>
-    $isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.15)'};
+    $isDark
+      ? 'rgba(255,255,255,0.2)'
+      : 'rgba(0,0,0,0.15)'};
   margin-top: 0.75rem;
   margin-bottom: 1.5rem;
 `;
@@ -203,10 +196,16 @@ const SummaryText = styled.p<{ $isDark: boolean }>`
 `;
 
 const ExperienceContainer = styled.div`
-  display: flex; 
-  flex-direction: column;
-  gap: 3rem; 
-  margin-top: 3rem; 
+  display: grid;
+  grid-template-columns: 1fr; /* full width */
+  gap: 3rem;
+  @media (max-width: 767px) {
+    gap: 1.5rem;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 0;
+  }
 `;
 
 const MasonryWrapper = styled.div<{ $isDark?: boolean }>`
@@ -232,7 +231,8 @@ const MasonryWrapper = styled.div<{ $isDark?: boolean }>`
   }
 `;
 
-const BanditPage: React.FC = () => {
+
+const XCons2ExperiencePage: React.FC = () => {
   const { themeMode } = useTheme();
   const { i18n } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -240,6 +240,7 @@ const BanditPage: React.FC = () => {
   const isDark = themeMode === 'dark';
 
   const initialProject = searchParams.get('project');
+
   const masonryData = createMasonryData(language);
 
   const translations = {
@@ -262,7 +263,6 @@ const BanditPage: React.FC = () => {
   return (
     <PageTransition>
       <PageContainer>
-        {/* SR-only main title for semantics */}
         <StandardSectionTitle
           as="h1"
           style={{
@@ -279,25 +279,27 @@ const BanditPage: React.FC = () => {
           {translations.mainTitle[language]}
         </StandardSectionTitle>
 
-        {/* Banner */}
-        <BanditBanner>
+        <XconsBanner>
           <BannerBackground />
           <BannerContent>
             <LeftContent>
-              <LogoImage src={banditLogo} alt="Bandit Logo" />
+              <LogoImage src={xconLogoVerde} alt="XCON Logo" />
               <BannerText>{translations.bannerDescription[language]}</BannerText>
               <LocationText>{translations.location[language]}</LocationText>
-              <StyledSiteButton href="https://app.bandit.show/" target="_blank" rel="noopener noreferrer">
+              <StyledSiteButton
+                href="https://www.xcons.com.ar"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {translations.visitSiteButton[language]}
               </StyledSiteButton>
             </LeftContent>
             <RightContent>
-              <img src={banditApp} alt="Bandit App Screenshot" />
+              <img src={xconsComercial} alt="XCONS Comercial" />
             </RightContent>
           </BannerContent>
-        </BanditBanner>
+        </XconsBanner>
 
-        {/* Role Summary */}
         <Summary $themeMode={themeMode}>
           <DescriptionBox $isDark={isDark}>
             <SectionTitleInsideBox $isDark={isDark}>
@@ -308,7 +310,6 @@ const BanditPage: React.FC = () => {
           </DescriptionBox>
         </Summary>
 
-        {/* Experiences */}
         <ExperienceContainer>
           <UXUIDesignExperience
             title={<StandardSectionTitle>{translations.designTitle[language]}</StandardSectionTitle>}
@@ -318,7 +319,6 @@ const BanditPage: React.FC = () => {
           />
         </ExperienceContainer>
 
-        {/* Masonry Projects */}
         <MasonryWrapper $isDark={isDark}>
           <StandardSectionTitle style={{ textAlign: 'left' }}>
             {translations.projectsTitle[language]}
@@ -342,5 +342,4 @@ const BanditPage: React.FC = () => {
   );
 };
 
-export default BanditPage;
-
+export default XCons2ExperiencePage;

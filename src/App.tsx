@@ -10,7 +10,6 @@ import { ThemeProvider } from './context/ThemeContext';
 import FontLoader from '@components/FontLoader/FontLoader';
 import DotBackground from '@components/DotBackground';
 import Sidebar from '@components/Sidebar/Sidebar';
-import LoadingSpinner from '@components/LoadingSpinner';
 import { LazyLoadErrorBoundary } from '@components/ErrorBoundary';
 
 
@@ -21,9 +20,8 @@ const ChatbotAssistant = React.lazy(
 const LazyComponentWrapper = ({ children }: { children: React.ReactNode }) => {
   return (
     <LazyLoadErrorBoundary>
-      <React.Suspense fallback={<LoadingSpinner />}>
-        {children}
-      </React.Suspense>
+      {/* Ocultamos el spinner visual para evitar ícono de carga */}
+      <React.Suspense fallback={null}>{children}</React.Suspense>
     </LazyLoadErrorBoundary>
   );
 };
@@ -32,12 +30,15 @@ import { initializeN8NServer } from '@services/n8nService';
 
 import Home from './pages/Home';
 
-const createLazyComponent = (importFn: () => Promise<any>, retries = 3) => {
-  return React.lazy(() => {
+const createLazyComponent = <T extends React.ComponentType<any>>( // eslint-disable-line @typescript-eslint/no-explicit-any
+  importFn: () => Promise<unknown>,
+  retries = 3
+) => {
+  return React.lazy<T>(() => {
     return new Promise((resolve, reject) => {
       const attemptImport = (retriesLeft: number) => {
         importFn()
-          .then(resolve)
+          .then((mod) => resolve(mod as { default: T }))
           .catch((error) => {
             if (retriesLeft > 0) {
               setTimeout(() => attemptImport(retriesLeft - 1), 1000);
@@ -53,8 +54,8 @@ const createLazyComponent = (importFn: () => Promise<any>, retries = 3) => {
 
 const ProjectPage = createLazyComponent(() => import('./pages/ProjectPage'));
 const XConsExperiencePage = createLazyComponent(() => import('./xcons/XConsExperiencePage'));
+const XCons2ExperiencePage = createLazyComponent(() => import('./xcons/XCons2ExperiencePage'));
 const FusionAdsPage = createLazyComponent(() => import('./fusionads/FusionAdsPage'));
-const BanditPage = createLazyComponent(() => import('./bandit/BanditPage'));
 const MaintenancePage = createLazyComponent(() => import('./pages/MaintenancePage'));
 const NewLookPage = createLazyComponent(() => import('./newlook/NewLookPage'));
 
@@ -95,6 +96,44 @@ const MainContentWrapper = styled.div<{ $isSidebarPresent: boolean; $isSidebarCo
 const Container = styled.div`
   position: relative;
 `;
+
+// Prefetch lo antes posible (en carga de módulo) para cubrir navegación inicial
+try {
+  type NetworkInformation = { saveData?: boolean; effectiveType?: 'slow-2g' | '2g' | '3g' | '4g' | string };
+  type NavigatorWithConnection = Navigator & { connection?: NetworkInformation };
+  const shouldPrefetch = () => {
+    const nav = (navigator as NavigatorWithConnection);
+    if (nav.connection?.saveData) return false;
+    const effective = nav.connection?.effectiveType;
+    if (effective && ['slow-2g', '2g'].includes(effective)) return false;
+    return true;
+  };
+
+  const prefetch = () => {
+    if (!shouldPrefetch()) return;
+    Promise.all([
+      import('./pages/ProjectPage'),
+      import('./xcons/XConsExperiencePage'),
+      import('./xcons/XCons2ExperiencePage'),
+      import('./fusionads/FusionAdsPage'),
+      import('./pages/MaintenancePage'),
+      import('./newlook/NewLookPage'),
+      import('@components/ChatbotAssistant'),
+    ]).catch(() => {});
+  };
+
+  if (typeof window !== 'undefined') {
+    const ric = (window as unknown as { requestIdleCallback?: (cb: () => void, opts?: { timeout?: number }) => number })
+      .requestIdleCallback;
+    if (typeof ric === 'function') {
+      ric(prefetch, { timeout: 1500 });
+    } else {
+      setTimeout(prefetch, 300);
+    }
+  }
+} catch {
+  // No romper en navegadores sin estas APIs
+}
 
 
 const ContactButtonStyled = styled(ContactButton)<{ $hideOnScroll: boolean }>`
@@ -306,6 +345,47 @@ const AppContent = () => {
 };
 
 function App() {
+  // Prefetch de rutas pesadas en segundo plano para navegación sin "loading"
+  useEffect(() => {
+    try {
+      type NetworkInformation = { saveData?: boolean; effectiveType?: 'slow-2g' | '2g' | '3g' | '4g' | string };
+      type NavigatorWithConnection = Navigator & { connection?: NetworkInformation };
+      const shouldPrefetch = () => {
+        const nav = navigator as NavigatorWithConnection;
+        // Evitar en ahorro de datos o redes potencialmente lentas
+        if (nav.connection?.saveData) return false;
+        const effective = nav.connection?.effectiveType;
+        if (effective && ['slow-2g', '2g'].includes(effective)) return false;
+        return true;
+      };
+
+      const prefetch = () => {
+        if (!shouldPrefetch()) return;
+        // Disparar fetch de los chunks; se silencian errores para no afectar UX
+        Promise.all([
+          import('./pages/ProjectPage'),
+          import('./xcons/XConsExperiencePage'),
+          import('./xcons/XCons2ExperiencePage'),
+          import('./fusionads/FusionAdsPage'),
+          import('./pages/MaintenancePage'),
+          import('./newlook/NewLookPage'),
+          import('@components/ChatbotAssistant'),
+        ]).catch(() => {});
+      };
+
+      type RequestIdleCallbackFn = (cb: () => void, opts?: { timeout?: number }) => number;
+      const ric = (window as unknown as { requestIdleCallback?: RequestIdleCallbackFn }).requestIdleCallback;
+      if (typeof ric === 'function') {
+        ric(prefetch, { timeout: 3000 });
+      } else {
+        // Pequeño delay para no competir con la renderización inicial
+        setTimeout(prefetch, 1200);
+      }
+    } catch {
+      // No-op: prioridad a no romper en navegadores antiguos
+    }
+  }, []);
+
   const router = createBrowserRouter([
     {
        path: "/newlook",
@@ -328,12 +408,12 @@ function App() {
           element: <XConsExperiencePage />
         },
         {
-          path: "fusionads",
-          element: <FusionAdsPage />
+          path: "bandit",
+          element: <XCons2ExperiencePage />
         },
         {
-          path: "bandit",
-          element: <BanditPage />
+          path: "fusionads",
+          element: <FusionAdsPage />
         },
         {
           path: "otros",

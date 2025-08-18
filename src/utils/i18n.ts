@@ -65,6 +65,7 @@ const resources = {
         resume: 'Resume',
         services: 'Services',
         xcons: 'XCONS',
+        xcons2: 'XCONS 2',
         fusionads: 'FusionAds',
         bandit: 'Bandit',
         otros: 'Other Projects'
@@ -150,6 +151,13 @@ const resources = {
         fusionads: 'AI-powered generative advertising platform that creates professional omni-channel ads.',
         bandit: 'Platform focused on tour and live concert management for artists and managers.',
         otros: 'Various personal and professional projects under development.'
+      },
+      bandit: {
+        experience: {
+          tasks: 'Tasks',
+          tools: 'Tools',
+          results: 'Results',
+        },
       },
 
       services: {
@@ -241,6 +249,7 @@ const resources = {
         resume: 'Currículum',
         services: 'Servicios',
         xcons: 'XCONS',
+        xcons2: 'XCONS 2',
         fusionads: 'FusionAds',
         bandit: 'Bandit',
         otros: 'Otros Proyectos'
@@ -326,6 +335,13 @@ const resources = {
         fusionads: 'Plataforma de publicidad generativa impulsada por IA que crea anuncios profesionales omnicanal.',
         bandit: 'Plataforma enfocada en la gestión de giras y conciertos en vivo para artistas y managers.',
         otros: 'Diversos proyectos personales y profesionales en desarrollo.'
+      },
+      bandit: {
+        experience: {
+          tasks: 'Tareas',
+          tools: 'Herramientas',
+          results: 'Resultados',
+        },
       },
 
       services: {

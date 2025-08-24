@@ -15,12 +15,12 @@ const glassEffect = css`
   will-change: backdrop-filter;
 `;
 
-const TooltipContainer = styled.div`
+const TooltipContainer = styled.span`
   position: relative;
   display: inline-block;
 `;
 
-const TooltipContent = styled.div<{ 
+const TooltipContent = styled.span<{ 
   $visible: boolean; 
   $position: string; 
   $isDark: boolean;

@@ -269,6 +269,13 @@ const AppContent = () => {
     }
   }, [location.state, location.pathname]);
 
+  // Ensure non-home pages start at the top on navigation
+  useEffect(() => {
+    if (location.pathname !== '/') {
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    }
+  }, [location.pathname]);
+
 
 
   const handleAnimationComplete = () => {
@@ -425,13 +432,21 @@ function App() {
         }
       ]
     }
-  ]);
+  ], {
+    future: {
+      // Opt into RR v7 relative splat path behavior to silence warnings
+      v7_relativeSplatPath: true,
+    }
+  });
 
   return (
     <Provider store={store}>
       <ThemeProvider>
         <GlobalStyles />
-        <RouterProvider router={router} />
+        <RouterProvider 
+          router={router}
+          future={{ v7_startTransition: true }}
+        />
       </ThemeProvider>
     </Provider>
   );

@@ -1017,10 +1017,17 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
                   $isCollapsed={!isMobile && isCollapsed}
                   style={{ position: 'relative' }}
                   onMouseEnter={(e) => {
-                     if (!isMobile && isCollapsed) {
-                       setShowNavTooltips(prev => ({ ...prev, [itemHref]: true }));
-                       handleNavItemHover(itemHref, e);
-                     } else if (!isMobile && !isCollapsed) {
+                     if (!isMobile) {
+                       if (isCollapsed) {
+                         setShowNavTooltips(prev => ({ ...prev, [itemHref]: true }));
+                       }
+                       const isExperienceParent = itemHref === '#experience';
+                       const isExperienceChildActive = !!navLinks
+                         .find((l) => l.href === '#experience')
+                         ?.subLinks?.some((sl) => sl.href === activeLink);
+                       if (isExperienceParent && isExperienceChildActive) {
+                         return;
+                       }
                        handleNavItemHover(itemHref, e);
                      }
                    }}

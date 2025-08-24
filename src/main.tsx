@@ -5,7 +5,6 @@ import App from './App';
 import { ThemeProvider } from './context/ThemeContext';
 
 import './utils/i18n';
-import { initClarity } from './services/clarity';
 
 
 import favicon from './assets/images/projects/Logo AV.png';
@@ -24,8 +23,7 @@ try {
   window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
 } catch {}
 
-// Init Microsoft Clarity (production only)
-initClarity();
+// Clarity now injected via official snippet in index.html
 
 
 // Service worker is now handled automatically by vite-plugin-pwa

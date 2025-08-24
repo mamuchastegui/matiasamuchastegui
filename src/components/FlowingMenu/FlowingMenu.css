@@ -68,6 +68,7 @@
   align-items: center;
   justify-content: center;
   height: 100%;
+  width: 100%; /* Asegura que el anchor ocupe todo el ancho para centrar y aplicar hover correctamente */
   position: relative;
   cursor: pointer;
   text-transform: uppercase;

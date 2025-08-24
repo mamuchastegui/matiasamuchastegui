@@ -22,7 +22,7 @@
   position: relative;
   overflow: hidden;
   text-align: center;
-  box-shadow: 0 -1px var(--separator-color, rgba(0, 0, 0, 0.1));
+  /* box-shadow se define específicamente para cada tema */
   transition: flex 0.5s ease, background-color 0.3s ease;
 }
 
@@ -35,17 +35,19 @@
   --separator-color: rgba(255, 255, 255, 0.1);
   --hover-bg-color: #ffffff;
   --text-color: #ffffff;
+  box-shadow: 0 -1px rgba(255, 255, 255, 0.1) !important;
 }
 
 .menu-wrap[data-theme="light"] .menu__item {
   --separator-color: rgba(0, 0, 0, 0.1);
   --hover-bg-color: #1D1F23;
   --text-color: #1D1F23;
+  box-shadow: 0 -1px rgba(0, 0, 0, 0.1) !important;
 }
 
 /* Efecto hover para dark mode */
 .menu-wrap[data-theme="dark"] .menu__item-link:hover {
-  background-color: var(--text-color);
+  background-color: #ffffff;
 }
 
 .menu-wrap[data-theme="dark"] .menu__item-link:hover .company-logo {
@@ -54,7 +56,7 @@
 
 /* Efecto hover para light mode */
 .menu-wrap[data-theme="light"] .menu__item-link:hover {
-  background-color: var(--text-color);
+  background-color: #1D1F23;
 }
 
 .menu-wrap[data-theme="light"] .menu__item-link:hover .company-logo {
@@ -132,17 +134,30 @@
   max-height: 200px;
 }
 
-.company-details h3 {
+.menu-wrap[data-theme="dark"] .company-details h3 {
   margin-top: 0;
   font-size: 1.5rem;
   font-weight: 600;
-  color: var(--text-color);
+  color: #ffffff;
 }
 
-.company-details p {
+.menu-wrap[data-theme="light"] .company-details h3 {
+  margin-top: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1D1F23;
+}
+
+.menu-wrap[data-theme="dark"] .company-details p {
   line-height: 1.6;
   margin-bottom: 15px;
-  color: var(--text-color);
+  color: #ffffff;
+}
+
+.menu-wrap[data-theme="light"] .company-details p {
+  line-height: 1.6;
+  margin-bottom: 15px;
+  color: #1D1F23;
 }
 
 .company-actions {

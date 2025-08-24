@@ -17,8 +17,26 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({
   const isDark = themeMode === 'dark';
   
 
-  const toggleStyle = {
-    color: isDark ? '#fff' : '#1D1F2C'
+  // Fallback inline styles to ensure correct layout/animation even if CSS fails to load in prod
+  const toggleStyle: React.CSSProperties = {
+    color: isDark ? '#fff' : '#1D1F2C',
+    position: 'relative', // anchor absolute icons
+    display: 'grid',
+    placeItems: 'center',
+  };
+
+  const baseIconStyle: React.CSSProperties = {
+    position: 'absolute', // overlay both icons
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    display: 'grid',
+    placeItems: 'center',
+    transition: 'transform 500ms',
+    transformOrigin: '50% 50%',
+    willChange: 'transform',
+    lineHeight: 0.1,
   };
   
   return (
@@ -54,7 +72,10 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({
         <div
           className="icon icon--moon"
           aria-hidden={isDark}
-          style={{ transform: isDark ? 'rotate(360deg) scale(0)' : 'scale(1)' }}
+          style={{ 
+            ...baseIconStyle,
+            transform: isDark ? 'rotate(360deg) scale(0)' : 'scale(1)',
+          }}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -74,7 +95,10 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({
         <div
           className="icon icon--sun"
           aria-hidden={!isDark}
-          style={{ transform: isDark ? 'scale(1) rotate(360deg)' : 'scale(0)' }}
+          style={{ 
+            ...baseIconStyle,
+            transform: isDark ? 'scale(1) rotate(360deg)' : 'scale(0)',
+          }}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -91,6 +115,6 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({
       </label>
     </div>
   );
-};
+}; 
 
 export default ThemeToggle;

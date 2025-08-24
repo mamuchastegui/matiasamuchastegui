@@ -508,6 +508,10 @@ const ThemeToggleWrapper = styled.div<{ $isCollapsed?: boolean; $index?: number;
   border: 1px solid transparent;
   position: relative;
   
+  /* Ensure inner toggle never overflows the 36x36 wrapper in prod */
+  overflow: hidden;
+  box-sizing: border-box;
+
   opacity: ${({ $phase }) => ($phase === 'hidden' ? 0 : $phase === 'fading' ? 0 : 1)};
   filter: blur(${({ $phase }) => ($phase === 'hidden' ? '4px' : $phase === 'fading' ? '4px' : '0px')});
   transform: translateY(0) translateX(0) scale(1);

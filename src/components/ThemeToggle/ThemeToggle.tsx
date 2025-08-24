@@ -23,6 +23,12 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({
     position: 'relative', // anchor absolute icons
     display: 'grid',
     placeItems: 'center',
+    // Ensure it always fits its wrapper even if CSS is missing
+    width: '100%',
+    height: '100%',
+    lineHeight: 1,
+    boxSizing: 'border-box',
+    borderRadius: 8,
   };
 
   const baseIconStyle: React.CSSProperties = {
@@ -43,7 +49,10 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({
     <div className={`toggle-container ${className || ''}`}
       style={{
         transform: $hideOnScroll ? 'translateY(-100px)' : 'translateY(0)',
-        transition: 'transform 0.3s ease'
+        transition: 'transform 0.3s ease',
+        // Make the container fill the wrapper to avoid overflow/layout jumps in prod
+        width: '100%',
+        height: '100%'
       }}
     >
       <label htmlFor="switch" className="toggle" style={toggleStyle}>

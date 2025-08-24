@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SplitType from 'split-type';
+import { useTranslation } from 'react-i18next';
 import InfoBlocksAnimation from './components/InfoBlocksAnimation';
 
 import HamburgerMenu from '../components/HamburgerMenu';
@@ -64,6 +65,7 @@ const HeroTitleComponent = ({ animationsReady }: { animationsReady: boolean }) =
 interface NewLookPageProps {}
 
 const NewLookPage: React.FC<NewLookPageProps> = () => {
+  const { t } = useTranslation();
   const heroImageRef = useRef<HTMLImageElement>(null);
   const heroContainerRef = useRef<HTMLDivElement>(null);
   const navigationRef = useRef<HTMLUListElement>(null);
@@ -386,12 +388,9 @@ const NewLookPage: React.FC<NewLookPageProps> = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
         >
-          <SubheadingTitle ref={subheadingRef}>UX/UI Developer &amp; AI Integration Specialist</SubheadingTitle>
+          <SubheadingTitle ref={subheadingRef}>{t('newLookTitle')}</SubheadingTitle>
           <SubheadingText>
-            <SubheadingTextLine ref={subheadingTextLine1Ref}>Acompaño a agencias, emprendedores</SubheadingTextLine>
-            <SubheadingTextLine ref={subheadingTextLine2Ref}>y startups en el diseño de</SubheadingTextLine>
-            <SubheadingTextLine ref={subheadingTextLine3Ref}>soluciones innovadoras, materializarlas</SubheadingTextLine>
-            <SubheadingTextLine ref={subheadingTextLine4Ref}>en productos reales e impulsarlas con IA.</SubheadingTextLine>
+            <SubheadingTextLine ref={subheadingTextLine1Ref}>{t('newLookDescription')}</SubheadingTextLine>
           </SubheadingText>
         </SubheadingSection>
 

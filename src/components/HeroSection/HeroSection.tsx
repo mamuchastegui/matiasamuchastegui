@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SplitType from 'split-type';
+import { useTranslation } from 'react-i18next';
 
 const HeroContainer = styled.section`
   display: flex;
@@ -182,6 +183,7 @@ interface HeroSectionProps {
 }
 
 const HeroSection: React.FC<HeroSectionProps> = () => {
+  const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState(false);
   const leftRef = useRef<HTMLDivElement>(null);
   const rightRef = useRef<HTMLDivElement>(null);
@@ -329,15 +331,15 @@ const HeroSection: React.FC<HeroSectionProps> = () => {
         }}>
           <Name ref={nameRef}>Alexis Vedia</Name>
           <Subtitle ref={subtitleRef}>
-            <span className="line"><span className="line-inner">UX/UI Developer</span></span>
-            <span className="line"><span className="line-inner">AI Integration Specialist</span></span>
+            <span className="line"><span className="line-inner">{t('heroSubtitle1')}</span></span>
+            <span className="line"><span className="line-inner">{t('heroSubtitle2')}</span></span>
           </Subtitle>
           <Description ref={descriptionRef}>
-            <span className="line"><span className="line-inner">Acompaño a agencias,</span></span>
-            <span className="line"><span className="line-inner">emprendedores y startups en</span></span>
-            <span className="line"><span className="line-inner">el diseño de soluciones</span></span>
-            <span className="line"><span className="line-inner">innovadoras, materializarlas en</span></span>
-            <span className="line"><span className="line-inner">productos reales e impulsarlas con IA</span></span>
+            <span className="line"><span className="line-inner">{t('heroDescription1')}</span></span>
+            <span className="line"><span className="line-inner">{t('heroDescription2')}</span></span>
+            <span className="line"><span className="line-inner">{t('heroDescription3')}</span></span>
+            <span className="line"><span className="line-inner">{t('heroDescription4')}</span></span>
+            <span className="line"><span className="line-inner">{t('heroDescription5')}</span></span>
           </Description>
         </LeftContainer>
         

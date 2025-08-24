@@ -13,6 +13,20 @@ const resources = {
       heroTitle: 'UX/UI Designer and Frontend Developer',
       heroSubtitle:
         'Artificial Intelligence • User Experience • E-commerce • WordPress • Chatbots • Interface Design • Mobile App Design • Automations',
+      
+      // NewLook page translations
+      newLookTitle: 'UX/UI Developer & AI Integration Specialist',
+      newLookDescription: 'I accompany agencies, entrepreneurs and startups in designing innovative solutions, materializing them into real products and boosting them with AI.',
+      
+      // Hero section translations
+      heroSubtitle1: 'UX/UI Developer',
+      heroSubtitle2: 'AI Integration Specialist',
+      heroDescription1: 'I accompany agencies, entrepreneurs and startups',
+      heroDescription2: 'in designing innovative solutions,',
+      heroDescription3: 'materializing them into real products',
+      heroDescription4: 'and boosting them with AI',
+      heroDescription5: '',
+      
       viewProjects: 'View Projects',
       contactMe: 'Contact Me',
 
@@ -196,6 +210,20 @@ const resources = {
       heroTitle: 'Diseñador UX/UI y Desarrollador Frontend',
       heroSubtitle:
         'Inteligencia Artificial • Experiencia de usuario • E-commerce • Wordpress • Chatbots • Diseño de interfaces • Diseño de aplicaciones móviles • Automatizaciones',
+      
+      // NewLook page translations
+      newLookTitle: 'Desarrollador UX/UI & Especialista en Integración de IA',
+      newLookDescription: 'Acompaño a agencias, emprendedores y startups en el diseño de soluciones innovadoras, materializarlas en productos reales e impulsarlas con IA.',
+      
+      // Hero section translations
+      heroSubtitle1: 'Desarrollador UX/UI',
+      heroSubtitle2: 'Especialista en Integración de IA',
+      heroDescription1: 'Acompaño a agencias, emprendedores y startups',
+      heroDescription2: 'en el diseño de soluciones innovadoras,',
+      heroDescription3: 'materializarlas en productos reales',
+      heroDescription4: 'e impulsarlas con IA',
+      heroDescription5: '',
+      
       viewProjects: 'Ver Proyectos',
       contactMe: 'Contáctame',
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useTheme } from '../../context/ThemeContext';
 import './toggle-styles.css';
 
@@ -11,6 +12,7 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({
   className, 
   $hideOnScroll = false
 }) => {
+  const { t } = useTranslation();
   const { themeMode, toggleTheme } = useTheme();
   const isDark = themeMode === 'dark';
   
@@ -33,6 +35,21 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({
           id="switch" 
           checked={isDark}
           onChange={toggleTheme}
+          aria-label={t('tooltip.toggleTheme', 'Cambiar tema / Toggle theme')}
+          // Hide robustly even if stylesheet fails to load
+          style={{
+            position: 'absolute',
+            opacity: 0,
+            width: 1,
+            height: 1,
+            margin: 0,
+            padding: 0,
+            overflow: 'hidden',
+            clip: 'rect(0 0 0 0)',
+            clipPath: 'inset(50%)',
+            whiteSpace: 'nowrap',
+            pointerEvents: 'none',
+          }}
         />
         <div className="icon icon--moon">
           <svg

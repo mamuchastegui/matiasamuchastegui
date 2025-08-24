@@ -1133,6 +1133,8 @@ const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
 
   // Handle send message
   const handleSendMessage = async () => {
+    // Block sending while assistant is typing
+    if (isTyping) return;
     if (!inputValue.trim()) return;
 
     const userMessage = inputValue;
@@ -1191,6 +1193,7 @@ const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
+      if (isTyping) return; // do not send while assistant is responding
       handleSendMessage();
     }
   };
@@ -1382,6 +1385,7 @@ const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
             $hasValue={!!inputValue.trim()}
             onClick={(e) => {
               e.stopPropagation();
+              if (isTyping) return; // guard at UI level too
               if (!isExpanded) {
                 if (inputValue.trim()) {
                   setIsExpanded(true);
@@ -1394,7 +1398,7 @@ const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
               }
               handleSendMessage();
             }}
-            disabled={isExpanded ? !inputValue.trim() : false}
+            disabled={isExpanded ? (!inputValue.trim() || isTyping) : isTyping}
             aria-label={t('Enviar mensaje')}
           >
 

@@ -51,7 +51,11 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({
             pointerEvents: 'none',
           }}
         />
-        <div className="icon icon--moon">
+        <div
+          className="icon icon--moon"
+          aria-hidden={isDark}
+          style={{ transform: isDark ? 'rotate(360deg) scale(0)' : 'scale(1)' }}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -67,7 +71,11 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({
           </svg>
         </div>
     
-        <div className="icon icon--sun">
+        <div
+          className="icon icon--sun"
+          aria-hidden={!isDark}
+          style={{ transform: isDark ? 'scale(1) rotate(360deg)' : 'scale(0)' }}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"

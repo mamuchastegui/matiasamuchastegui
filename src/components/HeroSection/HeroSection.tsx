@@ -4,6 +4,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SplitType from 'split-type';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '../../context/ThemeContext';
 
 const HeroContainer = styled.section`
   display: flex;
@@ -15,6 +16,7 @@ const HeroContainer = styled.section`
   overflow: hidden;
   width: 100%;
   box-sizing: border-box;
+  background-color: ${({ theme }) => theme.isDark ? 'transparent' : theme.colors.background};
   
   @media (max-width: 768px) {
     padding: 0; // antes: 0 1rem
@@ -184,6 +186,7 @@ interface HeroSectionProps {
 
 const HeroSection: React.FC<HeroSectionProps> = () => {
   const { t } = useTranslation();
+  const { themeMode } = useTheme();
   const [isVisible, setIsVisible] = useState(false);
   const leftRef = useRef<HTMLDivElement>(null);
   const rightRef = useRef<HTMLDivElement>(null);
@@ -251,10 +254,10 @@ const HeroSection: React.FC<HeroSectionProps> = () => {
     return () => ctx.revert();
   }, []);
 
-  // Oscurecer y desvanecer progresivamente el hero al scrollear (inspirado en /newlook)
+  // Desvanecer progresivamente el contenido al scrollear (sin overlay de color)
   useLayoutEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
-    if (!heroSectionRef.current || !overlayRef.current || !contentRef.current) return;
+    if (!heroSectionRef.current || !contentRef.current) return;
     const ctx = gsap.context(() => {
       ScrollTrigger.matchMedia({
         "(min-width: 640px)": function () {
@@ -267,13 +270,12 @@ const HeroSection: React.FC<HeroSectionProps> = () => {
               anticipatePin: 1,
             }
           })
-          .to(contentRef.current!, { opacity: 0, y: '10vh' }, 0)
-          .to(overlayRef.current!, { backgroundColor: 'rgba(0,0,0,0.65)' }, 0);
+          .to(contentRef.current!, { opacity: 0, y: '10vh' }, 0);
         },
       });
     }, heroSectionRef);
     return () => ctx.revert();
-  }, []);
+  }, [themeMode]);
 
   // Replicate NewLook line-reveal effect on left text rows at init
   useLayoutEffect(() => {

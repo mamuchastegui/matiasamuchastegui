@@ -138,7 +138,9 @@ const ColorGlowOverlay = styled.div<{
   pointer-events: none;
   opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
   visibility: ${({ $isVisible }) => ($isVisible ? 'visible' : 'hidden')};
-  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              visibility 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              bottom 0.25s ease-out;
   background: transparent;
   will-change: opacity, transform;
 
@@ -955,7 +957,7 @@ const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
       return;
     }
     const compute = () => {
-      const overlay = Math.max(0, window.innerHeight - (vv.height + vv.offsetTop));
+      const overlay = Math.max(0, document.documentElement.clientHeight - (vv.height + vv.offsetTop));
       setBottomInset(14 + Math.round(overlay));
     };
     if (inputFocused || isExpanded) {

@@ -53,8 +53,8 @@ const floatIn = keyframes`
 // removed unused gentleFloat keyframes
 
 // Styled components
-const FloatingInputContainer = styled.div<{
-  $isExpanded: boolean;
+const FloatingInputContainer = styled.div<{ 
+  $isExpanded: boolean; 
   $isDark: boolean;
   $isSidebarPresent?: boolean;
   $isSidebarCollapsed?: boolean;
@@ -91,7 +91,7 @@ const FloatingInputContainer = styled.div<{
 `;
 
 // Overlay fijo para blur y fondo negro/transparente - NO se mueve con sidebar
-const FixedBlurOverlay = styled.div<{
+const FixedBlurOverlay = styled.div<{ 
   $isVisible: boolean;
   $isDark: boolean;
 }>`
@@ -121,8 +121,8 @@ const FixedBlurOverlay = styled.div<{
 `;
 
 // Resplandor de colores que SÍ se mueve con el sidebar
-const ColorGlowOverlay = styled.div<{
-  $isVisible: boolean;
+const ColorGlowOverlay = styled.div<{ 
+  $isVisible: boolean; 
   $isDark: boolean;
   $isSidebarPresent?: boolean;
   $isSidebarCollapsed?: boolean;
@@ -251,12 +251,7 @@ const ColorGlowOverlay = styled.div<{
   /* Hover lift disabled per request */
 `;
 
-const InputWrapper = styled.div<{
-  $isExpanded: boolean;
-  $isDark: boolean;
-  $animate: boolean;
-  $hasText: boolean;
-}>`
+const InputWrapper = styled.div<{ $isExpanded: boolean; $isDark: boolean; $animate: boolean; $hasText: boolean }>`
   position: relative;
   display: flex;
   align-items: center;
@@ -337,10 +332,7 @@ const shine = keyframes`
   to { background-position: 125% 0; }
 `;
 
-const ChatInput = styled.textarea<{
-  $isDark: boolean;
-  $isExpanded: boolean;
-}>`
+const ChatInput = styled.textarea<{ $isDark: boolean; $isExpanded: boolean }>`
   flex: 1;
   padding: 16px 12px 16px 18px; /* restored left padding to pre-icon spacing */
   border: none;
@@ -377,12 +369,7 @@ const ChatInput = styled.textarea<{
 `;
 
 // Nuevo componente para el overlay del efecto shiny del placeholder
-const ShinyPlaceholderOverlay = styled.div<{
-  $isDark: boolean;
-  $hasValue: boolean;
-  $isFocused: boolean;
-  $isExpanded: boolean;
-}>`
+const ShinyPlaceholderOverlay = styled.div<{ $isDark: boolean; $hasValue: boolean; $isFocused: boolean; $isExpanded: boolean }>`
   position: absolute;
   top: 50%;
   left: 18px; /* align with restored input left padding */
@@ -450,12 +437,7 @@ const welcomeEntrance = keyframes`
   }
 `;
 
-const SendButton = styled.button<{
-  $isDark: boolean;
-  $isExpanded: boolean;
-  $hasValue: boolean;
-  disabled?: boolean;
-}>`
+const SendButton = styled.button<{ $isDark: boolean; $isExpanded: boolean; $hasValue: boolean; disabled?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -534,8 +516,8 @@ const SendButton = styled.button<{
 
 
 // Nuevo contenedor para mensajes flotantes
-const FloatingMessagesContainer = styled.div<{
-  $isVisible: boolean;
+const FloatingMessagesContainer = styled.div<{ 
+  $isVisible: boolean; 
   $isDark: boolean;
   $isSidebarPresent?: boolean;
   $isSidebarCollapsed?: boolean;
@@ -619,11 +601,7 @@ const FloatingMessagesScrollContainer = styled.div`
 // Textura de ruido para efecto acrílico tipo Windows 11
 
 
-const MessageBubble = styled.div<{
-  $isUser: boolean;
-  $isDark: boolean;
-  $index: number;
-}>`
+const MessageBubble = styled.div<{ $isUser: boolean; $isDark: boolean; $index: number }>`
   position: relative;
   max-width: 85%;
   padding: 12px 16px; /* unified inner padding for user and AI bubbles */
@@ -752,9 +730,7 @@ const MessageBubble = styled.div<{
   }
 `;
 
-const LoadingDot = styled.div<{
-  $delay: number;
-}>`
+const LoadingDot = styled.div<{ $delay: number }>`
   width: 8px;
   height: 8px;
   border-radius: 50%;
@@ -765,10 +741,7 @@ const LoadingDot = styled.div<{
 `;
 
 // Actions row under AI messages (copy, etc.)
-const MessageActions = styled.div<{
-  $isDark: boolean;
-  $alignRight?: boolean;
-}>`
+const MessageActions = styled.div<{ $isDark: boolean; $alignRight?: boolean }>`
   display: flex;
   gap: 8px;
   margin-top: 6px;
@@ -777,9 +750,7 @@ const MessageActions = styled.div<{
   user-select: none;
 `;
 
-const IconButton = styled.button<{
-  $isDark: boolean;
-}>`
+const IconButton = styled.button<{ $isDark: boolean }>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -811,18 +782,14 @@ const CopyButtonWrapper = styled.div`
   align-items: center;
 `;
 
-const IconSwap = styled.span<{
-  $copied: boolean;
-}>`
+const IconSwap = styled.span<{ $copied: boolean }>`
   position: relative;
   width: 16px;
   height: 16px;
   display: inline-block;
 `;
 
-const SwapIcon = styled.span<{
-  $show: boolean;
-}>`
+const SwapIcon = styled.span<{ $show: boolean }>`
   position: absolute;
   inset: 0;
   display: inline-flex;
@@ -834,9 +801,7 @@ const SwapIcon = styled.span<{
   pointer-events: none;
 `;
 
-const ChatTooltip = styled.div<{
-  $isDark: boolean;
-}>`
+const ChatTooltip = styled.div<{ $isDark: boolean }>`
   position: absolute;
   top: 50%;
   left: calc(100% + 8px); /* to the right of the icon */
@@ -871,9 +836,7 @@ const TooltipSwap = styled.span`
   justify-items: center;
 `;
 
-const TooltipText = styled.span<{
-  $show: boolean;
-}>`
+const TooltipText = styled.span<{ $show: boolean }>`
   grid-area: 1 / 1;
   opacity: ${({ $show }) => ($show ? 1 : 0)};
   transform: ${({ $show }) => ($show ? 'translateY(0) scale(1)' : 'translateY(2px) scale(0.98)')};
@@ -895,7 +858,7 @@ const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
   isSidebarPresent = false, 
   isSidebarCollapsed = false,
   n8nServerReady: _n8nServerReady = false,
-}) => {
+}) => { 
   const [isExpanded, setIsExpanded] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [hasBeenExpanded, setHasBeenExpanded] = useState(false);
@@ -943,7 +906,7 @@ const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
   const [inputBarHeight, setInputBarHeight] = useState<number>(0);
 
   // Reserve space in the sidebar for the collapsed chat input bar so it doesn't overlap controls
-  useEffect(() => {
+  useLayoutEffect(() => {
     try {
       const root = document.documentElement;
       if (!root) return;

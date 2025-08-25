@@ -11,6 +11,11 @@ export const GlobalStyles = createGlobalStyle`
     padding: 0;
   }
 
+  :root {
+    /* Space reserved for the floating chat input when collapsed */
+    --chatbar-offset-bottom: 0px;
+  }
+
   html {
     scroll-behavior: smooth;
     height: 100%;

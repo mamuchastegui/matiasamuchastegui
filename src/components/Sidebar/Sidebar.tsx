@@ -70,7 +70,8 @@ const SidebarContainer = styled.aside<{ $isOpen: boolean; $isMobile: boolean; $i
   };
   color: ${({ theme }) => theme.colors.text};
   padding: ${({ theme }) => theme.space.md};
-  height: calc(100dvh - 32px);
+  /* Reduce height when chat input floats over bottom area */
+  height: calc(100dvh - 32px - var(--chatbar-offset-bottom, 0px));
   width: ${({ $isCollapsed, $isMobile }) => $isMobile ? '280px' : ($isCollapsed ? '80px' : '280px')};
   position: fixed;
   top: 16px;

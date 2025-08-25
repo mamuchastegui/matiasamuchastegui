@@ -881,6 +881,8 @@ const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
   const [messages, setMessages] = useState(() => [{ text: getWelcomeMessage(), isUser: false }]);
   const [inputValue, setInputValue] = useState('');
   const [inputFocused, setInputFocused] = useState(false);
+  // Dynamic bottom inset to avoid white gap above iOS keyboard
+  const [bottomInset, setBottomInset] = useState<number>(14);
   const [isTyping, setIsTyping] = useState(false);
   const [autoScrollEnabled, setAutoScrollEnabled] = useState(true);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
@@ -896,6 +898,21 @@ const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [inputBarHeight, setInputBarHeight] = useState<number>(0);
+
+  // Reserve space in the sidebar for the collapsed chat input bar so it doesn't overlap controls
+  useEffect(() => {
+    try {
+      const root = document.documentElement;
+      if (!root) return;
+      if (!isExpanded) {
+        const h = inputBarRef.current?.getBoundingClientRect().height || inputBarHeight || 0;
+        const reserve = Math.round(h) + 14; // 14px = FloatingInputContainer bottom offset
+        root.style.setProperty('--chatbar-offset-bottom', `${reserve}px`);
+      } else {
+        root.style.setProperty('--chatbar-offset-bottom', '0px');
+      }
+    } catch {/* no-op */}
+  }, [isExpanded, inputBarHeight]);
 
   // Initialize visibility
   useEffect(() => {
@@ -923,6 +940,30 @@ const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
     window.addEventListener('resize', measure);
     return () => window.removeEventListener('resize', measure);
   }, []);
+
+  // Handle mobile keyboard gap using VisualViewport API where available
+  useEffect(() => {
+    const vv = (window as unknown as { visualViewport?: VisualViewport }).visualViewport;
+    if (!vv) {
+      setBottomInset(14);
+      return;
+    }
+    const compute = () => {
+      const overlay = Math.max(0, window.innerHeight - (vv.height + vv.offsetTop));
+      setBottomInset(14 + Math.round(overlay));
+    };
+    if (inputFocused || isExpanded) {
+      compute();
+      vv.addEventListener('resize', compute);
+      vv.addEventListener('scroll', compute);
+      return () => {
+        vv.removeEventListener('resize', compute);
+        vv.removeEventListener('scroll', compute);
+      };
+    } else {
+      setBottomInset(14);
+    }
+  }, [inputFocused, isExpanded]);
 
   // Handle click outside
   useEffect(() => {
@@ -1335,6 +1376,7 @@ const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
         $isSidebarPresent={isSidebarPresent}
         $isSidebarCollapsed={isSidebarCollapsed}
         $hasText={!!inputValue.trim()}
+        style={{ bottom: `${bottomInset}px` }}
       >
         {/* Input Bar */}
         <InputWrapper 

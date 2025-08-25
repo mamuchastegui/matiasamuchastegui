@@ -86,6 +86,8 @@ const SidebarContainer = styled.aside<{ $isOpen: boolean; $isMobile: boolean; $i
   ${({ $isMobile, $isOpen }) =>
     $isMobile &&
     css`
+      /* Faster, more responsive open/close on mobile */
+      transition: transform 0.28s ease-out, box-shadow 0.2s ease-out, background 0.2s ease-out;
       transform: ${$isOpen ? 'translateX(0)' : 'translateX(calc(-100% - 16px))'};
       box-shadow: ${$isOpen ? '0 0 20px rgba(0,0,0,0.3)' : 'none'};
     `}
@@ -827,7 +829,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
         ?.subLinks?.some(subLink => subLink.href === href);
 
     if (subLinks && subLinks.length > 0) {
-      if (openSubmenuKey === href) {
+      if (isMobile) {
+        // En mobile no expandimos subitems; tratamos como navegación simple
+        setOpenSubmenuKey(null);
+      } else if (openSubmenuKey === href) {
         setOpenSubmenuKey(null);
       } else {
         setOpenSubmenuKey(href);
@@ -867,11 +872,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
       navigate(href);
     }
     
+    // En mobile siempre colapsamos el sidebar al navegar o al hacer scroll a una sección
     if (isMobile && isOpen) {
-      const isSublinkClick = navLinks.some(link => link.subLinks?.some(sl => sl.href === href));
-      if ((!subLinks || subLinks.length === 0) || isSublinkClick) {
-         toggleSidebar();
-      }
+      toggleSidebar();
     }
   };
 
@@ -1048,7 +1051,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
                     <ItemIconComponent />
                   </IconWrapper>
                   <span className="nav-text">{t(labelKey, defaultLabel)}</span>
-                  {itemSubLinks && itemSubLinks.length > 0 && (
+                  {itemSubLinks && itemSubLinks.length > 0 && !isMobile && (
                     <ChevronDown size={16} className={`chevron-icon ${isSubmenuOpen ? 'open' : ''}`} />
                   )}
                   {!isMobile && isCollapsed && (
@@ -1057,7 +1060,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
                     </TechTooltip>
                   )}
                 </NavLink>
-                {itemSubLinks && itemSubLinks.length > 0 && !isCollapsed && (
+                {itemSubLinks && itemSubLinks.length > 0 && !isCollapsed && !isMobile && (
                   <SubNavList className={isSubmenuOpen ? 'open' : ''}>
                     {itemSubLinks.map((subLinkItem) => (
                       <SubNavItem key={subLinkItem.href}>

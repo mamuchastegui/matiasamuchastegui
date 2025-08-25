@@ -17,6 +17,7 @@ const ChatbotAssistant = React.lazy(
   () => import('@components/ChatbotAssistant')
 );
 
+
 const LazyComponentWrapper = ({ children }: { children: React.ReactNode }) => {
   return (
     <LazyLoadErrorBoundary>

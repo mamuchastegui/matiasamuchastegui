@@ -521,10 +521,15 @@ const FloatingMessagesContainer = styled.div<{
   $isSidebarPresent?: boolean;
   $isSidebarCollapsed?: boolean;
   $inputBarHeight: number;
+  $bottomInset: number;
 }>`
   position: fixed;
-  /* Keep messages just above the input bar dynamically */
-  bottom: ${({ $inputBarHeight }) => `${14 + Math.max(0, Math.min(200, Math.round($inputBarHeight || 0)))}px`};
+  /* Keep messages above the input AND keyboard overlay on mobile */
+  bottom: ${({ $inputBarHeight, $bottomInset }) => {
+    const bar = Math.max(0, Math.min(200, Math.round($inputBarHeight || 0)));
+    const inset = Math.max(14, Math.round($bottomInset || 14));
+    return `${inset + bar}px`;
+  }};
   left: ${({ $isSidebarPresent, $isSidebarCollapsed }) => {
     if (!$isSidebarPresent) return '50%';
     const sidebarWidth = $isSidebarCollapsed ? '80px' : '280px';
@@ -1265,11 +1270,12 @@ const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
       {/* Mensajes flotantes independientes del contenedor */}
       <FloatingMessagesContainer 
         ref={messagesContainerRef}
-        $isVisible={isExpanded} 
+        $isVisible={isExpanded}
         $isDark={isDark}
         $isSidebarPresent={isSidebarPresent}
         $isSidebarCollapsed={isSidebarCollapsed}
         $inputBarHeight={inputBarHeight}
+        $bottomInset={bottomInset}
       >
         <FloatingMessagesScrollContainer ref={scrollContainerRef}>
           {!hasBeenExpanded ? (

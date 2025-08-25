@@ -98,6 +98,11 @@ const IntroText = styled(BioText)`
   color: ${({ theme }) => theme.colors.text};
   font-weight: ${({ theme }) => theme.fontWeights.medium};
   letter-spacing: -0.005em;
+  
+  /* En mobile ocultamos este bloque para dejar aire al slider */
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const BlockCard = styled.div`

@@ -15,6 +15,7 @@ export const GlobalStyles = createGlobalStyle`
     scroll-behavior: smooth;
     height: 100%;
     font-size: 16px;
+    overflow-x: hidden;
   }
 
   /* Lenis Smooth Scrolling Styles */

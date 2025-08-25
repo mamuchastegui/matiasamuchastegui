@@ -89,7 +89,8 @@ const MainContentWrapper = styled.div<{ $isSidebarPresent: boolean; $isSidebarCo
 
   @media (max-width: 768px) {
     margin-left: 0;
-    width: 100vw;
+    /* Avoid horizontal overflow on mobile by using percentage width */
+    width: 100%;
   }
 `;
 

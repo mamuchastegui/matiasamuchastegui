@@ -194,7 +194,7 @@ const Masonry: React.FC<MasonryProps> = ({ data, themeMode, initialSelectedProje
       setSelectedContent(null);
       setCurrentIndex(null);
     }
-  }, [initialSelectedProject, data, onModalStateChange, selectedContent]);
+  }, [initialSelectedProject, data, onModalStateChange]);
 
   useEffect(() => {
     const updateColumns = () => {

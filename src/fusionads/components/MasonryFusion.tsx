@@ -153,7 +153,7 @@ export const MasonryFusion: React.FC<MasonryProps> = ({ data, initialSelectedPro
       setSelectedContent(null);
       setCurrentIndex(null);
     }
-  }, [initialSelectedProject, data, onModalStateChange, selectedContent]);
+  }, [initialSelectedProject, data, onModalStateChange]);
 
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {

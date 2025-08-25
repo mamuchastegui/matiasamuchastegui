@@ -276,6 +276,13 @@ const AppContent = () => {
     }
   }, [location.pathname]);
 
+  // Mobile UX: auto-close sidebar on route change (e.g., tapping project links)
+  useEffect(() => {
+    if (isMobile && isSidebarOpen) {
+      setIsSidebarOpen(false);
+    }
+  }, [location.pathname]);
+
 
 
   const handleAnimationComplete = () => {

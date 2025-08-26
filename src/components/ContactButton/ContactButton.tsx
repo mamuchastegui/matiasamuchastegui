@@ -12,12 +12,12 @@ interface ContactButtonProps {
 
 const StyledButton = styled.button<{ $isDark: boolean }>`
   position: relative;
-  padding: 16px 32px;
+  padding: 12px 24px;
   border: none;
   border-radius: 50px;
   background: ${({ $isDark }) => $isDark ? '#ffffff' : '#000000'};
   color: ${({ $isDark }) => $isDark ? '#000000' : '#ffffff'};
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
   font-family: inherit;
   cursor: pointer;

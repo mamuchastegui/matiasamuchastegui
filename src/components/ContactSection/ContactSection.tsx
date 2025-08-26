@@ -14,6 +14,7 @@ const SectionContainer = styled.section`
   max-width: 100%;
   box-sizing: border-box;
   overflow: hidden;
+  margin-bottom: 60px;
   
   @media (max-width: 768px) {
     padding: ${({ theme }) => theme.space.xl} ${({ theme }) => theme.space.md};
@@ -36,6 +37,10 @@ const SectionTitle = styled.h2`
   position: relative;
   font-family: ${({ theme }) => theme.fonts.body};
   width: auto;
+
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
 `;
 
 const ContactContent = styled.div`
@@ -54,13 +59,21 @@ const ContactContent = styled.div`
 `;
 
 const ContactText = styled.p`
-  font-size: ${({ theme }) => theme.fontSizes.lg};
-  text-align: center;
+  font-size: 1.2rem;
+  text-align: left;
   margin-bottom: 0;
   color: ${({ theme }) => `${theme.colors.text}ee`};
   width: auto;
   max-width: 600px;
   padding: 0;
+
+  @media (max-width: 768px) {
+    font-size: 1.1rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1rem;
+  }
 
   a {
     color: inherit;
@@ -107,9 +120,17 @@ const Form = styled.form<{ $isDark: boolean }>`
   }
 
   @media (max-width: 768px) {
-    padding: 2rem 1.5rem;
-    border-radius: 20px;
+    padding: 0;
+    border-radius: 0;
     min-height: auto;
+    background: none;
+    backdrop-filter: none;
+    border: none;
+    box-shadow: none;
+
+    &::before {
+      display: none;
+    }
   }
 `;
 
@@ -155,6 +176,10 @@ const Input = styled.input<{ $isDark: boolean }>`
   ${glassEffect}
   background: ${({ $isDark }) => ($isDark ? 'rgba(40, 40, 45, 0.7)' : 'rgba(245, 245, 250, 0.75)')};
 
+  @media (max-width: 768px) {
+    background: transparent;
+  }
+
   &:focus {
     outline: none;
     border-color: ${({ $isDark }) => ($isDark ? 'rgba(255, 255, 255, 0.8)' : 'rgba(0, 0, 0, 0.8)')};
@@ -178,6 +203,10 @@ const Textarea = styled.textarea<{ $isDark: boolean }>`
   ${glassEffect}
   background: ${({ $isDark }) => ($isDark ? 'rgba(40, 40, 45, 0.7)' : 'rgba(245, 245, 250, 0.75)')};
 
+  @media (max-width: 768px) {
+    background: transparent;
+  }
+
   &:focus {
     outline: none;
     border-color: ${({ $isDark }) => ($isDark ? 'rgba(255, 255, 255, 0.8)' : 'rgba(0, 0, 0, 0.8)')};
@@ -193,6 +222,10 @@ const ButtonContainer = styled.div`
   max-width: 500px;
   margin-left: auto;
   margin-right: auto;
+
+  @media (max-width: 768px) {
+    justify-content: center;
+  }
 `;
 
 const SubmitButton = styled.button<{ $isDark: boolean }>`
@@ -209,6 +242,11 @@ const SubmitButton = styled.button<{ $isDark: boolean }>`
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   width: auto;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    max-width: 340px;
+  }
   
   &::before {
     content: '';

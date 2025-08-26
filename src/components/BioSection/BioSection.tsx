@@ -40,6 +40,15 @@ const GlassCard = styled.div`
     ? '0 10px 40px rgba(0,0,0,0.35)'
     : '0 10px 30px rgba(0,0,0,0.12)'};
 
+  @media (max-width: 768px) {
+    background: none;
+    backdrop-filter: none;
+    border: none;
+    padding: 0;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
   @media (min-width: 768px) {
     padding: 2.75rem 3rem 2rem;
   }
@@ -85,9 +94,7 @@ const BioText = styled.p`
   color: ${({ theme }) => (theme.isDark ? 'rgba(255,255,255,0.75)' : 'rgba(29,31,35,0.8)')};
   max-width: 75ch;
   @media (max-width: 768px) {
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
+    text-align: left;
   }
 `;
 
@@ -99,10 +106,7 @@ const IntroText = styled(BioText)`
   font-weight: ${({ theme }) => theme.fontWeights.medium};
   letter-spacing: -0.005em;
   
-  /* En mobile ocultamos este bloque para dejar aire al slider */
-  @media (max-width: 768px) {
-    display: none;
-  }
+  
 `;
 
 const BlockCard = styled.div`

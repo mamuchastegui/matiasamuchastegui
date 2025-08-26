@@ -71,12 +71,12 @@ const SidebarContainer = styled.aside<{ $isOpen: boolean; $isMobile: boolean; $i
   color: ${({ theme }) => theme.colors.text};
   padding: ${({ theme }) => theme.space.md};
   /* Reduce height when chat input floats over bottom area */
-  height: calc(100dvh - 32px - var(--chatbar-offset-bottom, 0px));
+  height: calc(100dvh - 32px);
   width: ${({ $isCollapsed, $isMobile }) => $isMobile ? '280px' : ($isCollapsed ? '80px' : '280px')};
   position: fixed;
   top: 16px;
   left: 16px;
-  z-index: 1000;
+  z-index: 10001;
   display: flex;
   flex-direction: column;
   transition: transform 0.6s ease-in-out, box-shadow 0.3s ease-in-out, background 0.3s ease-in-out, width 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.7s ease, filter 0.7s ease;

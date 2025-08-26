@@ -55,7 +55,7 @@ const slideAnimation = keyframes`
 
 const SliderContainer = styled.div`
   width: 100%;
-  overflow: visible;
+  overflow: hidden; // Changed from visible to hidden
   padding: 8px 0;
   margin: 6px 0 0;
   position: relative;
@@ -75,6 +75,12 @@ const SliderContainer = styled.div`
 
   @media (max-width: 768px) {
     border-radius: 0;
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
   }
 `;
 
@@ -90,7 +96,6 @@ const SliderTrack = styled.div<{ $animate: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-around;
-  width: 100%;
   height: 100%;
 
   @media (max-width: 768px) {

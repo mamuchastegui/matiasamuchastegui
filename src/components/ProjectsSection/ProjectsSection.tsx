@@ -33,6 +33,10 @@ const SectionTitle = styled.h2`
   color: ${({ theme }) => theme.colors.text};
   position: relative;
   font-family: ${({ theme }) => theme.fonts.body};
+
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
 `;
 
 const MenuContainer = styled.div`

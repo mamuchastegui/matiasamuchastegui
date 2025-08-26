@@ -19,7 +19,7 @@ const HeroContainer = styled.section`
   background-color: ${({ theme }) => theme.isDark ? 'transparent' : theme.colors.background};
   
   @media (max-width: 768px) {
-    padding: 0; // antes: 0 1rem
+    padding: 4rem 0 0; // Added padding-top
     flex-direction: column;
     gap: 0; // antes: 1rem
   }
@@ -93,7 +93,7 @@ const Name = styled.h1`
   @media (max-width: 768px) {
     font-size: clamp(2rem, 8vw, 3rem);
     margin-bottom: 1rem;
-    text-align: center;
+    text-align: left;
   }
 `;
 
@@ -112,7 +112,7 @@ const Description = styled.p`
   
   @media (max-width: 768px) {
     font-size: 1rem;
-    text-align: center;
+    text-align: left;
   }
 `;
 
@@ -132,7 +132,7 @@ const Subtitle = styled.h2`
 
   @media (max-width: 768px) {
     font-size: 1rem;
-    text-align: center;
+    text-align: left;
   }
 `;
 

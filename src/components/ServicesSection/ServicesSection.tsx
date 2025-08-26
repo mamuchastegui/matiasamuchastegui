@@ -18,9 +18,9 @@ const ServicesSection: React.FC = () => {
   const services: Service[] = [
     {
       id: 'frontend-development',
-      icon: (
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M16 18L22 12L16 6M8 6L2 12L8 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
         </svg>
       ),
       titleKey: 'services.frontend.title',
@@ -31,8 +31,8 @@ const ServicesSection: React.FC = () => {
     {
       id: 'wordpress-development',
       icon: (
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.04 17.87c-.53-.12-1.04-.3-1.51-.54l1.56-4.54 1.47 4.02c-.49.36-1.01.67-1.52.93v.13zm-2.19-1.18C7.47 17.77 6.44 16.13 6.44 14.25c0-1.06.19-2.07.54-3.01L9.77 18.69zm2.19-8.69c.6-.03 1.14-.09 1.14-.09.54-.06.48-.85-.06-.82 0 0-1.61.13-2.65.13-.98 0-2.59-.13-2.59-.13-.54-.03-.6.82-.06.82 0 0 .51.06 1.05.09l1.56 4.28-2.19 6.57-3.64-10.85c.6-.03 1.14-.09 1.14-.09.54-.06.48-.85-.06-.82 0 0-1.61.13-2.65.13-.19 0-.42-.01-.66-.01C4.9 5.57 8.18 3.5 12 3.5c2.85 0 5.44 1.12 7.36 2.95-.05 0-.09-.01-.14-.01-.98 0-1.67.85-1.67 1.76 0 .82.47 1.51.98 2.33.38.66.82 1.51.82 2.74 0 .85-.33 1.84-.76 3.21l-.99 3.31-3.59-10.69z" fill="currentColor"/>
+        <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm6.333 16.2c-.23.32-.59.54-.94.62-.3.07-.6.09-.9.09-.46 0-.9-.1-1.3-.3l-1.43-1.4-2.1-4.2-.6 1.8c.2.1.3.2.5.4.4.2.8.5 1.1.8.2.2.4.5.4.8 0 .3-.1.6-.4.8-.3.2-.6.3-.9.3-.4 0-.8-.1-1.1-.3-.3-.2-.5-.5-.5-.8 0-.3.1-.6.4-.8.2-.2.5-.4.9-.6l3.9-3.9c.3-.3.7-.4 1.1-.4.4 0 .8.1 1.1.4.3.3.4.7.4 1.1 0 .4-.1.8-.4 1.1l-2.2 2.2.9 2.8c.2-.1.3-.2.5-.3.4-.2.8-.5 1.1-.8.2-.2.4-.5.4-.8 0-.3-.1-.6-.4-.8-.3-.2-.6-.3-.9-.3-.4 0-.8-.1-1.1-.3-.3-.2-.5-.5-.5-.8 0-.3.1-.6.4-.8.2-.2.5-.4.9-.6l3.9-3.9c.3-.3.7-.4 1.1-.4.4 0 .8.1 1.1.4.3.3.4.7.4 1.1 0 .4-.1.8-.4 1.1l-2.2 2.2.9 2.8c.1.4.2.8.2 1.2 0 .3 0 .7-.1 1zm-8.43-3.3c-.2.1-.5.2-.8.2-.3 0-.6-.1-.8-.2-.2-.1-.4-.3-.5-.5-.1-.2-.2-.5-.2-.7 0-.3.1-.5.2-.7.1-.2.3-.4.5-.5.2-.1.5-.2.8-.2.3 0 .6.1.8.2.2.1.4.3.5.5.1.2.2.5.2.7 0-.1 0-.3-.2-.4z"/>
         </svg>
       ),
       titleKey: 'services.wordpress.title',
@@ -43,10 +43,8 @@ const ServicesSection: React.FC = () => {
     {
       id: 'ux-ui-design',
       icon: (
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.47 2.118 2.25 2.25 0 01-2.47-2.118c0-.62.26-1.22.7-1.684l5.78-5.78a3 3 0 00-1.128-5.78 2.25 2.25 0 01-2.118-2.47 2.25 2.25 0 012.118-2.47c.62 0 1.22.26 1.684.7l5.78 5.78a3 3 0 005.78-1.128 2.25 2.25 0 012.47-2.118 2.25 2.25 0 012.47 2.118c0 .62-.26 1.22-.7 1.684l-5.78 5.78a3 3 0 001.128 5.78 2.25 2.25 0 012.118 2.47 2.25 2.25 0 01-2.118 2.47c-.62 0-1.22-.26-1.684-.7l-5.78-5.78z" />
         </svg>
       ),
       titleKey: 'services.design.title',
@@ -57,8 +55,9 @@ const ServicesSection: React.FC = () => {
     {
       id: 'automation',
       icon: (
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M10.343 3.94c.09-.542.56-.94 1.11-.94h1.093c.55 0 1.02.398 1.11.94l.149.894c.07.424.384.764.78.93.398.164.855.142 1.205-.108l.737-.527a1.125 1.125 0 011.45.12l.773.774c.39.389.44 1.002.12 1.45l-.527.737c-.25.35-.272.806-.108 1.204.165.397.505.71.93.78l.894.15c.542.09.94.56.94 1.11v1.093c0 .55-.398 1.02-.94 1.11l-.894.149c-.424.07-.764.384-.93.78-.164.398-.142.854.108 1.204l.527.738c.32.447.27.96-.12 1.45l-.774.773a1.125 1.125 0 01-1.449.12l-.738-.527c-.35-.25-.806-.272-1.204-.108-.397.165-.71.505-.78.93l-.15.894c-.09.542-.56.94-1.11.94h-1.093c-.55 0-1.02-.398-1.11-.94l-.149-.894c-.07-.424-.384-.764-.78-.93-.398-.164-.855-.142-1.205.108l-.737.527a1.125 1.125 0 01-1.45-.12l-.773-.774a1.125 1.125 0 01-.12-1.45l.527-.737c.25-.35.272-.806.108-1.204-.165-.397-.505-.71-.93-.78l-.894-.15c-.542-.09-.94-.56-.94-1.11v-1.093c0 .55.398 1.02.94-1.11l.894-.149c.424-.07.764-.384.93-.78.164-.398.142-.854-.108-1.204l-.527-.738a1.125 1.125 0 01.12-1.45l.773-.773a1.125 1.125 0 011.45-.12l.737.527c.35.25.806.272 1.204.108.397-.165.71-.505.78-.93l.15-.894z" />
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
         </svg>
       ),
       titleKey: 'services.automation.title',
@@ -69,10 +68,8 @@ const ServicesSection: React.FC = () => {
     {
       id: 'ai-integration',
       icon: (
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M8 22L8.5 20.5L10 20L8.5 19.5L8 18L7.5 19.5L6 20L7.5 20.5L8 22Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M18 6L18.5 4.5L20 4L18.5 3.5L18 2L17.5 3.5L16 4L17.5 4.5L18 6Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.898 20.562L16.25 22.5l-.648-1.938a2.25 2.25 0 01-1.423-1.423L12 18.75l1.938-.648a2.25 2.25 0 011.423-1.423L17.75 15l.648 1.938a2.25 2.25 0 011.423 1.423L21.75 19.5l-1.938.648a2.25 2.25 0 01-1.423 1.423z" />
         </svg>
       ),
       titleKey: 'services.ai.title',
@@ -186,20 +183,20 @@ const SectionTitle = styled(motion.h2)`
 
 const SectionSubtitle = styled(motion.p)`
   font-size: 1.2rem;
-  text-align: center;
+  text-align: left;
   color: ${({ theme }) => theme.colors.text};
   opacity: 0.8;
   margin-bottom: 4rem;
-  margin-left: auto;
-  margin-right: auto;
   line-height: 1.6;
   font-weight: 400;
   position: relative;
   font-family: ${({ theme }) => theme.fonts.body};
+  padding: 0 2rem;
 
   @media (max-width: 768px) {
     font-size: 1.1rem;
     margin-bottom: 3rem;
+    padding: 0 1rem;
   }
 
   @media (max-width: 480px) {

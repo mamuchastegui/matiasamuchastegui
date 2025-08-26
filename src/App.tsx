@@ -316,7 +316,7 @@ const AppContent = () => {
   };
 
 
-  const shouldHideContactButton = isMobile && isContactSectionInView;
+  const shouldHideContactButton = isContactSectionInView;
 
   return (
     <AppWrapper>

@@ -1217,6 +1217,7 @@ const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
           isUser: false,
         },
       ]);
+      inputRef.current?.focus();
     }
   };
 

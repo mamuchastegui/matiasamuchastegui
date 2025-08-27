@@ -299,7 +299,7 @@ const XCons2ExperiencePage: React.FC = () => {
               <BannerText>{translations.bannerDescription[language]}</BannerText>
               <LocationText>{translations.location[language]}</LocationText>
               <StyledSiteButton
-                href="https://www.xcons.com.ar"
+                href="https://bandit.show/"
                 target="_blank"
                 rel="noopener noreferrer"
               >

@@ -5,9 +5,9 @@ import { useTheme, ThemeMode } from '../context/ThemeContext';
 import UXUIDesignExperience from '../bandit/components/Experiences/UXUIDesignExperience';
 import { uxUIExperiences } from '../bandit/data/experiencesData';
 import { useTranslation } from 'react-i18next';
-import xFondo from '../assets/x-fondo.png';
-import xconLogoVerde from '../assets/xcon-logo-verde.png';
-import xconsComercial from '../assets/xcons-comercial.png';
+import fondoBandit from '../assets/Proyectos Bandit/fondo-bandit.svg';
+import logoBanditOscuro from '../assets/Proyectos Bandit/Logo Bandit Oscuro.png';
+import banditApp from '../assets/Proyectos Bandit/Bandit-app.png';
 import Masonry from './components/Masonry';
 import { createMasonryData } from '../bandit/data/masonryData';
 
@@ -22,7 +22,7 @@ const PageContainer = styled.div`
   padding-top: 4rem;
 `;
 
-const XconsBanner = styled.div`
+const XconsBanner = styled.div.withConfig({ componentId: 'bandit-banner' })`
   position: relative;
   width: 100%;
   background-color: white;
@@ -34,29 +34,39 @@ const XconsBanner = styled.div`
   margin-bottom: 3rem;
   overflow: hidden;
   min-height: 180px;
+  isolation: isolate; /* avoid stacking context bleed */
 `;
 
-const BannerBackground = styled.div`
+const BannerBackground = styled.div.withConfig({ componentId: 'bandit-banner-bg' })`
   position: absolute;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  z-index: 1;
+  z-index: 0;
   overflow: hidden;
-  background-image: url(${xFondo});
-  background-repeat: no-repeat;
-  background-position: left center;
+  pointer-events: none;
 `;
 
-const BannerContent = styled.div`
+const BannerBgImage = styled.img.withConfig({ componentId: 'bandit-banner-bg-img' })`
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: left center;
+  z-index: 0;
+  pointer-events: none;
+`;
+
+const BannerContent = styled.div.withConfig({ componentId: 'bandit-banner-content' })`
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 50px;
   width: 100%;
   position: relative;
-  z-index: 2;
+  z-index: 1;
   padding: 10px 30px;
 
   @media (max-width: 992px) {
@@ -106,9 +116,9 @@ const LocationText = styled.span`
   margin-bottom: 8px;
 `;
 
-const StyledSiteButton = styled.a`
+const StyledSiteButton = styled.a.withConfig({ componentId: 'bandit-visit-button' })`
   display: inline-block;
-  background-color: #15814b;
+  background-color: #F70F43;
   color: white;
   padding: 8px 16px;
   border-radius: 6px;
@@ -119,7 +129,7 @@ const StyledSiteButton = styled.a`
   transition: background-color 0.2s ease-in-out;
 
   &:hover {
-    background-color: #106a3c;
+    background-color: #d80d3b;
     text-decoration: none;
   }
 `;
@@ -171,7 +181,7 @@ const DividerLine = styled.hr<{ $isDark?: boolean }>`
   margin-bottom: 1.5rem;
 `;
 
-const DescriptionBox = styled.div<{ $isDark: boolean }>`
+const DescriptionBox = styled.div.withConfig({ componentId: 'bandit-desc-box' })<{ $isDark: boolean }>`
   border-radius: 12px;
   padding: 2.5rem;
   margin-top: 1rem;
@@ -280,10 +290,12 @@ const XCons2ExperiencePage: React.FC = () => {
         </StandardSectionTitle>
 
         <XconsBanner>
-          <BannerBackground />
+          <BannerBackground>
+            <BannerBgImage src={fondoBandit} alt="" aria-hidden="true" />
+          </BannerBackground>
           <BannerContent>
             <LeftContent>
-              <LogoImage src={xconLogoVerde} alt="XCON Logo" />
+              <LogoImage src={logoBanditOscuro} alt="Bandit Logo" />
               <BannerText>{translations.bannerDescription[language]}</BannerText>
               <LocationText>{translations.location[language]}</LocationText>
               <StyledSiteButton
@@ -295,7 +307,7 @@ const XCons2ExperiencePage: React.FC = () => {
               </StyledSiteButton>
             </LeftContent>
             <RightContent>
-              <img src={xconsComercial} alt="XCONS Comercial" />
+              <img src={banditApp} alt="Bandit App" />
             </RightContent>
           </BannerContent>
         </XconsBanner>

@@ -234,7 +234,7 @@ const ServiceCard = styled(motion.div)<{ gradient: string }>`
   position: relative;
   overflow: hidden;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
+  cursor: default;
   height: 100%;
   display: flex;
   flex-direction: column;

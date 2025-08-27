@@ -118,6 +118,8 @@ const FixedBlurOverlay = styled.div<{
       )`
     : 'transparent'};
   will-change: opacity, backdrop-filter;
+  overscroll-behavior: contain;
+  touch-action: none;
 `;
 
 // Resplandor de colores que SÍ se mueve con el sidebar
@@ -893,6 +895,25 @@ const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
   const [bottomInset, setBottomInset] = useState<number>(14);
   const [isTyping, setIsTyping] = useState(false);
   const [autoScrollEnabled, setAutoScrollEnabled] = useState(true);
+
+  // Lock page scroll when chat is expanded
+  useEffect(() => {
+    const htmlEl = document.documentElement;
+    const prevHtmlOverflow = htmlEl.style.overflow;
+    const prevBodyOverflow = document.body.style.overflow;
+    if (isExpanded) {
+      htmlEl.style.overflow = "hidden";
+      document.body.style.overflow = "hidden";
+    } else {
+      // Clear any lock if already removed
+      htmlEl.style.overflow = '';
+      document.body.style.overflow = '';
+    }
+    return () => {
+      htmlEl.style.overflow = prevHtmlOverflow;
+      document.body.style.overflow = prevBodyOverflow;
+    };
+  }, [isExpanded]);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
   const [completedIndexes, setCompletedIndexes] = useState<Set<number>>(() => new Set());
   const isEn = (i18n?.language || 'es').toLowerCase().startsWith('en');
@@ -1256,6 +1277,8 @@ const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
       <FixedBlurOverlay 
         $isVisible={isExpanded || inputFocused} 
         $isDark={isDark}
+        onWheel={(e) => { e.preventDefault(); e.stopPropagation(); }}
+        onTouchMove={(e) => { e.preventDefault(); e.stopPropagation(); }}
         onClick={(e) => {
           if (e.target === e.currentTarget) {
             setIsExpanded(false);

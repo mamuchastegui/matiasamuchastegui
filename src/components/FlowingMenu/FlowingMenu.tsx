@@ -2,6 +2,7 @@ import React from 'react';
 import { useTheme } from '../../context/ThemeContext';
 import { useNavigate } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
+import { useTranslation } from 'react-i18next';
 
 const GlobalMenuStyles = createGlobalStyle`
   .menu-wrap {
@@ -45,6 +46,43 @@ const GlobalMenuStyles = createGlobalStyle`
     flex-direction: column;
     justify-content: center;
     padding: 2rem 0;
+  }
+
+  /* Under construction badge (flows after description; no overlap on mobile) */
+  .menu__item .badge-construction {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 0.5rem;
+    padding: 6px 10px;
+    border-radius: 9999px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.12);
+    width: fit-content;
+  }
+  .menu-wrap[data-theme="dark"] .menu__item .badge-construction {
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+  }
+  .menu-wrap[data-theme="light"] .menu__item .badge-construction {
+    background: rgba(0,0,0,0.06);
+    color: #1D1F23;
+    border-color: rgba(0,0,0,0.12);
+  }
+  /* Invert colors on hover to keep contrast with card hover background */
+  .menu-wrap[data-theme="dark"] .menu__item-link:hover .badge-construction {
+    background: rgba(0,0,0,0.75);
+    color: #fff;
+    border-color: rgba(0,0,0,0.65);
+  }
+  .menu-wrap[data-theme="light"] .menu__item-link:hover .badge-construction {
+    background: rgba(255,255,255,0.9);
+    color: #000;
+    border-color: rgba(255,255,255,0.9);
   }
 
   .menu-wrap .menu__item.expanded {
@@ -299,11 +337,14 @@ const MenuItem: React.FC<MenuItemProps> = ({ link, text, image, color, descripti
   const { themeMode } = useTheme();
   const isDarkMode = themeMode === 'dark';
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
     navigate(link);
   };
+
+  const isOtros = link === '/otros';
 
   return (
     <div className="menu__item" data-kind={link}>
@@ -335,6 +376,11 @@ const MenuItem: React.FC<MenuItemProps> = ({ link, text, image, color, descripti
             </div>
           )}
           {description && <Description className="company-description">{description}</Description>}
+          {isOtros && (
+            <span className="badge-construction" aria-label={t('underConstruction', 'En construcción')}>
+              {t('underConstruction', 'En construcción')}
+            </span>
+          )}
         </div>
       </a>
     </div>

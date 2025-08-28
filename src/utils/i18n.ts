@@ -29,6 +29,7 @@ const resources = {
       
       viewProjects: 'View Projects',
       contactMe: 'Contact Me',
+      underConstruction: 'Under construction',
 
       xInvite: {
         title: 'Want to stay up to date?',
@@ -235,6 +236,7 @@ const resources = {
       
       viewProjects: 'Ver Proyectos',
       contactMe: 'Contáctame',
+      underConstruction: 'En construcción',
 
       xInvite: {
         title: '¿Querés mantenerte al día?',

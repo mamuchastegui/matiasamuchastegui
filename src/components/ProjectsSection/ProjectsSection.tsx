@@ -15,7 +15,13 @@ const SectionContainer = styled.section`
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
+  /* Restore original desktop clipping behavior */
   overflow: hidden;
+
+  /* On mobile, allow content to flow so nothing gets cut */
+  @media (max-width: 768px) {
+    overflow: visible;
+  }
 `;
 
 
@@ -44,15 +50,19 @@ const MenuContainer = styled.div`
   max-width: 100%;
   height: 600px;
   position: relative;
+  /* Restore original overflow for desktop */
   overflow: hidden;
   box-sizing: border-box;
   
   @media (max-width: 768px) {
-    height: 500px;
+    /* Let content define height on mobile to prevent clipping */
+    height: auto;
+    min-height: 500px;
+    overflow: visible;
   }
   
   @media (max-width: 480px) {
-    height: 400px;
+    min-height: 420px;
   }
 `;
 

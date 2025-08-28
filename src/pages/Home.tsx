@@ -11,7 +11,6 @@ import SEOContent from '@components/SEOContent';
 const HomeContainer = styled.div`
   position: relative;
   z-index: 1;
-  overflow: hidden;
 `;
 
 const ContentWrapper = styled.div`

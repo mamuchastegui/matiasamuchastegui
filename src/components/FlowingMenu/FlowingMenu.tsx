@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTheme } from '../../context/ThemeContext';
 import { useNavigate } from 'react-router-dom';
-import { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 
 const GlobalMenuStyles = createGlobalStyle`
   .menu-wrap {
@@ -10,6 +10,12 @@ const GlobalMenuStyles = createGlobalStyle`
     overflow: hidden;
     max-width: 100%;
     box-sizing: border-box;
+  }
+
+  @media (max-width: 768px) {
+    .menu-wrap {
+      height: auto;
+    }
   }
 
   .menu-wrap .menu {
@@ -35,6 +41,10 @@ const GlobalMenuStyles = createGlobalStyle`
     overflow: hidden;
     text-align: center;
     transition: flex 0.5s ease, background-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2rem 0;
   }
 
   .menu-wrap .menu__item.expanded {
@@ -63,6 +73,10 @@ const GlobalMenuStyles = createGlobalStyle`
     filter: brightness(0) !important;
   }
 
+  .menu-wrap[data-theme="dark"] .menu__item-link:hover .company-description {
+    color: #000000 !important;
+  }
+
   .menu-wrap[data-theme="light"] .menu__item-link:hover {
     background-color: #1D1F23;
   }
@@ -71,8 +85,13 @@ const GlobalMenuStyles = createGlobalStyle`
     filter: brightness(0) invert(1) !important;
   }
 
+  .menu-wrap[data-theme="light"] .menu__item-link:hover .company-description {
+    color: #ffffff !important;
+  }
+
   .menu-wrap .menu__item-link {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100%;
@@ -101,10 +120,21 @@ const GlobalMenuStyles = createGlobalStyle`
 
   @media (max-width: 768px) {
     .menu-wrap .company-logo {
-      max-height: 120px;
-      max-width: 150px;
-      width: 60%;
-      padding: 10px;
+      max-height: 160px;
+      max-width: 200px;
+      width: 70%;
+      padding: 15px;
+    }
+
+    /* Slightly larger FusionAds logo on mobile only */
+    .menu-wrap .company-logo[alt="FusionAds"] {
+      max-height: 175px;
+      max-width: 220px;
+    }
+
+    /* Bring "Otros Proyectos" title closer to its description on mobile */
+    .menu-wrap .menu__item[data-kind="/otros"] .company-description {
+      margin-top: 0.25rem;
     }
     
     .menu-wrap .menu__item-link {
@@ -114,10 +144,16 @@ const GlobalMenuStyles = createGlobalStyle`
 
   @media (max-width: 480px) {
     .menu-wrap .company-logo {
-      max-height: 80px;
-      max-width: 120px;
-      width: 50%;
-      padding: 8px;
+      max-height: 120px;
+      max-width: 160px;
+      width: 60%;
+      padding: 10px;
+    }
+
+    /* Keep FusionAds a touch larger also on very small screens */
+    .menu-wrap .company-logo[alt="FusionAds"] {
+      max-height: 130px;
+      max-width: 170px;
     }
     
     .menu-wrap .menu__item-link {
@@ -220,6 +256,16 @@ const GlobalMenuStyles = createGlobalStyle`
   }
 `;
 
+const Description = styled.p`
+  font-size: 0.875rem;
+  color: ${({ theme }) => (theme.isDark ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.7)')};
+  margin: 0.5rem 0 0;
+  padding: 0 1rem;
+  text-transform: none;
+  white-space: normal;
+  transition: color 0.3s ease;
+`;
+
 interface MenuItemProps {
   link: string;
   text: string;
@@ -249,7 +295,7 @@ const FlowingMenu: React.FC<FlowingMenuProps> = ({ items = [] }) => {
   );
 };
 
-const MenuItem: React.FC<MenuItemProps> = ({ link, text, image, color }) => {
+const MenuItem: React.FC<MenuItemProps> = ({ link, text, image, color, description }) => {
   const { themeMode } = useTheme();
   const isDarkMode = themeMode === 'dark';
   const navigate = useNavigate();
@@ -260,33 +306,36 @@ const MenuItem: React.FC<MenuItemProps> = ({ link, text, image, color }) => {
   };
 
   return (
-    <div className="menu__item">
+    <div className="menu__item" data-kind={link}>
       <a className="menu__item-link" onClick={handleClick} href={link}>
-        {image ? (
-          <img
-            src={image}
-            alt={text}
-            className="company-logo"
-            style={{
-              filter: isDarkMode ? 'brightness(0) invert(1)' : 'brightness(0)',
-            }}
-          />
-        ) : (
-          <div
-            className="company-text"
-            style={{
-              color: isDarkMode ? '#ffffff' : color || '#000000',
-              fontSize: '1.2rem',
-              fontWeight: 'bold',
-              textAlign: 'center',
-              padding: '20px',
-              textTransform: 'uppercase',
-              letterSpacing: '1px',
-            }}
-          >
-            {text}
-          </div>
-        )}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          {image ? (
+            <img
+              src={image}
+              alt={text}
+              className="company-logo"
+              style={{
+                filter: isDarkMode ? 'brightness(0) invert(1)' : 'brightness(0)',
+              }}
+            />
+          ) : (
+            <div
+              className="company-text"
+              style={{
+                color: isDarkMode ? '#ffffff' : color || '#000000',
+                fontSize: '1.2rem',
+                fontWeight: 'bold',
+                textAlign: 'center',
+                padding: '20px',
+                textTransform: 'uppercase',
+                letterSpacing: '1px',
+              }}
+            >
+              {text}
+            </div>
+          )}
+          {description && <Description className="company-description">{description}</Description>}
+        </div>
       </a>
     </div>
   );

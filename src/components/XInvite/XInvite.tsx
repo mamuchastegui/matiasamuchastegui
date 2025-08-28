@@ -36,6 +36,7 @@ const Card = styled.section<{ $isDark: boolean }>`
     opacity: 0;
     transition: opacity 0.4s ease;
     z-index: 0;
+    pointer-events: none;
   }
 
   &::after {
@@ -46,6 +47,7 @@ const Card = styled.section<{ $isDark: boolean }>`
     opacity: 0;
     transition: opacity 0.4s ease;
     z-index: 1;
+    pointer-events: none;
   }
 
   &:hover {

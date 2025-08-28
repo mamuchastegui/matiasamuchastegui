@@ -13,7 +13,7 @@ const PageContainer = styled(motion.div)`
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
+  /* Use window for vertical scrolling to ensure global scroll resets work */
   overflow-x: hidden;
   background-color: transparent;
   /* Fondo manejado por SplineBackground */

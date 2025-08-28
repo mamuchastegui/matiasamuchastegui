@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBrowserRouter, RouterProvider, Outlet, useLocation, useOutletContext } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useLayoutEffect } from 'react';
 import { Provider } from 'react-redux';
 import { store, setLoaded } from '@store/index';
 import { GlobalStyles } from '@styles/GlobalStyles';
@@ -259,23 +259,36 @@ const AppContent = () => {
 
   useEffect(() => {
     if (location.state?.scrollToSection && location.pathname === '/') {
-      const sectionId = location.state.scrollToSection;
+      const sectionId = location.state.scrollToSection as string;
       const sectionElement = document.getElementById(sectionId);
       if (sectionElement) {
-        setTimeout(() => {
-          sectionElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 100);
+        // Jump instantly without animated scroll and without preserving previous offset
+        requestAnimationFrame(() => {
+          sectionElement.scrollIntoView({ behavior: 'auto', block: 'start' });
+        });
       }
 
       window.history.replaceState({}, location.pathname, location.pathname);
     }
   }, [location.state, location.pathname]);
 
-  // Ensure non-home pages start at the top on navigation
-  useEffect(() => {
+  // Ensure non-home pages start at the top on navigation (pre-paint)
+  useLayoutEffect(() => {
     if (location.pathname !== '/') {
+      try {
+        if ('scrollRestoration' in window.history) {
+          window.history.scrollRestoration = 'manual';
+        }
+      } catch {}
       window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
     }
+    return () => {
+      try {
+        if ('scrollRestoration' in window.history) {
+          window.history.scrollRestoration = 'auto';
+        }
+      } catch {}
+    };
   }, [location.pathname]);
 
   // Mobile UX: auto-close sidebar on route change (e.g., tapping project links)

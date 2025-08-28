@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../../context/ThemeContext';
+import { useModeAnimation, ThemeAnimationType } from 'react-theme-switch-animation';
 import './toggle-styles.css';
 
 interface ThemeToggleProps {
@@ -15,6 +16,22 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({
   const { t } = useTranslation();
   const { themeMode, toggleTheme } = useTheme();
   const isDark = themeMode === 'dark';
+
+  // View-transitions powered theme animation anchored to the toggle
+  const { ref, toggleSwitchTheme } = useModeAnimation({
+    animationType: ThemeAnimationType.BLUR_CIRCLE,
+    duration: 800,
+    easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+    blurAmount: 2.8,
+    isDarkMode: isDark,
+    onDarkModeChange: (nextIsDark: boolean) => {
+      // Sync library’s new mode with our ThemeContext
+      if (nextIsDark !== isDark) {
+        toggleTheme();
+      }
+    },
+    // Keep default globalClassName 'dark' (harmless with styled-components theme)
+  });
   
 
   // Fallback inline styles to ensure correct layout/animation even if CSS fails to load in prod
@@ -55,29 +72,18 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({
         height: '100%'
       }}
     >
-      <label htmlFor="switch" className="toggle" style={toggleStyle}>
-        <input 
-          type="checkbox" 
-          className="input" 
-          id="switch" 
-          checked={isDark}
-          onChange={toggleTheme}
-          aria-label={t('tooltip.toggleTheme', 'Cambiar tema / Toggle theme')}
-          // Hide robustly even if stylesheet fails to load
-          style={{
-            position: 'absolute',
-            opacity: 0,
-            width: 1,
-            height: 1,
-            margin: 0,
-            padding: 0,
-            overflow: 'hidden',
-            clip: 'rect(0 0 0 0)',
-            clipPath: 'inset(50%)',
-            whiteSpace: 'nowrap',
-            pointerEvents: 'none',
-          }}
-        />
+      <button
+        ref={ref}
+        type="button"
+        className="toggle"
+        style={toggleStyle}
+        onClick={() => {
+          // Delegate to the animation hook (includes reduced-motion handling)
+          void toggleSwitchTheme();
+        }}
+        aria-pressed={isDark}
+        aria-label={t('tooltip.toggleTheme', 'Cambiar tema / Toggle theme')}
+      >
         <div
           className="icon icon--moon"
           aria-hidden={isDark}
@@ -121,9 +127,9 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({
             ></path>
           </svg>
         </div>
-      </label>
+      </button>
     </div>
   );
-}; 
+};
 
 export default ThemeToggle;

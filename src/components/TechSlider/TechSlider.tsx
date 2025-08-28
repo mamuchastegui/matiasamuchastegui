@@ -55,7 +55,7 @@ const slideAnimation = keyframes`
 
 const SliderContainer = styled.div`
   width: 100%;
-  overflow: hidden; // Changed from visible to hidden
+  overflow: visible; // Changed from visible to hidden
   padding: 8px 0;
   margin: 6px 0 0;
   position: relative;
@@ -89,14 +89,15 @@ const SliderInner = styled.div`
   width: 100%;
   height: 52px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
 `;
 
 const SliderTrack = styled.div<{ $animate: boolean }>`
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-evenly;
   height: 100%;
+  width: 100%;
 
   @media (max-width: 768px) {
     ${({ $animate }) =>
@@ -117,6 +118,7 @@ const SliderItem = styled.div`
   height: 100%;
   padding: 0 15px;
   position: relative;
+  flex: 1 1 0;
 
   @media (max-width: 768px) {
     flex: 0 0 auto;

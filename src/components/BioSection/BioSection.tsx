@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import TechSlider from '@components/TechSlider';
+import XInvite from '@components/XInvite';
 
 const SectionContainer = styled.section`
   display: flex;
@@ -211,6 +212,9 @@ const BioSection: React.FC = () => {
               <BioText>{block2Text}</BioText>
             </BlockCard>
           </TextContainer>
+
+          {/* X Invite module between bio blocks and tech slider */}
+          <XInvite />
 
           <TechSliderContainer>
             <TechSlider />

@@ -30,6 +30,15 @@ const resources = {
       viewProjects: 'View Projects',
       contactMe: 'Contact Me',
 
+      xInvite: {
+        title: 'Want to stay up to date?',
+        description:
+          'Daily AI updates: leaks, quick analyses and practical examples. Clear demos, questions to spark debate, and a critical look at impact.',
+        cta: 'Visit my profile',
+        ctaAria: 'Open Alexis\' profile on X in a new tab',
+        avatarAlt: 'Alexis\' X profile photo',
+      },
+
 
 
   
@@ -226,6 +235,15 @@ const resources = {
       
       viewProjects: 'Ver Proyectos',
       contactMe: 'Contáctame',
+
+      xInvite: {
+        title: '¿Querés mantenerte al día?',
+        description:
+          'Actualizaciones diarias de IA: leaks, microanálisis y ejemplos prácticos. Demos claras, preguntas para debatir y mirada crítica sobre el impacto.',
+        cta: 'Visitar perfil',
+        ctaAria: 'Abrir el perfil de Alexis en X en una nueva pestaña',
+        avatarAlt: 'Foto de perfil de Alexis en X',
+      },
 
 
 

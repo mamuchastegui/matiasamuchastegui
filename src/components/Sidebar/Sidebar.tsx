@@ -511,8 +511,8 @@ const ThemeToggleWrapper = styled.div<{ $isCollapsed?: boolean; $index?: number;
   border: 1px solid transparent;
   position: relative;
   
-  /* Ensure inner toggle never overflows the 36x36 wrapper in prod */
-  overflow: hidden;
+  /* Allow tooltip to render outside wrapper while button stays within bounds */
+  overflow: visible;
   box-sizing: border-box;
 
   opacity: ${({ $phase }) => ($phase === 'hidden' ? 0 : $phase === 'fading' ? 0 : 1)};

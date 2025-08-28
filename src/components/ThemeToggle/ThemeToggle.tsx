@@ -54,7 +54,18 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({
         transition: 'transform 0.3s ease',
       }}
     >
-      <label ref={ref as unknown as React.LegacyRef<HTMLLabelElement>} htmlFor="switch" className="toggle">
+      <label
+        ref={ref as unknown as React.LegacyRef<HTMLLabelElement>}
+        htmlFor="switch"
+        className="toggle"
+        style={{
+          // Fallback mínimo para centrar y anclar iconos si el CSS minificado falla
+          position: 'relative',
+          display: 'grid',
+          placeItems: 'center',
+          lineHeight: 1,
+        }}
+      >
         <input
           type="checkbox"
           className="input"
@@ -62,6 +73,22 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({
           checked={isDark}
           onChange={() => { void toggleSwitchTheme(); }}
           aria-label={t('tooltip.toggleTheme', 'Cambiar tema / Toggle theme')}
+          // Asegura que el checkbox sea invisible en producción pero accesible
+          style={{
+            position: 'absolute',
+            opacity: 0,
+            width: 1,
+            height: 1,
+            margin: 0,
+            padding: 0,
+            overflow: 'hidden',
+            clip: 'rect(0 0 0 0)',
+            clipPath: 'inset(50%)',
+            whiteSpace: 'nowrap',
+            appearance: 'none',
+            border: 0,
+            background: 'transparent',
+          }}
         />
         <div
           className="icon icon--moon"

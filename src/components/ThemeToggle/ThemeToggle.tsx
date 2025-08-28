@@ -34,63 +34,28 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({
   });
   
 
-  // Fallback inline styles to ensure correct layout/animation even if CSS fails to load in prod
-  const toggleStyle: React.CSSProperties = {
-    color: isDark ? '#fff' : '#1D1F2C',
-    position: 'relative', // anchor absolute icons
-    display: 'grid',
-    placeItems: 'center',
-    // Ensure it always fits its wrapper even if CSS is missing
-    width: '100%',
-    height: '100%',
-    lineHeight: 1,
-    boxSizing: 'border-box',
-    borderRadius: 8,
-  };
-
-  const baseIconStyle: React.CSSProperties = {
-    position: 'absolute', // overlay both icons
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    display: 'grid',
-    placeItems: 'center',
-    transition: 'transform 500ms',
-    transformOrigin: '50% 50%',
-    willChange: 'transform',
-    lineHeight: 0.1,
-  };
+  // Usamos exclusivamente el CSS existente para mantener el estilo de dev en prod
   
   return (
-    <div className={`toggle-container ${className || ''}`}
+    <div
+      className={`toggle-container ${className || ''}`}
       style={{
         transform: $hideOnScroll ? 'translateY(-100px)' : 'translateY(0)',
         transition: 'transform 0.3s ease',
-        // Make the container fill the wrapper to avoid overflow/layout jumps in prod
-        width: '100%',
-        height: '100%'
       }}
     >
-      <button
-        ref={ref}
-        type="button"
-        className="toggle"
-        style={toggleStyle}
-        onClick={() => {
-          // Delegate to the animation hook (includes reduced-motion handling)
-          void toggleSwitchTheme();
-        }}
-        aria-pressed={isDark}
-        aria-label={t('tooltip.toggleTheme', 'Cambiar tema / Toggle theme')}
-      >
+      <label ref={ref as unknown as React.LegacyRef<HTMLLabelElement>} htmlFor="switch" className="toggle">
+        <input
+          type="checkbox"
+          className="input"
+          id="switch"
+          checked={isDark}
+          onChange={() => { void toggleSwitchTheme(); }}
+          aria-label={t('tooltip.toggleTheme', 'Cambiar tema / Toggle theme')}
+        />
         <div
           className="icon icon--moon"
           aria-hidden={isDark}
-          style={{ 
-            ...baseIconStyle,
-            transform: isDark ? 'rotate(360deg) scale(0)' : 'scale(1)',
-          }}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -110,10 +75,6 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({
         <div
           className="icon icon--sun"
           aria-hidden={!isDark}
-          style={{ 
-            ...baseIconStyle,
-            transform: isDark ? 'scale(1) rotate(360deg)' : 'scale(0)',
-          }}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -127,7 +88,7 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({
             ></path>
           </svg>
         </div>
-      </button>
+      </label>
     </div>
   );
 };

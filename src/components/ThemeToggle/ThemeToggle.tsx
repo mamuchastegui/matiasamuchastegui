@@ -33,8 +33,18 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({
     // Keep default globalClassName 'dark' (harmless with styled-components theme)
   });
   
-
-  // Usamos exclusivamente el CSS existente para mantener el estilo de dev en prod
+  // Inline fallback para asegurar animación y layout en producción
+  // (replica exactamente lo que define toggle-styles.css para los iconos)
+  const baseIconStyle: React.CSSProperties = {
+    position: 'absolute',
+    inset: 0,
+    display: 'grid',
+    placeItems: 'center',
+    transition: 'transform 500ms',
+    transformOrigin: '50% 50%',
+    willChange: 'transform',
+    lineHeight: 0.1,
+  };
   
   return (
     <div
@@ -56,6 +66,10 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({
         <div
           className="icon icon--moon"
           aria-hidden={isDark}
+          style={{
+            ...baseIconStyle,
+            transform: isDark ? 'rotate(360deg) scale(0)' : 'scale(1)',
+          }}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -75,6 +89,10 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({
         <div
           className="icon icon--sun"
           aria-hidden={!isDark}
+          style={{
+            ...baseIconStyle,
+            transform: isDark ? 'scale(1) rotate(360deg)' : 'scale(0)',
+          }}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

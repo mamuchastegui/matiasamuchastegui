@@ -38,3 +38,6 @@ node_modules/
 # tasks.json
 # tasks/ 
 .vercel
+
+# Windows reserved filename
+NUL

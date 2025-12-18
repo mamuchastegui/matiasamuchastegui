@@ -41,3 +41,13 @@ node_modules/
 
 # Windows reserved filename
 NUL
+
+# AI/Editor tools
+.trae
+.codex
+.taskmaster
+temp/
+codex_repo_facts.json
+stagewise.json
+tsc.err
+tsc.out

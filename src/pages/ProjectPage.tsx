@@ -3,8 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 
-import { SplineScene } from '../xcons/index.jsx';
-
+import { SplineScene } from '../features/xcons/index.jsx';
 
 import condamindLogo from '../assets/images/projects/Condamind.svg';
 import fusionadsLogo from '../assets/images/projects/Fusionads.svg';
@@ -13,15 +12,12 @@ import xconsLogoProject from '../assets/images/projects/XCONS.svg';
 import webXconxImage from '../assets/images/web-xconx.png';
 import fallbackImage from '../assets/images/projects/fallback-image.jpg';
 
-
-
 const ProjectContainer = styled.div`
   padding: 0 20px 40px;
   max-width: 1200px;
   margin: 0 auto;
   color: ${({ theme }) => theme.colors.text};
 `;
-
 
 const ProjectBanner = styled.div<{ $bgColor: string }>`
   background: linear-gradient(
@@ -105,7 +101,6 @@ const ProjectContent = styled.div`
   margin-top: ${({ theme }) => theme.space.xl};
 `;
 
-
 const RoleTitle = styled.h2`
   font-size: 32px;
   font-weight: 700;
@@ -187,7 +182,6 @@ const ProjectPage: React.FC = () => {
   const navigate = useNavigate();
   const [project, setProject] = useState<Project | null>(null);
 
-  
   const projectsData: Record<string, Project> = {
     condamind: {
       id: 'condamind',
@@ -237,7 +231,6 @@ const ProjectPage: React.FC = () => {
       if (foundProject) {
         setProject(foundProject);
       } else {
-      
         navigate('/');
       }
     }
@@ -246,7 +239,6 @@ const ProjectPage: React.FC = () => {
   if (!project) {
     return <div>Cargando...</div>;
   }
-
 
   const renderProjectContent = () => {
     if (project.id === 'xcons') {
@@ -427,11 +419,7 @@ const ProjectPage: React.FC = () => {
           </BannerLeftContent>
 
           <BannerWebImage
-            src={
-              project.id === 'xcons'
-                ? webXconxImage
-                : fallbackImage
-            }
+            src={project.id === 'xcons' ? webXconxImage : fallbackImage}
             alt={`${project.title} Website`}
           />
         </BannerContent>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { SplineScene } from '../xcons';
+import { SplineScene } from '../features/xcons';
 
 export default function SplinePage() {
   return (
@@ -7,4 +7,4 @@ export default function SplinePage() {
       <SplineScene />
     </div>
   );
-} 
+}

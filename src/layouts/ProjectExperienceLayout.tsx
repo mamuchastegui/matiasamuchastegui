@@ -2,14 +2,15 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import { ThemeMode } from '../context/ThemeContext'; // Asumiendo ubicación
 import StandardSectionTitle from '@components/shared/StandardSectionTitle'; // Usar alias
-import Masonry from '../xcons/components/Masonry'; // Mantener ruta o mover Masonry? -> Mejor moverlo a shared? Por ahora dejamos ruta
-import { ExperienceCardProps } from '../xcons/components/Experiences/ExperienceCard'; // Tipos necesarios
-import MarketingExperiences from '../xcons/components/Experiences/MarketingExperiences'; // Componentes de experiencia
-import OperationsExperiences from '../xcons/components/Experiences/OperationsExperiences'; // Componentes de experiencia
+import Masonry from '../features/xcons/components/Masonry';
+import { ExperienceCardProps } from '../features/xcons/components/Experiences/ExperienceCard';
+import MarketingExperiences from '../features/xcons/components/Experiences/MarketingExperiences';
+import OperationsExperiences from '../features/xcons/components/Experiences/OperationsExperiences';
 import xFondoDefault from '../assets/x-fondo.png'; // Default background
 
 // --- Tipos para Props ---
-export interface MasonryDataItem { // Exportar para usar en archivos de datos
+export interface MasonryDataItem {
+  // Exportar para usar en archivos de datos
   id: string | number;
   height: number;
   image?: string;
@@ -20,18 +21,21 @@ export interface MasonryDataItem { // Exportar para usar en archivos de datos
   description?: string;
 }
 
-export interface ExperienceSectionData { // Exportar para usar en archivos de datos
+export interface ExperienceSectionData {
+  // Exportar para usar en archivos de datos
   title: string; // Título traducido para la sección (e.g., "Marketing y Diseño")
   experiences: Omit<ExperienceCardProps, 'language'>[]; // Datos para ExperienceCard
 }
 
-export interface BannerTextData { // Exportar para usar en archivos de datos
-    main: string;
-    link?: string;
-    location?: string;
+export interface BannerTextData {
+  // Exportar para usar en archivos de datos
+  main: string;
+  link?: string;
+  location?: string;
 }
 
-export interface ProjectExperienceLayoutProps { // Exportar para usar en ProjectPage
+export interface ProjectExperienceLayoutProps {
+  // Exportar para usar en ProjectPage
   language: 'es' | 'en';
   isDark: boolean;
   themeMode: ThemeMode;
@@ -57,7 +61,8 @@ const PageContainer = styled.div`
   padding-top: 4rem;
 `;
 
-const ProjectBanner = styled.div` // Renombrado
+const ProjectBanner = styled.div`
+  // Renombrado
   position: relative;
   width: 100%;
   background-color: white; // Ajustar si es necesario para tema oscuro
@@ -78,7 +83,8 @@ const BannerBackground = styled.div<{ $bgImage?: string }>`
   height: 100%;
   z-index: 1;
   overflow: hidden;
-  background-image: url(${props => props.$bgImage || xFondoDefault}); // Usar prop o default importado
+  background-image: url(${props =>
+    props.$bgImage || xFondoDefault}); // Usar prop o default importado
   background-repeat: no-repeat;
   background-position: left center;
 `;
@@ -117,14 +123,15 @@ const LogoImage = styled.img`
   margin-bottom: 15px;
 `;
 
-const BannerText = styled.p<{ $isDark?: boolean }>` // Añadir $isDark para colores
+const BannerText = styled.p<{ $isDark?: boolean }>`
+  // Añadir $isDark para colores
   font-size: 1rem;
-  color: ${({ $isDark }) => $isDark ? '#DDDDDD' : '#333'}; // Color condicional
+  color: ${({ $isDark }) => ($isDark ? '#DDDDDD' : '#333')}; // Color condicional
   max-width: 400px;
   line-height: 1.6;
 
   a {
-    color: ${({ $isDark }) => $isDark ? '#4db1ff' : '#15814B'}; // Color de enlace condicional
+    color: ${({ $isDark }) => ($isDark ? '#4db1ff' : '#15814B')}; // Color de enlace condicional
     text-decoration: underline;
     &:hover {
       text-decoration: none;
@@ -132,8 +139,9 @@ const BannerText = styled.p<{ $isDark?: boolean }>` // Añadir $isDark para colo
   }
 `;
 
-const LocationText = styled.span<{ $isDark?: boolean }>` // Añadir $isDark para colores
-  color: ${({ $isDark }) => $isDark ? '#AAAAAA' : '#888888'};
+const LocationText = styled.span<{ $isDark?: boolean }>`
+  // Añadir $isDark para colores
+  color: ${({ $isDark }) => ($isDark ? '#AAAAAA' : '#888888')};
   font-size: 0.9rem;
 `;
 
@@ -165,7 +173,7 @@ const glassEffect = css`
 const StyledBox = styled.div<{ $isDark: boolean }>`
   border-radius: 12px;
   padding: 2.5rem;
-  border: 1px solid ${({ $isDark }) => $isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.15)'};
+  border: 1px solid ${({ $isDark }) => ($isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.15)')};
   background: ${({ $isDark }) => ($isDark ? 'rgba(40, 40, 45, 0.7)' : 'rgba(245, 245, 250, 0.75)')};
   ${glassEffect}
   color: ${({ theme }) => theme.colors.text}; // Requiere ThemeProvider en App.tsx
@@ -179,7 +187,7 @@ const DescriptionBox = styled(StyledBox)`
 const SectionTitleInsideBox = styled.h3<{ $isDark: boolean }>`
   font-weight: 600;
   font-size: 1.6rem;
-  color: ${({ $isDark }) => $isDark ? '#FFFFFF' : '#1D1F23'};
+  color: ${({ $isDark }) => ($isDark ? '#FFFFFF' : '#1D1F23')};
   margin-bottom: 0.75rem;
   text-transform: uppercase;
 `;
@@ -188,7 +196,7 @@ const DividerLine = styled.hr<{ $isDark: boolean }>`
   width: 100%;
   border: none;
   height: 1px;
-  background-color: ${({ $isDark }) => $isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.15)'};
+  background-color: ${({ $isDark }) => ($isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.15)')};
   margin-top: 0.75rem;
   margin-bottom: 1.5rem;
 `;
@@ -197,7 +205,7 @@ const SummaryText = styled.p<{ $isDark: boolean }>`
   font-size: 1rem;
   line-height: 1.8;
   margin-bottom: 0;
-  color: ${({ $isDark }) => $isDark ? '#DDDDDD' : '#444444'};
+  color: ${({ $isDark }) => ($isDark ? '#DDDDDD' : '#444444')};
 `;
 
 const ExperienceContainer = styled.div`
@@ -215,7 +223,8 @@ const MasonryWrapper = styled(StyledBox)`
   margin-top: 4rem;
   margin-bottom: 2rem;
 
-  & > *:first-child { // Título (StandardSectionTitle)
+  & > *:first-child {
+    // Título (StandardSectionTitle)
     margin-bottom: 0.75rem;
   }
 `;
@@ -238,74 +247,97 @@ const ProjectExperienceLayout: React.FC<ProjectExperienceLayoutProps> = ({
   masonryData,
   projectName,
 }) => {
-
   // Ajustes para colores dependientes del tema donde no usamos styled-components directamente
   // const bannerLinkColor = isDark ? '#61afef' : '#15814B'; // Ejemplo de colores
   // const bannerTextColor = isDark ? '#DDDDDD' : '#333';
 
   return (
-      <PageContainer>
-        {projectName && (
-          <StandardSectionTitle as="h1" style={{ position: 'absolute', width: '1px', height: '1px', margin: '-1px', padding: 0, overflow: 'hidden', clip: 'rect(0,0,0,0)', border: 0 }}>
-            {projectName}
-          </StandardSectionTitle>
-        )}
+    <PageContainer>
+      {projectName && (
+        <StandardSectionTitle
+          as="h1"
+          style={{
+            position: 'absolute',
+            width: '1px',
+            height: '1px',
+            margin: '-1px',
+            padding: 0,
+            overflow: 'hidden',
+            clip: 'rect(0,0,0,0)',
+            border: 0,
+          }}
+        >
+          {projectName}
+        </StandardSectionTitle>
+      )}
 
-        <ProjectBanner>
-          <BannerBackground $bgImage={bannerBackground} />
-          <BannerContent>
-            <LeftContent>
-              <LogoImage src={bannerLogo} alt={`${projectName || 'Project'} Logo`} />
-              <BannerText $isDark={isDark}>
-                {bannerText.main}
-                {bannerText.link && <><br /><a href={bannerText.link} target="_blank" rel="noopener noreferrer">{bannerText.link.replace(/^https?:\/\//, '')}</a></>}
-                {bannerText.location && <><br /><LocationText $isDark={isDark}>{bannerText.location}</LocationText></>}
-              </BannerText>
-            </LeftContent>
-            <RightContent>
-              <img src={bannerImage} alt={`${projectName || 'Project'} visual`} />
-            </RightContent>
-          </BannerContent>
-        </ProjectBanner>
+      <ProjectBanner>
+        <BannerBackground $bgImage={bannerBackground} />
+        <BannerContent>
+          <LeftContent>
+            <LogoImage src={bannerLogo} alt={`${projectName || 'Project'} Logo`} />
+            <BannerText $isDark={isDark}>
+              {bannerText.main}
+              {bannerText.link && (
+                <>
+                  <br />
+                  <a href={bannerText.link} target="_blank" rel="noopener noreferrer">
+                    {bannerText.link.replace(/^https?:\/\//, '')}
+                  </a>
+                </>
+              )}
+              {bannerText.location && (
+                <>
+                  <br />
+                  <LocationText $isDark={isDark}>{bannerText.location}</LocationText>
+                </>
+              )}
+            </BannerText>
+          </LeftContent>
+          <RightContent>
+            <img src={bannerImage} alt={`${projectName || 'Project'} visual`} />
+          </RightContent>
+        </BannerContent>
+      </ProjectBanner>
 
-        <Summary>
-          <DescriptionBox $isDark={isDark}>
-            <SectionTitleInsideBox $isDark={isDark}>{roleSummaryTitle}</SectionTitleInsideBox>
-            <DividerLine $isDark={isDark} />
-            <SummaryText $isDark={isDark}>{roleSummaryText}</SummaryText>
-          </DescriptionBox>
-        </Summary>
-
-        {(experienceSection1 || experienceSection2) && (
-          <ExperienceContainer>
-            {experienceSection1 && (
-              <MarketingExperiences
-                title={<StandardSectionTitle>{experienceSection1.title}</StandardSectionTitle>}
-                experiences={experienceSection1.experiences}
-                language={language}
-                isDark={isDark}
-              />
-            )}
-             {experienceSection2 && (
-              <OperationsExperiences
-                title={<StandardSectionTitle>{experienceSection2.title}</StandardSectionTitle>}
-                experiences={experienceSection2.experiences}
-                language={language}
-                isDark={isDark}
-              />
-            )}
-          </ExperienceContainer>
-        )}
-
-        <MasonryWrapper $isDark={isDark}>
-          <StandardSectionTitle style={{ textAlign: 'left' }}>
-            {featuredProjectsTitle}
-          </StandardSectionTitle>
+      <Summary>
+        <DescriptionBox $isDark={isDark}>
+          <SectionTitleInsideBox $isDark={isDark}>{roleSummaryTitle}</SectionTitleInsideBox>
           <DividerLine $isDark={isDark} />
-          <Masonry data={masonryData} themeMode={themeMode} />
-        </MasonryWrapper>
-      </PageContainer>
+          <SummaryText $isDark={isDark}>{roleSummaryText}</SummaryText>
+        </DescriptionBox>
+      </Summary>
+
+      {(experienceSection1 || experienceSection2) && (
+        <ExperienceContainer>
+          {experienceSection1 && (
+            <MarketingExperiences
+              title={<StandardSectionTitle>{experienceSection1.title}</StandardSectionTitle>}
+              experiences={experienceSection1.experiences}
+              language={language}
+              isDark={isDark}
+            />
+          )}
+          {experienceSection2 && (
+            <OperationsExperiences
+              title={<StandardSectionTitle>{experienceSection2.title}</StandardSectionTitle>}
+              experiences={experienceSection2.experiences}
+              language={language}
+              isDark={isDark}
+            />
+          )}
+        </ExperienceContainer>
+      )}
+
+      <MasonryWrapper $isDark={isDark}>
+        <StandardSectionTitle style={{ textAlign: 'left' }}>
+          {featuredProjectsTitle}
+        </StandardSectionTitle>
+        <DividerLine $isDark={isDark} />
+        <Masonry data={masonryData} themeMode={themeMode} />
+      </MasonryWrapper>
+    </PageContainer>
   );
 };
 
-export default ProjectExperienceLayout; 
+export default ProjectExperienceLayout;

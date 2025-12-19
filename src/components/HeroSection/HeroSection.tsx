@@ -16,8 +16,8 @@ const HeroContainer = styled.section`
   overflow: hidden;
   width: 100%;
   box-sizing: border-box;
-  background-color: ${({ theme }) => theme.isDark ? 'transparent' : theme.colors.background};
-  
+  background-color: ${({ theme }) => (theme.isDark ? 'transparent' : theme.colors.background)};
+
   @media (max-width: 768px) {
     padding: 4rem 0 0; // Added padding-top
     flex-direction: column;
@@ -61,7 +61,7 @@ const LeftContainer = styled.div`
   justify-content: center;
   position: relative;
   overflow: hidden;
-  
+
   &::before {
     content: '';
     position: absolute;
@@ -69,7 +69,7 @@ const LeftContainer = styled.div`
     background: radial-gradient(600px 300px at 50% 0%, rgba(56, 189, 248, 0.1), transparent);
     pointer-events: none;
   }
-  
+
   @media (max-width: 768px) {
     padding: 2rem 1.5rem; // antes: 2rem 1.5rem
     height: auto;
@@ -88,8 +88,11 @@ const Name = styled.h1`
   position: relative;
   z-index: 2;
   overflow: hidden;
-  .line { display: block; overflow: hidden; }
-  
+  .line {
+    display: block;
+    overflow: hidden;
+  }
+
   @media (max-width: 768px) {
     font-size: clamp(2rem, 8vw, 3rem);
     margin-bottom: 1rem;
@@ -101,15 +104,20 @@ const Description = styled.p`
   font-family: ${({ theme }) => theme.fonts.body};
   font-size: clamp(1rem, 1.5vw, 1.125rem);
   font-weight: ${({ theme }) => theme.fontWeights.normal};
-  color: ${({ theme }) => theme.isDark ? 'rgba(255, 255, 255, 0.7)' : 'rgba(29, 31, 35, 0.8)'};
+  color: ${({ theme }) => (theme.isDark ? 'rgba(255, 255, 255, 0.7)' : 'rgba(29, 31, 35, 0.8)')};
   line-height: 1.6;
   margin: 0;
   position: relative;
   z-index: 2;
   overflow: hidden;
-  .line { display: block; overflow: hidden; }
-  .line-inner { display: inline-block; }
-  
+  .line {
+    display: block;
+    overflow: hidden;
+  }
+  .line-inner {
+    display: inline-block;
+  }
+
   @media (max-width: 768px) {
     font-size: 1rem;
     text-align: left;
@@ -120,15 +128,20 @@ const Subtitle = styled.h2`
   font-family: ${({ theme }) => theme.fonts.body};
   font-size: clamp(1rem, 1.4vw, 1.125rem);
   font-weight: ${({ theme }) => theme.fontWeights.medium};
-  color: ${({ theme }) => theme.isDark ? 'rgba(255, 255, 255, 0.85)' : 'rgba(29, 31, 35, 0.9)'};
+  color: ${({ theme }) => (theme.isDark ? 'rgba(255, 255, 255, 0.85)' : 'rgba(29, 31, 35, 0.9)')};
   margin: 0 0 0.75rem 0;
   line-height: 1.4;
   letter-spacing: 0.2px;
   position: relative;
   z-index: 2;
   overflow: hidden;
-  .line { display: block; overflow: hidden; }
-  .line-inner { display: inline-block; }
+  .line {
+    display: block;
+    overflow: hidden;
+  }
+  .line-inner {
+    display: inline-block;
+  }
 
   @media (max-width: 768px) {
     font-size: 1rem;
@@ -147,7 +160,7 @@ const RightContainer = styled.div`
   justify-content: center;
   position: relative;
   overflow: hidden;
-  
+
   &::before {
     content: '';
     position: absolute;
@@ -155,7 +168,7 @@ const RightContainer = styled.div`
     background: radial-gradient(800px 400px at 80% 10%, rgba(168, 85, 247, 0.1), transparent);
     pointer-events: none;
   }
-  
+
   @media (max-width: 768px) {
     padding: 0; // antes: 1.5rem
     height: 300px;
@@ -171,7 +184,7 @@ const HeroVideo = styled.video`
   position: relative;
   z-index: 2;
   will-change: transform;
-  
+
   @media (max-width: 768px) {
     object-fit: cover;
   }
@@ -227,13 +240,13 @@ const HeroSection: React.FC<HeroSectionProps> = () => {
     return () => ctx.revert();
   }, []);
 
-  // Parallax suave del video al scrollear (similar /newlook)
+  // Parallax suave del video al scrollear
   useLayoutEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
     if (!heroVideoRef.current || !rightRef.current) return;
     const ctx = gsap.context(() => {
       ScrollTrigger.matchMedia({
-        "(min-width: 640px)": function () {
+        '(min-width: 640px)': function () {
           gsap.fromTo(
             heroVideoRef.current!,
             { yPercent: -5 },
@@ -260,24 +273,25 @@ const HeroSection: React.FC<HeroSectionProps> = () => {
     if (!heroSectionRef.current || !contentRef.current) return;
     const ctx = gsap.context(() => {
       ScrollTrigger.matchMedia({
-        "(min-width: 640px)": function () {
-          gsap.timeline({
-            scrollTrigger: {
-              trigger: heroSectionRef.current!,
-              start: 'bottom bottom',
-              end: 'bottom top-=50%',
-              scrub: 0.5,
-              anticipatePin: 1,
-            }
-          })
-          .to(contentRef.current!, { opacity: 0, y: '10vh' }, 0);
+        '(min-width: 640px)': function () {
+          gsap
+            .timeline({
+              scrollTrigger: {
+                trigger: heroSectionRef.current!,
+                start: 'bottom bottom',
+                end: 'bottom top-=50%',
+                scrub: 0.5,
+                anticipatePin: 1,
+              },
+            })
+            .to(contentRef.current!, { opacity: 0, y: '10vh' }, 0);
         },
       });
     }, heroSectionRef);
     return () => ctx.revert();
   }, [themeMode]);
 
-  // Replicate NewLook line-reveal effect on left text rows at init
+  // Line-reveal effect on left text rows at init
   useLayoutEffect(() => {
     if (!leftRef.current) return;
     const ctx = gsap.context(() => {
@@ -293,7 +307,7 @@ const HeroSection: React.FC<HeroSectionProps> = () => {
         });
       }
 
-      // Description: manual lines with .line-inner (mask like /newlook)
+      // Description: manual lines with .line-inner (mask effect)
       if (descriptionRef.current) {
         const lineInners = descriptionRef.current.querySelectorAll('.line-inner');
         gsap.from(lineInners, {
@@ -327,30 +341,48 @@ const HeroSection: React.FC<HeroSectionProps> = () => {
         <LeftContainer
           ref={leftRef}
           style={{
-          opacity: isVisible ? 1 : 0,
-          transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
-          transition: 'opacity 1s ease-out, transform 1s ease-out'
-        }}>
+            opacity: isVisible ? 1 : 0,
+            transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
+            transition: 'opacity 1s ease-out, transform 1s ease-out',
+          }}
+        >
           <Name ref={nameRef}>Alexis Vedia</Name>
           <Subtitle ref={subtitleRef}>
-            <span className="line"><span className="line-inner">{t('heroSubtitle1')}</span></span>
-            <span className="line"><span className="line-inner">{t('heroSubtitle2')}</span></span>
+            <span className="line">
+              <span className="line-inner">{t('heroSubtitle1')}</span>
+            </span>
+            <span className="line">
+              <span className="line-inner">{t('heroSubtitle2')}</span>
+            </span>
           </Subtitle>
           <Description ref={descriptionRef}>
-            <span className="line"><span className="line-inner">{t('heroDescription1')}</span></span>
-            <span className="line"><span className="line-inner">{t('heroDescription2')}</span></span>
-            <span className="line"><span className="line-inner">{t('heroDescription3')}</span></span>
-            <span className="line"><span className="line-inner">{t('heroDescription4')}</span></span>
-            <span className="line"><span className="line-inner">{t('heroDescription5')}</span></span>
+            <span className="line">
+              <span className="line-inner">{t('heroDescription1')}</span>
+            </span>
+            <span className="line">
+              <span className="line-inner">{t('heroDescription2')}</span>
+            </span>
+            <span className="line">
+              <span className="line-inner">{t('heroDescription3')}</span>
+            </span>
+            <span className="line">
+              <span className="line-inner">{t('heroDescription4')}</span>
+            </span>
+            <span className="line">
+              <span className="line-inner">{t('heroDescription5')}</span>
+            </span>
           </Description>
         </LeftContainer>
-        
-        <RightContainer ref={rightRef} style={{
-          opacity: isVisible ? 1 : 0,
-          transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
-          transition: 'opacity 1s ease-out, transform 1s ease-out'
-        }}>
-          <HeroVideo 
+
+        <RightContainer
+          ref={rightRef}
+          style={{
+            opacity: isVisible ? 1 : 0,
+            transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
+            transition: 'opacity 1s ease-out, transform 1s ease-out',
+          }}
+        >
+          <HeroVideo
             ref={heroVideoRef}
             src="/assets/newAssets/Alexis4.mp4"
             autoPlay

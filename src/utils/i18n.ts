@@ -9,15 +9,11 @@ const resources = {
       selectLanguage: 'Select language',
       english: 'English',
       spanish: 'Spanish',
-  
+
       heroTitle: 'UX/UI Designer and Frontend Developer',
       heroSubtitle:
         'Artificial Intelligence • User Experience • E-commerce • WordPress • Chatbots • Interface Design • Mobile App Design • Automations',
-      
-      // NewLook page translations
-      newLookTitle: 'UX/UI Developer & AI Integration Specialist',
-      newLookDescription: 'I accompany agencies, entrepreneurs and startups in designing innovative solutions, materializing them into real products and boosting them with AI.',
-      
+
       // Hero section translations
       heroSubtitle1: 'UX/UI Developer',
       heroSubtitle2: 'AI Integration Specialist',
@@ -26,7 +22,7 @@ const resources = {
       heroDescription3: 'materializing them into real products',
       heroDescription4: 'and boosting them with AI',
       heroDescription5: '',
-      
+
       viewProjects: 'View Projects',
       contactMe: 'Contact Me',
       underConstruction: 'Under construction',
@@ -36,13 +32,10 @@ const resources = {
         description:
           'Daily AI updates: leaks, quick analyses and practical examples. Clear demos, questions to spark debate, and a critical look at impact.',
         cta: 'Visit my profile',
-        ctaAria: 'Open Alexis\' profile on X in a new tab',
-        avatarAlt: 'Alexis\' X profile photo',
+        ctaAria: "Open Alexis' profile on X in a new tab",
+        avatarAlt: "Alexis' X profile photo",
       },
 
-
-
-  
       'AI Portfolio Assistant': 'AI Portfolio Assistant',
       '¡Hola! Soy tu AI Portfolio Assistant. ¿En qué puedo ayudarte hoy?':
         "Hello! I'm your AI Portfolio Assistant. How can I help you today?",
@@ -50,21 +43,19 @@ const resources = {
       'Enviar mensaje': 'Send message',
       'Limpiar chat': 'Clean chat',
       'Cerrar chat': 'Close chat',
-      'Conectado': 'Connected',
-      'Conectando': 'Connecting',
-      'Desconectado': 'Disconnected',
-      'Desconocido': 'Unknown',
+      Conectado: 'Connected',
+      Conectando: 'Connecting',
+      Desconectado: 'Disconnected',
+      Desconocido: 'Unknown',
 
-  
       home: 'Home',
       projects: 'Projects',
       experience: 'Projects',
       skills: 'Skills',
       contact: 'Contact',
-  
-  
-  
-      contactText: 'Want to work together? Have a project in mind? Feel free to contact me at alexisleonelvedia@gmail.com or using the form!',
+
+      contactText:
+        'Want to work together? Have a project in mind? Feel free to contact me at alexisleonelvedia@gmail.com or using the form!',
       name: 'Name',
       email: 'Email',
       message: 'Message',
@@ -73,15 +64,15 @@ const resources = {
       sending: 'Sending...',
       messageSent: 'Message sent successfully! I will get back to you soon.',
       messageError: 'There was an error sending your message. Please try again.',
-  
+
       namePlaceholder: 'E.g: Steve Jobs',
       emailPlaceholder: 'example@example.com',
       messagePlaceholder: 'Write a message...',
       subjectPlaceholder: 'E.g: I need help improving Siri',
-  
+
       yourName: 'Your Name',
       allRightsReserved: 'All Rights Reserved',
-  
+
       navbar: {
         home: 'Home',
         about: 'About Me',
@@ -92,9 +83,9 @@ const resources = {
         xcons2: 'XCONS 2',
         fusionads: 'FusionAds',
         bandit: 'Bandit',
-        otros: 'Other Projects'
+        otros: 'Other Projects',
       },
-  
+
       tooltip: {
         github: 'Visit GitHub Profile',
         linkedin: 'Visit LinkedIn Profile',
@@ -105,9 +96,9 @@ const resources = {
         copyEmail: 'Copy email to clipboard',
         copied: 'Copied!',
       },
-  
+
       documentLinksTitle: 'Proposal Defense',
-  
+
       about: {
         professionalProfile: 'Professional Profile',
         professionalExperience: 'Professional Experience',
@@ -156,7 +147,7 @@ const resources = {
           tools: 'Tools',
         },
       },
-  
+
       testimonialsTitle: 'Testimonials',
       testimonials: {
         jorge:
@@ -165,16 +156,16 @@ const resources = {
           '"Alexis started as one person and ended as another in his process at Fusion. Undoubtedly, in a short time he adapted, learned, and surpassed himself. He was of great help to us in very accelerated implementation times, and his knowledge in design saved us hours of understanding with the design team."',
         milena:
           '"Whenever I have to work with a new client, I think of Alexis, and how his help could serve me. He is a person who is at the forefront. Highly recommended!"',
-        kodi:
-          '"I met Alexis through Mile. He made an initial redesign proposal for my app without me asking. That\'s when I realized I had to work with him. We worked together for hours, and he never hesitated to tell me if something wasn\'t on the right track. He also introduced me to many tools, a genius!"',
+        kodi: '"I met Alexis through Mile. He made an initial redesign proposal for my app without me asking. That\'s when I realized I had to work with him. We worked together for hours, and he never hesitated to tell me if something wasn\'t on the right track. He also introduced me to many tools, a genius!"',
       },
       viewOriginalButton: 'View Original',
       openOriginalTitle: 'Open original image in new tab',
       companyDescriptions: {
         xcons: 'E-commerce platform specialized in omnichannel sales of construction materials.',
-        fusionads: 'AI-powered generative advertising platform that creates professional omni-channel ads.',
+        fusionads:
+          'AI-powered generative advertising platform that creates professional omni-channel ads.',
         bandit: 'Platform focused on tour and live concert management for artists and managers.',
-        otros: 'Various personal and professional projects under development.'
+        otros: 'Various personal and professional projects under development.',
       },
       bandit: {
         experience: {
@@ -186,27 +177,33 @@ const resources = {
 
       services: {
         title: 'Services',
-        subtitle: 'Comprehensive solutions from design to development, with a focus on user experience and cutting-edge technology.',
+        subtitle:
+          'Comprehensive solutions from design to development, with a focus on user experience and cutting-edge technology.',
         frontend: {
           title: 'Frontend Development',
-          description: 'Modern and scalable web applications with React, TypeScript and the latest technologies. Focus on performance, accessibility and user experience.'
+          description:
+            'Modern and scalable web applications with React, TypeScript and the latest technologies. Focus on performance, accessibility and user experience.',
         },
         design: {
           title: 'UX/UI Design',
-          description: 'User-centered design with advanced prototyping in Figma. User research, usability testing and component library creation.'
+          description:
+            'User-centered design with advanced prototyping in Figma. User research, usability testing and component library creation.',
         },
         automation: {
           title: 'Automation & Integration',
-          description: 'Workflow automation with n8n, API integrations and web scraping solutions. Optimization of business processes.'
+          description:
+            'Workflow automation with n8n, API integrations and web scraping solutions. Optimization of business processes.',
         },
         ai: {
           title: 'AI Integration',
-          description: 'Implementation of AI solutions with LLMs, advanced prompt engineering and intelligent workflow development.'
+          description:
+            'Implementation of AI solutions with LLMs, advanced prompt engineering and intelligent workflow development.',
         },
         wordpress: {
           title: 'WordPress Development',
-          description: 'Custom WordPress solutions with theme development, plugin customization and WooCommerce integration. Performance optimization and SEO.'
-        }
+          description:
+            'Custom WordPress solutions with theme development, plugin customization and WooCommerce integration. Performance optimization and SEO.',
+        },
       },
     },
   },
@@ -220,11 +217,7 @@ const resources = {
       heroTitle: 'Diseñador UX/UI y Desarrollador Frontend',
       heroSubtitle:
         'Inteligencia Artificial • Experiencia de usuario • E-commerce • Wordpress • Chatbots • Diseño de interfaces • Diseño de aplicaciones móviles • Automatizaciones',
-      
-      // NewLook page translations
-      newLookTitle: 'Desarrollador UX/UI & Especialista en Integración de IA',
-      newLookDescription: 'Acompaño a agencias, emprendedores y startups en el diseño de soluciones innovadoras, materializarlas en productos reales e impulsarlas con IA.',
-      
+
       // Hero section translations
       heroSubtitle1: 'Desarrollador UX/UI',
       heroSubtitle2: 'Especialista en Integración de IA',
@@ -233,7 +226,7 @@ const resources = {
       heroDescription3: 'materializarlas en productos reales',
       heroDescription4: 'e impulsarlas con IA',
       heroDescription5: '',
-      
+
       viewProjects: 'Ver Proyectos',
       contactMe: 'Contáctame',
       underConstruction: 'En construcción',
@@ -247,9 +240,6 @@ const resources = {
         avatarAlt: 'Foto de perfil de Alexis en X',
       },
 
-
-
-
       'AI Portfolio Assistant': 'AI Portfolio Assistant',
       '¡Hola! Soy tu AI Portfolio Assistant. ¿En qué puedo ayudarte hoy?':
         '¡Hola! Soy tu AI Portfolio Assistant. ¿En qué puedo ayudarte hoy?',
@@ -257,19 +247,16 @@ const resources = {
       'Enviar mensaje': 'Enviar mensaje',
       'Limpiar chat': 'Limpiar chat',
       'Cerrar chat': 'Cerrar chat',
-      'Conectado': 'Conectado',
-      'Conectando': 'Conectando',
-      'Desconectado': 'Desconectado',
-      'Desconocido': 'Desconocido',
-
+      Conectado: 'Conectado',
+      Conectando: 'Conectando',
+      Desconectado: 'Desconectado',
+      Desconocido: 'Desconocido',
 
       home: 'Inicio',
       projects: 'Proyectos',
       experience: 'Proyectos',
       skills: 'Habilidades',
       contact: 'Contacto',
-
-
 
       contactText:
         '¿Quieres trabajar juntos? ¿Tienes un proyecto en mente? ¡No dudes en contactarme a alexisleonelvedia@gmail.com o usando el formulario!',
@@ -300,7 +287,7 @@ const resources = {
         xcons2: 'XCONS 2',
         fusionads: 'FusionAds',
         bandit: 'Bandit',
-        otros: 'Otros Proyectos'
+        otros: 'Otros Proyectos',
       },
 
       tooltip: {
@@ -373,16 +360,18 @@ const resources = {
           '"Alexis empezó como una persona y terminó como otra en su proceso en Fusion. Sin duda en poco tiempo se adaptó, aprendió y se superó a sí mismo. Nos fue de gran ayuda en tiempos muy acelerados de implementación, y su conocimiento en diseño nos ahorró horas de entendimiento con el equipo de diseñadores."',
         milena:
           '"Siempre que debo trabajar con algún cliente nuevo pienso en Alexis, y en cómo podría servirme su ayuda. Es una persona que está a la vanguardia. ¡Recomendadísimo!"',
-        kodi:
-          '"A Alexis lo conocí por contacto con Mile. Realizó una primer propuesta de rediseño de mi app sin habérselo pedido. Ahí me di cuenta que debía trabajar con él. Trabajamos en conjunto durante horas, y no dudaba nunca en decirme que algo no iba por buen camino. Además me hizo conocer muchas herramientas, ¡un genio!"',
+        kodi: '"A Alexis lo conocí por contacto con Mile. Realizó una primer propuesta de rediseño de mi app sin habérselo pedido. Ahí me di cuenta que debía trabajar con él. Trabajamos en conjunto durante horas, y no dudaba nunca en decirme que algo no iba por buen camino. Además me hizo conocer muchas herramientas, ¡un genio!"',
       },
       viewOriginalButton: 'Ver Original',
       openOriginalTitle: 'Abrir imagen original en nueva pestaña',
       companyDescriptions: {
-        xcons: 'Plataforma de e-commerce especializada en la venta omnicanal de materiales de construcción.',
-        fusionads: 'Plataforma de publicidad generativa impulsada por IA que crea anuncios profesionales omnicanal.',
-        bandit: 'Plataforma enfocada en la gestión de giras y conciertos en vivo para artistas y managers.',
-        otros: 'Diversos proyectos personales y profesionales en desarrollo.'
+        xcons:
+          'Plataforma de e-commerce especializada en la venta omnicanal de materiales de construcción.',
+        fusionads:
+          'Plataforma de publicidad generativa impulsada por IA que crea anuncios profesionales omnicanal.',
+        bandit:
+          'Plataforma enfocada en la gestión de giras y conciertos en vivo para artistas y managers.',
+        otros: 'Diversos proyectos personales y profesionales en desarrollo.',
       },
       bandit: {
         experience: {
@@ -394,39 +383,43 @@ const resources = {
 
       services: {
         title: 'Servicios',
-        subtitle: 'Soluciones integrales desde el diseño hasta el desarrollo, con enfoque en experiencia de usuario y tecnología de vanguardia.',
+        subtitle:
+          'Soluciones integrales desde el diseño hasta el desarrollo, con enfoque en experiencia de usuario y tecnología de vanguardia.',
         frontend: {
           title: 'Desarrollo Frontend',
-          description: 'Aplicaciones web modernas y escalables con React, TypeScript y las últimas tecnologías. Enfoque en rendimiento, accesibilidad y experiencia de usuario.'
+          description:
+            'Aplicaciones web modernas y escalables con React, TypeScript y las últimas tecnologías. Enfoque en rendimiento, accesibilidad y experiencia de usuario.',
         },
         design: {
           title: 'Diseño UX/UI',
-          description: 'Diseño centrado en el usuario con prototipado avanzado en Figma. Research de usuarios, testing de usabilidad y creación de librerías de componentes.'
+          description:
+            'Diseño centrado en el usuario con prototipado avanzado en Figma. Research de usuarios, testing de usabilidad y creación de librerías de componentes.',
         },
         automation: {
           title: 'Automatización e Integración',
-          description: 'Automatización de flujos de trabajo con n8n, integraciones de APIs y soluciones de web scraping. Optimización de procesos empresariales.'
+          description:
+            'Automatización de flujos de trabajo con n8n, integraciones de APIs y soluciones de web scraping. Optimización de procesos empresariales.',
         },
         ai: {
           title: 'Integración de IA',
-          description: 'Implementación de soluciones de IA con LLMs, prompt engineering avanzado y desarrollo de flujos de trabajo inteligentes.'
+          description:
+            'Implementación de soluciones de IA con LLMs, prompt engineering avanzado y desarrollo de flujos de trabajo inteligentes.',
         },
         wordpress: {
           title: 'Desarrollo WordPress',
-          description: 'Soluciones WordPress personalizadas con desarrollo de temas, personalización de plugins e integración WooCommerce. Optimización de rendimiento y SEO.'
-        }
+          description:
+            'Soluciones WordPress personalizadas con desarrollo de temas, personalización de plugins e integración WooCommerce. Optimización de rendimiento y SEO.',
+        },
       },
     },
   },
 };
-
 
 const getDefaultLanguage = () => {
   const savedLanguage = localStorage.getItem('i18nextLng');
   if (savedLanguage && (savedLanguage.startsWith('es') || savedLanguage.startsWith('en'))) {
     return savedLanguage.startsWith('es') ? 'es' : 'en';
   }
-
 
   const browserLang = navigator.language;
   return browserLang && browserLang.startsWith('es') ? 'es' : 'en';
@@ -448,7 +441,6 @@ i18n
       lookupLocalStorage: 'i18nextLng',
     },
   });
-
 
 i18n.on('languageChanged', lng => {
   localStorage.setItem('i18nextLng', lng);

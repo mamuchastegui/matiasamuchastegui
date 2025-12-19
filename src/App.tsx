@@ -1,5 +1,11 @@
 import React from 'react';
-import { createBrowserRouter, RouterProvider, Outlet, useLocation, useOutletContext } from 'react-router-dom';
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Outlet,
+  useLocation,
+  useOutletContext,
+} from 'react-router-dom';
 import { useState, useEffect, useLayoutEffect } from 'react';
 import { Provider } from 'react-redux';
 import { store, setLoaded } from '@store/index';
@@ -12,11 +18,7 @@ import DotBackground from '@components/DotBackground';
 import Sidebar from '@components/Sidebar/Sidebar';
 import { LazyLoadErrorBoundary } from '@components/ErrorBoundary';
 
-
-const ChatbotAssistant = React.lazy(
-  () => import('@components/ChatbotAssistant')
-);
-
+const ChatbotAssistant = React.lazy(() => import('@components/ChatbotAssistant'));
 
 const LazyComponentWrapper = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -39,8 +41,8 @@ const createLazyComponent = <T extends React.ComponentType<any>>( // eslint-disa
     return new Promise((resolve, reject) => {
       const attemptImport = (retriesLeft: number) => {
         importFn()
-          .then((mod) => resolve(mod as { default: T }))
-          .catch((error) => {
+          .then(mod => resolve(mod as { default: T }))
+          .catch(error => {
             if (retriesLeft > 0) {
               setTimeout(() => attemptImport(retriesLeft - 1), 1000);
             } else {
@@ -54,12 +56,14 @@ const createLazyComponent = <T extends React.ComponentType<any>>( // eslint-disa
 };
 
 const ProjectPage = createLazyComponent(() => import('./pages/ProjectPage'));
-const XConsExperiencePage = createLazyComponent(() => import('./xcons/XConsExperiencePage'));
-const XCons2ExperiencePage = createLazyComponent(() => import('./xcons/XCons2ExperiencePage'));
-const FusionAdsPage = createLazyComponent(() => import('./fusionads/FusionAdsPage'));
+const XConsExperiencePage = createLazyComponent(
+  () => import('./features/xcons/XConsExperiencePage')
+);
+const XCons2ExperiencePage = createLazyComponent(
+  () => import('./features/xcons/XCons2ExperiencePage')
+);
+const FusionAdsPage = createLazyComponent(() => import('./features/fusionads/FusionAdsPage'));
 const MaintenancePage = createLazyComponent(() => import('./pages/MaintenancePage'));
-const NewLookPage = createLazyComponent(() => import('./newlook/NewLookPage'));
-
 
 import '@utils/i18n';
 
@@ -94,17 +98,19 @@ const MainContentWrapper = styled.div<{ $isSidebarPresent: boolean; $isSidebarCo
   }
 `;
 
-
 const Container = styled.div`
   position: relative;
 `;
 
 // Prefetch lo antes posible (en carga de módulo) para cubrir navegación inicial
 try {
-  type NetworkInformation = { saveData?: boolean; effectiveType?: 'slow-2g' | '2g' | '3g' | '4g' | string };
+  type NetworkInformation = {
+    saveData?: boolean;
+    effectiveType?: 'slow-2g' | '2g' | '3g' | '4g' | string;
+  };
   type NavigatorWithConnection = Navigator & { connection?: NetworkInformation };
   const shouldPrefetch = () => {
-    const nav = (navigator as NavigatorWithConnection);
+    const nav = navigator as NavigatorWithConnection;
     if (nav.connection?.saveData) return false;
     const effective = nav.connection?.effectiveType;
     if (effective && ['slow-2g', '2g'].includes(effective)) return false;
@@ -115,18 +121,21 @@ try {
     if (!shouldPrefetch()) return;
     Promise.all([
       import('./pages/ProjectPage'),
-      import('./xcons/XConsExperiencePage'),
-      import('./xcons/XCons2ExperiencePage'),
-      import('./fusionads/FusionAdsPage'),
+      import('./features/xcons/XConsExperiencePage'),
+      import('./features/xcons/XCons2ExperiencePage'),
+      import('./features/fusionads/FusionAdsPage'),
       import('./pages/MaintenancePage'),
-      import('./newlook/NewLookPage'),
+
       import('@components/ChatbotAssistant'),
     ]).catch(() => {});
   };
 
   if (typeof window !== 'undefined') {
-    const ric = (window as unknown as { requestIdleCallback?: (cb: () => void, opts?: { timeout?: number }) => number })
-      .requestIdleCallback;
+    const ric = (
+      window as unknown as {
+        requestIdleCallback?: (cb: () => void, opts?: { timeout?: number }) => number;
+      }
+    ).requestIdleCallback;
     if (typeof ric === 'function') {
       ric(prefetch, { timeout: 1500 });
     } else {
@@ -136,7 +145,6 @@ try {
 } catch {
   // No romper en navegadores sin estas APIs
 }
-
 
 const ContactButtonStyled = styled(ContactButton)<{ $hideOnScroll: boolean }>`
   position: fixed;
@@ -157,11 +165,11 @@ const HomeWrapper = () => {
     fontsLoaded: boolean;
     setIsContactSectionInView: (inView: boolean) => void;
   }>();
-  
+
   return (
-    <Home 
-      onAnimationComplete={handleAnimationComplete} 
-      fontsLoaded={fontsLoaded} 
+    <Home
+      onAnimationComplete={handleAnimationComplete}
+      fontsLoaded={fontsLoaded}
       onContactSectionViewChange={setIsContactSectionInView}
     />
   );
@@ -199,41 +207,34 @@ const AppContent = () => {
   }, []);
 
   useEffect(() => {
-
     const timer = setTimeout(async () => {
       try {
-  
         const success = await initializeN8NServer();
         setN8nServerReady(success);
-        
 
         if (!success) {
           let retryCount = 0;
           const maxRetries = 3;
-          
+
           const retryInterval = setInterval(async () => {
             retryCount++;
 
-            
             const retrySuccess = await initializeN8NServer();
             if (retrySuccess) {
               setN8nServerReady(true);
               clearInterval(retryInterval);
             } else if (retryCount >= maxRetries) {
-    
-
               clearInterval(retryInterval);
             }
           }, 3000);
-          
-    
+
           return () => clearInterval(retryInterval);
         }
       } catch (error) {
-        console.error("Error al inicializar el servidor n8n:", error);
+        console.error('Error al inicializar el servidor n8n:', error);
       }
     }, 2500);
-    
+
     return () => clearTimeout(timer);
   }, []);
 
@@ -255,7 +256,6 @@ const AppContent = () => {
   useEffect(() => {
     setChatbotVisible(true);
   }, []);
-
 
   useEffect(() => {
     if (location.state?.scrollToSection && location.pathname === '/') {
@@ -298,8 +298,6 @@ const AppContent = () => {
     }
   }, [location.pathname]);
 
-
-
   const handleAnimationComplete = () => {
     store.dispatch(setLoaded(true));
   };
@@ -315,7 +313,7 @@ const AppContent = () => {
 
   const toggleSidebar = () => {
     if (isMobile) {
-        setIsSidebarOpen(!isSidebarOpen);
+      setIsSidebarOpen(!isSidebarOpen);
     }
   };
 
@@ -328,33 +326,32 @@ const AppContent = () => {
     }
   };
 
-
   const shouldHideContactButton = isContactSectionInView;
 
   return (
     <AppWrapper>
       {shouldShowLoader && !fontsLoaded && <FontLoader onLoaded={handleFontsLoaded} />}
-      <Sidebar 
-        isOpen={isSidebarOpen} 
-        toggleSidebar={toggleSidebar} 
+      <Sidebar
+        isOpen={isSidebarOpen}
+        toggleSidebar={toggleSidebar}
         isMobile={isMobile}
         isCollapsed={isSidebarCollapsed}
         toggleCollapse={toggleSidebarCollapse}
       />
-      
-      <MainContentWrapper 
+
+      <MainContentWrapper
         $isSidebarPresent={isSidebarOpen && !isMobile}
         $isSidebarCollapsed={isSidebarCollapsed}
       >
-        <DotBackground 
+        <DotBackground
           isSidebarPresent={isSidebarOpen && !isMobile}
           isSidebarCollapsed={isSidebarCollapsed}
         />
         <ContactButtonStyled initialDelay={500} $hideOnScroll={shouldHideContactButton} />
         {chatbotVisible && (
           <React.Suspense fallback={null}>
-            <ChatbotAssistant 
-              initialDelay={0} 
+            <ChatbotAssistant
+              initialDelay={0}
               n8nServerReady={n8nServerReady}
               isSidebarPresent={isSidebarOpen && !isMobile}
               isSidebarCollapsed={isSidebarCollapsed}
@@ -377,7 +374,10 @@ function App() {
   // Prefetch de rutas pesadas en segundo plano para navegación sin "loading"
   useEffect(() => {
     try {
-      type NetworkInformation = { saveData?: boolean; effectiveType?: 'slow-2g' | '2g' | '3g' | '4g' | string };
+      type NetworkInformation = {
+        saveData?: boolean;
+        effectiveType?: 'slow-2g' | '2g' | '3g' | '4g' | string;
+      };
       type NavigatorWithConnection = Navigator & { connection?: NetworkInformation };
       const shouldPrefetch = () => {
         const nav = navigator as NavigatorWithConnection;
@@ -393,17 +393,18 @@ function App() {
         // Disparar fetch de los chunks; se silencian errores para no afectar UX
         Promise.all([
           import('./pages/ProjectPage'),
-          import('./xcons/XConsExperiencePage'),
-          import('./xcons/XCons2ExperiencePage'),
-          import('./fusionads/FusionAdsPage'),
+          import('./features/xcons/XConsExperiencePage'),
+          import('./features/xcons/XCons2ExperiencePage'),
+          import('./features/fusionads/FusionAdsPage'),
           import('./pages/MaintenancePage'),
-          import('./newlook/NewLookPage'),
+
           import('@components/ChatbotAssistant'),
         ]).catch(() => {});
       };
 
       type RequestIdleCallbackFn = (cb: () => void, opts?: { timeout?: number }) => number;
-      const ric = (window as unknown as { requestIdleCallback?: RequestIdleCallbackFn }).requestIdleCallback;
+      const ric = (window as unknown as { requestIdleCallback?: RequestIdleCallbackFn })
+        .requestIdleCallback;
       if (typeof ric === 'function') {
         ric(prefetch, { timeout: 3000 });
       } else {
@@ -415,60 +416,52 @@ function App() {
     }
   }, []);
 
-  const router = createBrowserRouter([
+  const router = createBrowserRouter(
+    [
+      {
+        path: '/',
+        element: <AppContent />,
+        children: [
+          {
+            index: true,
+            element: <HomeWrapper />,
+          },
+          {
+            path: 'xcons',
+            element: <XConsExperiencePage />,
+          },
+          {
+            path: 'bandit',
+            element: <XCons2ExperiencePage />,
+          },
+          {
+            path: 'fusionads',
+            element: <FusionAdsPage />,
+          },
+          {
+            path: 'otros',
+            element: <MaintenancePage />,
+          },
+          {
+            path: ':projectId',
+            element: <ProjectPage />,
+          },
+        ],
+      },
+    ],
     {
-       path: "/newlook",
-      element: (
-        <LazyComponentWrapper>
-          <NewLookPage />
-        </LazyComponentWrapper>
-      )
-    },
-    {
-      path: "/",
-      element: <AppContent />,
-      children: [
-        {
-          index: true,
-          element: <HomeWrapper />
-        },
-        {
-          path: "xcons",
-          element: <XConsExperiencePage />
-        },
-        {
-          path: "bandit",
-          element: <XCons2ExperiencePage />
-        },
-        {
-          path: "fusionads",
-          element: <FusionAdsPage />
-        },
-        {
-          path: "otros",
-          element: <MaintenancePage />
-        },
-        {
-          path: ":projectId",
-          element: <ProjectPage />
-        }
-      ]
+      future: {
+        // Opt into RR v7 relative splat path behavior to silence warnings
+        v7_relativeSplatPath: true,
+      },
     }
-  ], {
-    future: {
-      // Opt into RR v7 relative splat path behavior to silence warnings
-      v7_relativeSplatPath: true,
-    }
-  });
+  );
 
   return (
     <Provider store={store}>
       <ThemeProvider>
         <GlobalStyles />
-        <RouterProvider 
-          router={router}
-          future={{ v7_startTransition: true }}
-        />
+        <RouterProvider router={router} future={{ v7_startTransition: true }} />
       </ThemeProvider>
     </Provider>
   );

@@ -6,48 +6,47 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+dev-debug.log
 
-node_modules
-dist
-dist-ssr
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+dist-ssr/
 *.local
 
 # Editor directories and files
-.vscode/*
+.vscode/
 !.vscode/extensions.json
-.idea
-.DS_Store
+.idea/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
-code-quality-analyzer.kiro.hook
-.env
-.qodo
-mcp.json
 
-dev-debug.log
-# Dependency directories
-node_modules/
-# Environment variables
-.vscode
 # OS specific
-
-# Task files
-# tasks.json
-# tasks/ 
-.vercel
-
-# Windows reserved filename
+.DS_Store
 NUL
 
+# Environment variables
+.env
+
+# Vercel
+.vercel/
+
 # AI/Editor tools
-.trae
-.codex
-.taskmaster
+.trae/
+.codex/
+.taskmaster/
+.qodo/
 temp/
 codex_repo_facts.json
 stagewise.json
+code-quality-analyzer.kiro.hook
+mcp.json
+
+# TypeScript
 tsc.err
 tsc.out

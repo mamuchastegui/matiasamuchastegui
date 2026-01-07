@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled, { css } from 'styled-components';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
+import { useProfileOptional } from '../../context/ProfileContext';
 import ThemeToggle from '../ThemeToggle/ThemeToggle';
 import LanguageSelector from '../LanguageSelector/LanguageSelector';
+import ProfileSelector from '../ProfileSelector/ProfileSelector';
 import {
   Menu,
   Home as HomeIcon,
@@ -150,6 +152,14 @@ const LogoText = styled.h1<{ $isCollapsed?: boolean }>`
   white-space: nowrap;
   overflow: hidden;
   will-change: transform, opacity;
+`;
+
+const ProfileSelectorWrapper = styled.div<{ $isCollapsed?: boolean }>`
+  margin-bottom: ${({ theme }) => theme.space.md};
+  opacity: ${({ $isCollapsed }) => $isCollapsed ? '0' : '1'};
+  max-height: ${({ $isCollapsed }) => $isCollapsed ? '0' : '200px'};
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
 `;
 
 const NavList = styled.ul`
@@ -606,6 +616,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
+  const { profileId: urlProfileId } = useParams<{ profileId: string }>();
+  const profileContext = useProfileOptional();
+  const profile = profileContext?.profile;
+  const profileId = profileContext?.profileId || urlProfileId || 'alexis';
 
   const [openSubmenuKey, setOpenSubmenuKey] = useState<string | null>(null);
   const [activeLink, setActiveLink] = useState<string>("#home");
@@ -675,6 +689,25 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
     };
   }, [isOpen, isMobile]);
 
+  // Generate experience sublinks based on profile
+  const getExperienceSubLinks = (): NavLinkItem[] => {
+    if (profile?.projects) {
+      return profile.projects.map(project => ({
+        href: project.link,
+        labelKey: `navbar.${project.text.toLowerCase()}`,
+        defaultLabel: project.text,
+        IconComponent: ChevronRight,
+      }));
+    }
+    // Default to Alexis sublinks
+    return [
+      { href: `/${profileId}/xcons`, labelKey: 'navbar.xcons', defaultLabel: 'XCONS', IconComponent: ChevronRight },
+      { href: `/${profileId}/fusionads`, labelKey: 'navbar.fusionads', defaultLabel: 'FusionAds', IconComponent: ChevronRight },
+      { href: `/${profileId}/bandit`, labelKey: 'navbar.bandit', defaultLabel: 'Bandit', IconComponent: ChevronRight },
+      { href: `/${profileId}/otros`, labelKey: 'navbar.otros', defaultLabel: 'Otros proyectos', IconComponent: ChevronRight },
+    ];
+  };
+
   const navLinks: NavLinkItem[] = [
     { href: '#home', labelKey: 'home', defaultLabel: 'Inicio', IconComponent: HomeIcon },
     { href: '#about', labelKey: 'navbar.about', defaultLabel: 'Sobre mí', IconComponent: AboutIcon },
@@ -682,14 +715,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
     {
       href: '#experience',
       labelKey: 'experience',
-      defaultLabel: 'Experiencia', 
+      defaultLabel: 'Experiencia',
       IconComponent: ExperienceIcon,
-      subLinks: [
-        { href: '/xcons', labelKey: 'navbar.xcons', defaultLabel: 'XCONS', IconComponent: ChevronRight }, 
-        { href: '/fusionads', labelKey: 'navbar.fusionads', defaultLabel: 'FusionAds', IconComponent: ChevronRight },
-        { href: '/bandit', labelKey: 'navbar.bandit', defaultLabel: 'Bandit', IconComponent: ChevronRight },
-        { href: '/otros', labelKey: 'navbar.otros', defaultLabel: 'Otros proyectos', IconComponent: ChevronRight },
-      ],
+      subLinks: getExperienceSubLinks(),
     },
     { href: '#contact', labelKey: 'contact', defaultLabel: 'Contacto', IconComponent: ContactIcon },
   ];
@@ -822,9 +850,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, linkItem: NavLinkItem) => {
     e.preventDefault();
     const { href, subLinks } = linkItem;
-    
+
     setActiveLink(href);
-    
+
     const isExperienceSublink = navLinks
         .find(link => link.href === '#experience')
         ?.subLinks?.some(subLink => subLink.href === href);
@@ -841,21 +869,24 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
     } else if (!isExperienceSublink) {
       setOpenSubmenuKey(null);
     }
-    
+
+    const basePath = `/${profileId}`;
+    const isOnProfileHome = location.pathname === basePath || location.pathname === `${basePath}/`;
+
     if (href.startsWith('#')) {
-      if (location.pathname === '/') {
+      if (isOnProfileHome) {
         const targetId = href.substring(1);
         const element = document.getElementById(targetId);
-        
+
         if (element) {
           setTimeout(() => {
             window.scrollTo({
               top: element.offsetTop - 80,
               behavior: 'smooth'
             });
-            
+
             try {
-              element.scrollIntoView({ 
+              element.scrollIntoView({
                 behavior: 'smooth',
                 block: 'start'
               });
@@ -867,12 +898,12 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
           console.warn(`Elemento con ID '${targetId}' no encontrado en el DOM.`);
         }
       } else {
-        navigate('/', { state: { scrollToSection: href.substring(1) } });
+        navigate(basePath, { state: { scrollToSection: href.substring(1) } });
       }
     } else {
       navigate(href);
     }
-    
+
     // En mobile siempre colapsamos el sidebar al navegar o al hacer scroll a una sección
     if (isMobile && isOpen) {
       toggleSidebar();
@@ -961,12 +992,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
           </CollapseButton>
         )}
         
-        <LogoContainer 
+        <LogoContainer
           $isCollapsed={!isMobile && isCollapsed}
           role="button"
           tabIndex={0}
           onClick={() => {
-            if (location.pathname === '/') {
+            const basePath = `/${profileId}`;
+            if (location.pathname === basePath || location.pathname === `${basePath}/`) {
               const el = document.getElementById('home');
               if (el) {
                 try {
@@ -976,7 +1008,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }
             } else {
-              navigate('/', { state: { scrollToSection: 'home' } });
+              navigate(basePath, { state: { scrollToSection: 'home' } });
             }
             if (isMobile && isOpen) {
               toggleSidebar();
@@ -985,12 +1017,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
           onKeyDown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') {
               e.preventDefault();
-              if (location.pathname === '/') {
+              const basePath = `/${profileId}`;
+              if (location.pathname === basePath || location.pathname === `${basePath}/`) {
                 const el = document.getElementById('home');
                 if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 else window.scrollTo({ top: 0, behavior: 'smooth' });
               } else {
-                navigate('/', { state: { scrollToSection: 'home' } });
+                navigate(basePath, { state: { scrollToSection: 'home' } });
               }
               if (isMobile && isOpen) toggleSidebar();
             }
@@ -1000,8 +1033,15 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
           <LogoImageWrapper>
             <LogoImage src={PortfolioLogo} alt={t('portfolioLogoAlt', 'Logo del Portafolio')} />
           </LogoImageWrapper>
-          <LogoText $isCollapsed={!isMobile && isCollapsed}>Alexis Vedia</LogoText>
+          <LogoText $isCollapsed={!isMobile && isCollapsed}>{profile?.name || 'Alexis Vedia'}</LogoText>
         </LogoContainer>
+
+        {/* Profile Selector */}
+        {profileContext && (
+          <ProfileSelectorWrapper $isCollapsed={!isMobile && isCollapsed}>
+            <ProfileSelector isCollapsed={!isMobile && isCollapsed} />
+          </ProfileSelectorWrapper>
+        )}
         <NavList ref={navListRef}>
           <NavBackground 
             $top={navBackgroundPosition.top}
@@ -1094,10 +1134,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
             $animate={controlsBgAnimate}
           />
           <ControlsFade $hidden={controlsHidden}>
-          <SocialMediaButton 
-             href="https://github.com/AlexisVedia" 
-             target="_blank" 
-             rel="noopener noreferrer" 
+          <SocialMediaButton
+             href={profile?.socialLinks?.github || "https://github.com/AlexisVedia"}
+             target="_blank"
+             rel="noopener noreferrer"
              aria-label="GitHub"
              $isCollapsed={!isMobile && isCollapsed}
              $index={0}
@@ -1112,10 +1152,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
                {t('tooltip.github')}
              </TechTooltip>
            </SocialMediaButton>
-           <SocialMediaButton 
-             href="https://www.linkedin.com/in/alexis-vedia/" 
-             target="_blank" 
-             rel="noopener noreferrer" 
+           <SocialMediaButton
+             href={profile?.socialLinks?.linkedin || "https://www.linkedin.com/in/alexis-vedia/"}
+             target="_blank"
+             rel="noopener noreferrer"
              aria-label="LinkedIn"
              $isCollapsed={!isMobile && isCollapsed}
              $index={1}
@@ -1130,10 +1170,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
                {t('tooltip.linkedin')}
              </TechTooltip>
            </SocialMediaButton>
-           <SocialMediaButton 
-               href="https://x.com/AlexisVedia" 
-               target="_blank" 
-               rel="noopener noreferrer" 
+           <SocialMediaButton
+               href={profile?.socialLinks?.x || "https://x.com/AlexisVedia"}
+               target="_blank"
+               rel="noopener noreferrer"
                aria-label="X (Twitter)"
                $isCollapsed={!isMobile && isCollapsed}
                $index={2}

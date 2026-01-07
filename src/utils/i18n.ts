@@ -205,6 +205,132 @@ const resources = {
             'Custom WordPress solutions with theme development, plugin customization and WooCommerce integration. Performance optimization and SEO.',
         },
       },
+
+      // Matias Profile Translations
+      matias: {
+        heroTitle: 'Backend Developer & Infrastructure Architect',
+        heroSubtitle1: 'Backend Developer',
+        heroSubtitle2: 'Infrastructure Architect',
+        heroDescription1: 'Building scalable systems for global companies,',
+        heroDescription2: 'integrating AI into production workflows,',
+        heroDescription3: 'and turning complex problems',
+        heroDescription4: 'into elegant solutions',
+
+        services: {
+          backend: {
+            title: 'Backend Development',
+            description:
+              'Scalable microservices, RESTful APIs, and high-performance systems. Expert in Node.js, Go, and Python.',
+          },
+          infrastructure: {
+            title: 'Cloud Infrastructure',
+            description:
+              'AWS, GCP, Docker, Kubernetes. Building resilient, cost-effective cloud architectures.',
+          },
+          ai: {
+            title: 'AI Integration',
+            description:
+              'LLMs, OpenAI, LangChain, RAG. Building intelligent systems that enhance business operations.',
+          },
+          fullstack: {
+            title: 'Full-Stack Development',
+            description:
+              'End-to-end application development with React, TypeScript, and modern backend technologies.',
+          },
+        },
+
+        companyDescriptions: {
+          fusionads:
+            'Staff Engineer leading orchestration engine design for multi-channel ad campaigns with AI integration.',
+          pomelo:
+            'Backend Developer building clearing processes and microservices with Go and AWS.',
+          mercadolibre:
+            'Backend Developer serving 200M+ users across LATAM with high-performance services.',
+          otros: 'Personal projects including Condamind, Senda, Micelaria, and Córdoba Rollea.',
+        },
+
+        experience: {
+          freelance: {
+            company: 'Freelance',
+            role: 'Full-Stack Developer & Founder',
+            period: '2026 – Present',
+            location: 'Córdoba, Argentina',
+            description:
+              'Building innovative products and helping businesses scale. From AI-powered assistants to community platforms and e-commerce solutions.',
+          },
+          fusionads: {
+            company: 'FusionAds',
+            role: 'Staff Engineer',
+            period: '2024 – 2025',
+            location: 'Remote, United States',
+            description:
+              'Designed orchestration engine in TypeScript/Node.js for multi-channel ad campaigns. Implemented fan-out/fan-in workflows with AI integration. Deployed observability stack and mentored distributed team of 4 developers.',
+          },
+          pomelo: {
+            company: 'Pomelo',
+            role: 'Backend Developer',
+            period: '2022 – 2023',
+            location: 'Buenos Aires, Argentina',
+            description:
+              'Developed clearing processes & microservices using Hexagonal Architecture, DDD & Event Sourcing. Built AWS services in Go processing millions of daily events.',
+          },
+          mercadolibre: {
+            company: 'MercadoLibre',
+            role: 'Backend Developer',
+            period: '2018 – 2021',
+            location: 'Buenos Aires, Argentina',
+            description:
+              'Developed scalable backend services for post-purchase features serving 200M+ users across LATAM with P95 < 150ms. Led technical analysis and cross-functional collaboration.',
+          },
+          ayi: {
+            company: 'Ayi & Asociados',
+            role: 'Full-Stack Developer',
+            period: '2017 – 2018',
+            location: 'Córdoba, Argentina',
+            description:
+              'Developed core features for NaranjaX fintech platform. Built REST APIs with Node.js and frontend components with Angular.',
+          },
+          darwoft: {
+            company: 'Darwoft',
+            role: 'Software Developer',
+            period: '2016 – 2017',
+            location: 'Córdoba, Argentina',
+            description:
+              'Built backend services for Finandino banking platform using C# .NET. Developed financial reporting modules.',
+          },
+          brandigital: {
+            company: 'Brandigital',
+            role: 'Web Developer',
+            period: '2015 – 2016',
+            location: 'Córdoba, Argentina',
+            description:
+              'Developed websites for major brands including Aguas Cordobesas, Coca Cola, Huggies, and Volkswagen.',
+          },
+        },
+
+        projects: {
+          condamind: {
+            title: 'Condamind',
+            description:
+              'AI-powered WhatsApp assistant built with advanced language models for business automation.',
+          },
+          senda: {
+            title: 'Senda',
+            description:
+              'Comprehensive personal productivity system with task management and automation workflows.',
+          },
+          micelaria: {
+            title: 'Micelaria',
+            description:
+              'Full-stack platform for gourmet mushroom cultivation with e-commerce and inventory management.',
+          },
+          cordobarollea: {
+            title: 'Córdoba Rollea',
+            description:
+              'Community platform for the freeskating scene connecting skaters and organizing events.',
+          },
+        },
+      },
     },
   },
   es: {
@@ -409,6 +535,132 @@ const resources = {
           title: 'Desarrollo WordPress',
           description:
             'Soluciones WordPress personalizadas con desarrollo de temas, personalización de plugins e integración WooCommerce. Optimización de rendimiento y SEO.',
+        },
+      },
+
+      // Traducciones del Perfil de Matias
+      matias: {
+        heroTitle: 'Desarrollador Backend & Arquitecto de Infraestructura',
+        heroSubtitle1: 'Desarrollador Backend',
+        heroSubtitle2: 'Arquitecto de Infraestructura',
+        heroDescription1: 'Construyendo sistemas escalables para empresas globales,',
+        heroDescription2: 'integrando IA en flujos de producción,',
+        heroDescription3: 'y convirtiendo problemas complejos',
+        heroDescription4: 'en soluciones elegantes',
+
+        services: {
+          backend: {
+            title: 'Desarrollo Backend',
+            description:
+              'Microservicios escalables, APIs RESTful y sistemas de alto rendimiento. Experto en Node.js, Go y Python.',
+          },
+          infrastructure: {
+            title: 'Infraestructura Cloud',
+            description:
+              'AWS, GCP, Docker, Kubernetes. Construyendo arquitecturas cloud resilientes y costo-efectivas.',
+          },
+          ai: {
+            title: 'Integración de IA',
+            description:
+              'LLMs, OpenAI, LangChain, RAG. Construyendo sistemas inteligentes que mejoran las operaciones empresariales.',
+          },
+          fullstack: {
+            title: 'Desarrollo Full-Stack',
+            description:
+              'Desarrollo de aplicaciones end-to-end con React, TypeScript y tecnologías backend modernas.',
+          },
+        },
+
+        companyDescriptions: {
+          fusionads:
+            'Staff Engineer liderando diseño de motor de orquestación para campañas publicitarias multicanal con integración de IA.',
+          pomelo:
+            'Backend Developer construyendo procesos de clearing y microservicios con Go y AWS.',
+          mercadolibre:
+            'Backend Developer sirviendo a +200M usuarios en LATAM con servicios de alto rendimiento.',
+          otros: 'Proyectos personales incluyendo Condamind, Senda, Micelaria y Córdoba Rollea.',
+        },
+
+        experience: {
+          freelance: {
+            company: 'Freelance',
+            role: 'Full-Stack Developer & Founder',
+            period: '2026 – Presente',
+            location: 'Córdoba, Argentina',
+            description:
+              'Construyendo productos innovadores y ayudando a negocios a escalar. Desde asistentes con IA hasta plataformas comunitarias y soluciones e-commerce.',
+          },
+          fusionads: {
+            company: 'FusionAds',
+            role: 'Staff Engineer',
+            period: '2024 – 2025',
+            location: 'Remoto, Estados Unidos',
+            description:
+              'Diseñé motor de orquestación en TypeScript/Node.js para campañas publicitarias multicanal. Implementé workflows fan-out/fan-in con integración de IA. Desplegué stack de observabilidad y mentoré equipo distribuido de 4 developers.',
+          },
+          pomelo: {
+            company: 'Pomelo',
+            role: 'Backend Developer',
+            period: '2022 – 2023',
+            location: 'Buenos Aires, Argentina',
+            description:
+              'Desarrollé procesos de clearing y microservicios usando Arquitectura Hexagonal, DDD y Event Sourcing. Construí servicios AWS en Go procesando millones de eventos diarios.',
+          },
+          mercadolibre: {
+            company: 'MercadoLibre',
+            role: 'Backend Developer',
+            period: '2018 – 2021',
+            location: 'Buenos Aires, Argentina',
+            description:
+              'Desarrollé servicios backend escalables para features post-compra sirviendo +200M usuarios en LATAM con P95 < 150ms. Lideré análisis técnico y colaboración cross-funcional.',
+          },
+          ayi: {
+            company: 'Ayi & Asociados',
+            role: 'Full-Stack Developer',
+            period: '2017 – 2018',
+            location: 'Córdoba, Argentina',
+            description:
+              'Desarrollé funcionalidades core para la plataforma fintech NaranjaX. Construí APIs REST con Node.js y componentes frontend con Angular.',
+          },
+          darwoft: {
+            company: 'Darwoft',
+            role: 'Software Developer',
+            period: '2016 – 2017',
+            location: 'Córdoba, Argentina',
+            description:
+              'Construí servicios backend para la plataforma bancaria Finandino usando C# .NET. Desarrollé módulos de reportes financieros.',
+          },
+          brandigital: {
+            company: 'Brandigital',
+            role: 'Web Developer',
+            period: '2015 – 2016',
+            location: 'Córdoba, Argentina',
+            description:
+              'Desarrollé sitios web para marcas importantes como Aguas Cordobesas, Coca Cola, Huggies y Volkswagen.',
+          },
+        },
+
+        projects: {
+          condamind: {
+            title: 'Condamind',
+            description:
+              'Asistente de WhatsApp potenciado por IA con modelos de lenguaje avanzados para automatización empresarial.',
+          },
+          senda: {
+            title: 'Senda',
+            description:
+              'Sistema integral de productividad personal con gestión de tareas y flujos de automatización.',
+          },
+          micelaria: {
+            title: 'Micelaria',
+            description:
+              'Plataforma full-stack para cultivo de hongos gourmet con e-commerce y gestión de inventario.',
+          },
+          cordobarollea: {
+            title: 'Córdoba Rollea',
+            description:
+              'Plataforma comunitaria para la escena del freeskate conectando patinadores y organizando eventos.',
+          },
         },
       },
     },

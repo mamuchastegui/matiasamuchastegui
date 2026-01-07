@@ -5,6 +5,7 @@ import {
   Outlet,
   useLocation,
   useOutletContext,
+  Navigate,
 } from 'react-router-dom';
 import { useState, useEffect, useLayoutEffect } from 'react';
 import { Provider } from 'react-redux';
@@ -13,6 +14,7 @@ import { GlobalStyles } from '@styles/GlobalStyles';
 import styled from 'styled-components';
 import ContactButton from '@components/ContactButton';
 import { ThemeProvider } from './context/ThemeContext';
+import { ProfileProvider } from './context/ProfileContext';
 import FontLoader from '@components/FontLoader/FontLoader';
 import DotBackground from '@components/DotBackground';
 import Sidebar from '@components/Sidebar/Sidebar';
@@ -420,7 +422,15 @@ function App() {
     [
       {
         path: '/',
-        element: <AppContent />,
+        element: <Navigate to="/alexis" replace />,
+      },
+      {
+        path: '/:profileId',
+        element: (
+          <ProfileProvider>
+            <AppContent />
+          </ProfileProvider>
+        ),
         children: [
           {
             index: true,
@@ -440,6 +450,14 @@ function App() {
           },
           {
             path: 'otros',
+            element: <MaintenancePage />,
+          },
+          {
+            path: 'pomelo',
+            element: <MaintenancePage />,
+          },
+          {
+            path: 'mercadolibre',
             element: <MaintenancePage />,
           },
           {

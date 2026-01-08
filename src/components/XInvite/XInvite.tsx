@@ -1,8 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
+import { useProfile } from '../../context/ProfileContext';
 import profileImage from '../../assets/images/x-profile.jpg';
+import condamindImage from '../../assets/images/projects-matias/condamind.png';
 
 interface XInviteProps {
   className?: string;
@@ -191,11 +194,131 @@ const XBadge = styled.span<{ $isDark: boolean }>`
   line-height: 1;
 `;
 
-const XInvite: React.FC<XInviteProps> = ({ className }) => {
-  const { t } = useTranslation();
-  const { themeMode } = useTheme();
-  const isDark = themeMode === 'dark';
+const ProjectImage = styled.img`
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  object-fit: cover;
+  display: block;
+  border: 2px solid rgba(255,255,255,0.2);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 
+  @media (max-width: 720px) {
+    grid-row: 1;
+    margin: 0 auto;
+  }
+`;
+
+const InternalCta = styled(Link)<{ $isDark: boolean }>`
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 9999px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  background: ${({ $isDark }) => ($isDark ? '#ffffff' : '#000000')};
+  color: ${({ $isDark }) => ($isDark ? '#000000' : '#ffffff')};
+  border: none;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.5s ease;
+    pointer-events: none;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, ${({ $isDark }) => ($isDark ? 'rgba(0,0,0,0.1)' : 'rgba(0,0,0,0.05)')});
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+  }
+
+  &:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    background: ${({ $isDark }) => ($isDark ? '#f8f8f8' : '#333333')};
+    text-decoration: none;
+  }
+
+  &:hover::before { left: 100%; }
+  &:hover::after { width: 280px; height: 280px; }
+
+  &:active { transform: translateY(0); transition: all 0.1s ease; }
+
+  &:focus-visible {
+    outline: 2px solid ${({ $isDark }) => ($isDark ? '#000000' : '#ffffff')};
+    outline-offset: 2px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    text-decoration: none;
+  }
+
+  @media (max-width: 720px) {
+    grid-column: 1;
+    width: 100%;
+    justify-content: center;
+  }
+`;
+
+const ProjectBadge = styled.span`
+  font-size: 14px;
+  line-height: 1;
+`;
+
+const XInvite: React.FC<XInviteProps> = ({ className }) => {
+  const { t, i18n } = useTranslation();
+  const { themeMode } = useTheme();
+  const { profile } = useProfile();
+  const isDark = themeMode === 'dark';
+  const isMatias = profile.id === 'matias';
+  const isEs = i18n.language === 'es';
+
+  // For Matias: Show Condamind project CTA
+  if (isMatias) {
+    const title = isEs ? 'Conoce Condamind' : 'Meet Condamind';
+    const description = isEs
+      ? 'Mi asistente de IA para WhatsApp que ayuda a administradores de edificios a gestionar comunicaciones con residentes.'
+      : 'My AI assistant for WhatsApp that helps building administrators manage communications with residents.';
+    const ctaText = isEs ? 'Ver proyecto' : 'View project';
+
+    return (
+      <Card className={className} $isDark={isDark} aria-labelledby="project-invite-title">
+        <ProjectImage src={condamindImage} alt="Condamind" />
+        <Content>
+          <Title id="project-invite-title">{title}</Title>
+          <Description>{description}</Description>
+        </Content>
+        <InternalCta
+          $isDark={isDark}
+          to="/matias/otros"
+          aria-label={isEs ? 'Ver proyecto Condamind' : 'View Condamind project'}
+        >
+          <ProjectBadge>🚀</ProjectBadge>
+          {ctaText}
+        </InternalCta>
+      </Card>
+    );
+  }
+
+  // For Alexis: Show X invite
   return (
     <Card className={className} $isDark={isDark} aria-labelledby="x-invite-title">
       <Avatar src={profileImage} alt={t('xInvite.avatarAlt', 'Foto de perfil de Alexis en X')} />

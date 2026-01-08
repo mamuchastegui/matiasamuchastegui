@@ -64,8 +64,10 @@ const XConsExperiencePage = createLazyComponent(
 const XCons2ExperiencePage = createLazyComponent(
   () => import('./features/xcons/XCons2ExperiencePage')
 );
-const FusionAdsPage = createLazyComponent(() => import('./features/fusionads/FusionAdsPage'));
-const MaintenancePage = createLazyComponent(() => import('./pages/MaintenancePage'));
+const FusionAdsWrapper = createLazyComponent(() => import('./features/shared/FusionAdsWrapper'));
+const PomeloWrapper = createLazyComponent(() => import('./features/shared/PomeloWrapper'));
+const MercadoLibreWrapper = createLazyComponent(() => import('./features/shared/MercadoLibreWrapper'));
+const OtrosWrapper = createLazyComponent(() => import('./features/shared/OtrosWrapper'));
 
 import '@utils/i18n';
 
@@ -126,6 +128,14 @@ try {
       import('./features/xcons/XConsExperiencePage'),
       import('./features/xcons/XCons2ExperiencePage'),
       import('./features/fusionads/FusionAdsPage'),
+      import('./features/shared/FusionAdsWrapper'),
+      import('./features/matias/fusionads/MatisFusionAdsPage'),
+      import('./features/shared/PomeloWrapper'),
+      import('./features/matias/pomelo/PomeloPage'),
+      import('./features/shared/MercadoLibreWrapper'),
+      import('./features/matias/mercadolibre/MercadoLibrePage'),
+      import('./features/shared/OtrosWrapper'),
+      import('./features/matias/otros/OtrosPage'),
       import('./pages/MaintenancePage'),
 
       import('@components/ChatbotAssistant'),
@@ -398,6 +408,14 @@ function App() {
           import('./features/xcons/XConsExperiencePage'),
           import('./features/xcons/XCons2ExperiencePage'),
           import('./features/fusionads/FusionAdsPage'),
+          import('./features/shared/FusionAdsWrapper'),
+          import('./features/matias/fusionads/MatisFusionAdsPage'),
+          import('./features/shared/PomeloWrapper'),
+          import('./features/matias/pomelo/PomeloPage'),
+          import('./features/shared/MercadoLibreWrapper'),
+          import('./features/matias/mercadolibre/MercadoLibrePage'),
+          import('./features/shared/OtrosWrapper'),
+          import('./features/matias/otros/OtrosPage'),
           import('./pages/MaintenancePage'),
 
           import('@components/ChatbotAssistant'),
@@ -446,19 +464,19 @@ function App() {
           },
           {
             path: 'fusionads',
-            element: <FusionAdsPage />,
+            element: <FusionAdsWrapper />,
           },
           {
             path: 'otros',
-            element: <MaintenancePage />,
+            element: <OtrosWrapper />,
           },
           {
             path: 'pomelo',
-            element: <MaintenancePage />,
+            element: <PomeloWrapper />,
           },
           {
             path: 'mercadolibre',
-            element: <MaintenancePage />,
+            element: <MercadoLibreWrapper />,
           },
           {
             path: ':projectId',

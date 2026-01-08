@@ -5,6 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SplitType from 'split-type';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../../context/ThemeContext';
+import { useProfile } from '../../context/ProfileContext';
 
 const HeroContainer = styled.section`
   display: flex;
@@ -200,6 +201,7 @@ interface HeroSectionProps {
 const HeroSection: React.FC<HeroSectionProps> = () => {
   const { t } = useTranslation();
   const { themeMode } = useTheme();
+  const { profile } = useProfile();
   const [isVisible, setIsVisible] = useState(false);
   const leftRef = useRef<HTMLDivElement>(null);
   const rightRef = useRef<HTMLDivElement>(null);
@@ -346,30 +348,27 @@ const HeroSection: React.FC<HeroSectionProps> = () => {
             transition: 'opacity 1s ease-out, transform 1s ease-out',
           }}
         >
-          <Name ref={nameRef}>Alexis Vedia</Name>
+          <Name ref={nameRef}>{profile.name}</Name>
           <Subtitle ref={subtitleRef}>
             <span className="line">
-              <span className="line-inner">{t('heroSubtitle1')}</span>
+              <span className="line-inner">{t(profile.subtitle1Key)}</span>
             </span>
             <span className="line">
-              <span className="line-inner">{t('heroSubtitle2')}</span>
+              <span className="line-inner">{t(profile.subtitle2Key)}</span>
             </span>
           </Subtitle>
           <Description ref={descriptionRef}>
             <span className="line">
-              <span className="line-inner">{t('heroDescription1')}</span>
+              <span className="line-inner">{t(profile.description1Key)}</span>
             </span>
             <span className="line">
-              <span className="line-inner">{t('heroDescription2')}</span>
+              <span className="line-inner">{t(profile.description2Key)}</span>
             </span>
             <span className="line">
-              <span className="line-inner">{t('heroDescription3')}</span>
+              <span className="line-inner">{t(profile.description3Key)}</span>
             </span>
             <span className="line">
-              <span className="line-inner">{t('heroDescription4')}</span>
-            </span>
-            <span className="line">
-              <span className="line-inner">{t('heroDescription5')}</span>
+              <span className="line-inner">{t(profile.description4Key)}</span>
             </span>
           </Description>
         </LeftContainer>
@@ -384,7 +383,7 @@ const HeroSection: React.FC<HeroSectionProps> = () => {
         >
           <HeroVideo
             ref={heroVideoRef}
-            src="/assets/newAssets/Alexis4.mp4"
+            src={profile.heroVideo || '/assets/newAssets/Alexis4.mp4'}
             autoPlay
             muted
             loop

@@ -1,19 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import { useTheme } from '../../context/ThemeContext';
-
-
-import figmaIcon from '../../assets/images/Logos/figma-icon-one-color.svg';
-import mongoDbIcon from '../../assets/images/Logos/mongodb-svgrepo-com.svg';
-import n8nIcon from '../../assets/images/Logos/n8n.io.svg';
-import postmanIcon from '../../assets/images/Logos/postman-svgrepo-com.svg';
-import reactIcon from '../../assets/images/Logos/react-svgrepo-com.svg';
-import photoshopIcon from '../../assets/images/Logos/adobe-photoshop-2 1.svg';
-import huggingFaceIcon from '../../assets/images/Logos/huggingface-1 1.svg';
-import replicateAiIcon from '../../assets/images/Logos/Replicate Ai.svg';
+import { useProfile } from '../../context/ProfileContext';
+import { TechItem } from '../../types/profile';
 
 interface TechSliderProps {
   className?: string;
+  technologies?: TechItem[];
 }
 
 
@@ -142,23 +135,15 @@ const TechIcon = styled.img<{ $isDarkMode: boolean }>`
   }
 `;
 
-const TechSlider: React.FC<TechSliderProps> = ({ className }) => {
+const TechSlider: React.FC<TechSliderProps> = ({ className, technologies: propTechnologies }) => {
   const { themeMode } = useTheme();
+  const { profile } = useProfile();
   const isDarkMode = themeMode === 'dark';
   const [isMobile, setIsMobile] = useState(false);
   const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
 
-  
-  const technologies = [
-    { name: 'Figma', src: figmaIcon },
-    { name: 'MongoDB', src: mongoDbIcon },
-    { name: 'n8n', src: n8nIcon },
-    { name: 'Postman', src: postmanIcon },
-    { name: 'React', src: reactIcon },
-    { name: 'Adobe Photoshop', src: photoshopIcon },
-    { name: 'HuggingFace', src: huggingFaceIcon },
-    { name: 'Replicate', src: replicateAiIcon },
-  ];
+  // Use technologies from props if provided, otherwise use profile technologies
+  const technologies = propTechnologies || profile.technologies;
 
   useEffect(() => {
     const checkIfMobile = () => {

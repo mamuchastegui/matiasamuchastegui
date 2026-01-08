@@ -2,6 +2,7 @@ import React, { useState, useRef, forwardRef } from 'react';
 import styled, { css } from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../../context/ThemeContext';
+import { useProfile } from '../../context/ProfileContext';
 import emailjs from '@emailjs/browser';
 import confetti from 'canvas-confetti';
 import Tooltip from '../Tooltip';
@@ -323,9 +324,11 @@ interface ContactSectionProps {
 const ContactSection = forwardRef<HTMLDivElement, ContactSectionProps>(({ id }, ref) => {
   const { t } = useTranslation();
   const { themeMode } = useTheme();
+  const { profile } = useProfile();
   const isDark = themeMode === 'dark';
   const formRef = useRef<HTMLFormElement>(null);
   const emailRef = useRef<HTMLAnchorElement>(null);
+  const contactEmail = profile.socialLinks?.email || 'alexisleonelvedia@gmail.com';
 
   const [formData, setFormData] = useState({
     name: '',
@@ -345,8 +348,7 @@ const ContactSection = forwardRef<HTMLDivElement, ContactSectionProps>(({ id }, 
 
   const copyEmailToClipboard = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    const email = 'alexisleonelvedia@gmail.com';
-    navigator.clipboard.writeText(email)
+    navigator.clipboard.writeText(contactEmail)
       .then(() => {
         setEmailCopied(true);
         setTimeout(() => setEmailCopied(false), 2000);
@@ -417,7 +419,7 @@ const ContactSection = forwardRef<HTMLDivElement, ContactSectionProps>(({ id }, 
                         onClick={copyEmailToClipboard}
                         style={{ cursor: 'pointer' }}
                       >
-                        alexisleonelvedia@gmail.com
+                        {contactEmail}
                       </a>
                     </Tooltip>
                   </React.Fragment>

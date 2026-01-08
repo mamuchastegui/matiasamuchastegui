@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import TechSlider from '@components/TechSlider';
 import XInvite from '@components/XInvite';
+import { useProfile } from '../../context/ProfileContext';
 
 const SectionContainer = styled.section`
   display: flex;
@@ -180,20 +181,42 @@ const TechSliderContainer = styled.div`
 `;
 const BioSection: React.FC = () => {
   const { i18n } = useTranslation();
+  const { profile } = useProfile();
+  const isMatias = profile.id === 'matias';
+  const isEs = i18n.language === 'es';
 
-  const intro = i18n.language === 'es'
-    ? 'Impulso a emprendedores, agencias y startups ideando soluciones innovadoras y llevándolas a la realidad con diseño UX/UI de alto nivel, desarrollo en código y herramientas de IA que optimizan procesos y maximizan resultados.'
-    : 'I empower entrepreneurs, agencies, and startups by ideating innovative solutions and bringing them to life with high‑level UX/UI design, production‑ready code, and AI tools that streamline processes and maximize results.';
+  // Profile-specific intro text
+  const intro = isMatias
+    ? isEs
+      ? 'Diseño y construyo sistemas backend escalables y de alto rendimiento. Especializado en microservicios, arquitecturas distribuidas e integraciones de IA que procesan millones de transacciones diarias.'
+      : 'I design and build scalable, high-performance backend systems. Specialized in microservices, distributed architectures, and AI integrations that process millions of daily transactions.'
+    : isEs
+      ? 'Impulso a emprendedores, agencias y startups ideando soluciones innovadoras y llevándolas a la realidad con diseño UX/UI de alto nivel, desarrollo en código y herramientas de IA que optimizan procesos y maximizan resultados.'
+      : 'I empower entrepreneurs, agencies, and startups by ideating innovative solutions and bringing them to life with high‑level UX/UI design, production‑ready code, and AI tools that streamline processes and maximize results.';
 
-  const block1Title = i18n.language === 'es' ? 'De principio a fin' : 'End‑to‑End';
-  const block1Text = i18n.language === 'es'
-    ? 'Desde investigación UX y prototipos de alta fidelidad en Figma, hasta una impecable implementación completa. ¿No es suficiente? Elevo el nivel de tu producto con AI: búsquedas vectoriales semánticas, diseño de agentes autónomos, flujos en n8n, RAG, etc. Pruebo nuevas herramientas a diario y comparto mis hallazgos en redes. Tu proyecto siempre se beneficia de lo más avanzado.'
-    : 'From UX research and high‑fidelity Figma prototypes to a polished end‑to‑end implementation. Need more? I supercharge your product with AI: semantic vector search, autonomous agent design, n8n workflows, RAG, and more. I test new tools daily and share findings — your project always benefits from the cutting edge.';
+  // Profile-specific block 1
+  const block1Title = isMatias
+    ? isEs ? 'Arquitectura a escala' : 'Architecture at Scale'
+    : isEs ? 'De principio a fin' : 'End‑to‑End';
+  const block1Text = isMatias
+    ? isEs
+      ? 'Desde diseño de APIs REST/gRPC hasta implementación de microservicios con Go, Node.js y Python. Aplico patrones como DDD, Event Sourcing y CQRS para sistemas que requieren alta disponibilidad y consistencia eventual. Infraestructura en AWS/GCP con Docker y Kubernetes.'
+      : 'From REST/gRPC API design to microservices implementation with Go, Node.js, and Python. I apply patterns like DDD, Event Sourcing, and CQRS for systems requiring high availability and eventual consistency. Infrastructure on AWS/GCP with Docker and Kubernetes.'
+    : isEs
+      ? 'Desde investigación UX y prototipos de alta fidelidad en Figma, hasta una impecable implementación completa. ¿No es suficiente? Elevo el nivel de tu producto con AI: búsquedas vectoriales semánticas, diseño de agentes autónomos, flujos en n8n, RAG, etc. Pruebo nuevas herramientas a diario y comparto mis hallazgos en redes. Tu proyecto siempre se beneficia de lo más avanzado.'
+      : 'From UX research and high‑fidelity Figma prototypes to a polished end‑to‑end implementation. Need more? I supercharge your product with AI: semantic vector search, autonomous agent design, n8n workflows, RAG, and more. I test new tools daily and share findings — your project always benefits from the cutting edge.';
 
-  const block2Title = i18n.language === 'es' ? 'Solo o en equipo' : 'Solo or Team Player';
-  const block2Text = i18n.language === 'es'
-    ? 'Trabajo de forma autónoma o integrado a tu equipo, adaptándome a las necesidades del proyecto para entregar resultados sobresalientes, ya sea como fuerza individual o en colaboración multidisciplinaria.'
-    : 'I work autonomously or embedded in your team, adapting to project needs to deliver outstanding outcomes — either as an individual contributor or within a multidisciplinary collaboration.';
+  // Profile-specific block 2
+  const block2Title = isMatias
+    ? isEs ? 'Liderazgo técnico' : 'Technical Leadership'
+    : isEs ? 'Solo o en equipo' : 'Solo or Team Player';
+  const block2Text = isMatias
+    ? isEs
+      ? 'Como Staff Engineer, lidero decisiones arquitectónicas y mentoreo equipos. Facilito la comunicación entre áreas técnicas y de negocio, asegurando que las soluciones no solo funcionen, sino que escalen y sean mantenibles a largo plazo.'
+      : 'As a Staff Engineer, I lead architectural decisions and mentor teams. I facilitate communication between technical and business areas, ensuring solutions not only work but scale and remain maintainable long-term.'
+    : isEs
+      ? 'Trabajo de forma autónoma o integrado a tu equipo, adaptándome a las necesidades del proyecto para entregar resultados sobresalientes, ya sea como fuerza individual o en colaboración multidisciplinaria.'
+      : 'I work autonomously or embedded in your team, adapting to project needs to deliver outstanding outcomes — either as an individual contributor or within a multidisciplinary collaboration.';
 
   return (
     <SectionContainer id="about">

@@ -2,7 +2,19 @@ import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { Code2, FileCode2, PenTool, Workflow, Brain } from 'lucide-react';
+import { Code2, FileCode2, PenTool, Workflow, Brain, Server, Cloud } from 'lucide-react';
+import { useProfile } from '../../context/ProfileContext';
+
+// Map icon names to components
+const iconMap: Record<string, React.ReactNode> = {
+  'Code2': <Code2 aria-hidden={true} />,
+  'FileCode2': <FileCode2 aria-hidden={true} />,
+  'PenTool': <PenTool aria-hidden={true} />,
+  'Workflow': <Workflow aria-hidden={true} />,
+  'Brain': <Brain aria-hidden={true} />,
+  'Server': <Server aria-hidden={true} />,
+  'Cloud': <Cloud aria-hidden={true} />,
+};
 
 interface Service {
   id: string;
@@ -15,44 +27,17 @@ interface Service {
 
 const ServicesSection: React.FC = () => {
   const { t } = useTranslation();
+  const { profile } = useProfile();
 
-  const services: Service[] = [
-    {
-      id: 'frontend-development',
-            icon: <Code2 aria-hidden={true} />,      titleKey: 'services.frontend.title',
-      descriptionKey: 'services.frontend.description',
-      skills: ['React', 'TypeScript', 'Next.js', 'Tailwind CSS'],
-      gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
-    },
-    {
-      id: 'wordpress-development',
-      icon: <FileCode2 aria-hidden={true} />,      titleKey: 'services.wordpress.title',
-      descriptionKey: 'services.wordpress.description',
-      skills: ['WordPress', 'PHP', 'Custom Themes', 'WooCommerce'],
-      gradient: 'linear-gradient(135deg, #21759b 0%, #0073aa 100%)'
-    },
-    {
-      id: 'ux-ui-design',
-      icon: <PenTool aria-hidden={true} />,      titleKey: 'services.design.title',
-      descriptionKey: 'services.design.description',
-      skills: ['Figma', 'Adobe Suite', 'Prototyping', 'User Research'],
-      gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)'
-    },
-    {
-      id: 'automation',
-      icon: <Workflow aria-hidden={true} />,      titleKey: 'services.automation.title',
-      descriptionKey: 'services.automation.description',
-      skills: ['n8n', 'Airtable', 'API Integration', 'Web Scraping'],
-      gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)'
-    },
-    {
-      id: 'ai-integration',
-      icon: <Brain aria-hidden={true} />,      titleKey: 'services.ai.title',
-      descriptionKey: 'services.ai.description',
-      skills: ['LLMs', 'Prompt Engineering', 'LangChain', 'AI Workflows'],
-      gradient: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)'
-    }
-  ];
+  // Convert profile services to the format expected by the component
+  const services: Service[] = profile.services.map(service => ({
+    id: service.id,
+    icon: iconMap[service.icon] || <Code2 aria-hidden={true} />,
+    titleKey: service.titleKey,
+    descriptionKey: service.descriptionKey,
+    skills: service.skills,
+    gradient: service.gradient,
+  }));
 
   const containerVariants = {
     hidden: { opacity: 0 },

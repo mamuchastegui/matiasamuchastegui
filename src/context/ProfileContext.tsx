@@ -1,4 +1,4 @@
-import React, { createContext, useContext, ReactNode, useMemo } from 'react';
+import React, { createContext, useContext, ReactNode, useMemo, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Profile, ProfileId } from '../types/profile';
 import { profiles, defaultProfileId } from '../data/profiles';
@@ -38,6 +38,15 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({ children }) =>
   const availableProfiles = useMemo(() => {
     return Object.values(profiles);
   }, []);
+
+  // Update document title when profile changes
+  useEffect(() => {
+    const titles: Record<ProfileId, string> = {
+      alexis: 'Alexis Vedia - Desarrollador Full Stack | Portfolio Profesional',
+      matias: 'Matias Amuchastegui - Staff Engineer | Portfolio Profesional',
+    };
+    document.title = titles[profileId] || titles.alexis;
+  }, [profileId]);
 
   const switchProfile = (newProfileId: ProfileId) => {
     // Get current subpath after the profile id

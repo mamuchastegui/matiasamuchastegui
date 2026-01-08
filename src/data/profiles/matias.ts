@@ -1,11 +1,15 @@
 import { Profile } from '../../types/profile';
 
-// Reuse existing icons where available
+// Technology icons
 import reactIcon from '../../assets/images/Logos/react-svgrepo-com.svg';
-import mongoDbIcon from '../../assets/images/Logos/mongodb-svgrepo-com.svg';
-
-// For missing icons, we'll use placeholders or add them later
-// TODO: Add icons for Node.js, Go, Python, PostgreSQL, AWS, Docker, Kubernetes
+import nodejsIcon from '../../assets/images/Logos/nodejs-svgrepo-com.svg';
+import golangIcon from '../../assets/images/Logos/golang-svgrepo-com.svg';
+import pythonIcon from '../../assets/images/Logos/python-svgrepo-com.svg';
+import postgresqlIcon from '../../assets/images/Logos/postgresql-svgrepo-com.svg';
+import awsIcon from '../../assets/images/Logos/aws-svgrepo-com.svg';
+import dockerIcon from '../../assets/images/Logos/docker-svgrepo-com.svg';
+import kubernetesIcon from '../../assets/images/Logos/kubernetes-svgrepo-com.svg';
+import typescriptIcon from '../../assets/images/Logos/typescript-svgrepo-com.svg';
 
 export const matiasProfile: Profile = {
   id: 'matias',
@@ -17,23 +21,24 @@ export const matiasProfile: Profile = {
   description2Key: 'matias.heroDescription2',
   description3Key: 'matias.heroDescription3',
   description4Key: 'matias.heroDescription4',
-  // heroVideo: '/assets/newAssets/Matias.mp4', // TODO: Add video
-  heroImage: '/assets/newAssets/matias-profile.jpg', // Fallback to image
+  heroVideo: '/assets/newAssets/mati.mp4',
+  heroImage: '/assets/newAssets/matias-profile.jpg',
   socialLinks: {
     github: 'https://github.com/matiasamuchastegui',
     linkedin: 'https://linkedin.com/in/matias-amuchastegui',
     x: 'https://x.com/matiasamu',
-    email: 'hello@matiasamuchastegui.com',
+    email: 'matias@condamind.com',
   },
   technologies: [
+    { name: 'TypeScript', src: typescriptIcon },
+    { name: 'Node.js', src: nodejsIcon },
+    { name: 'Go', src: golangIcon },
+    { name: 'Python', src: pythonIcon },
     { name: 'React', src: reactIcon },
-    { name: 'Node.js', src: reactIcon }, // TODO: Replace with actual icon
-    { name: 'Go', src: reactIcon }, // TODO: Replace with actual icon
-    { name: 'Python', src: reactIcon }, // TODO: Replace with actual icon
-    { name: 'PostgreSQL', src: mongoDbIcon }, // TODO: Replace with actual icon
-    { name: 'AWS', src: reactIcon }, // TODO: Replace with actual icon
-    { name: 'Docker', src: reactIcon }, // TODO: Replace with actual icon
-    { name: 'Kubernetes', src: reactIcon }, // TODO: Replace with actual icon
+    { name: 'PostgreSQL', src: postgresqlIcon },
+    { name: 'AWS', src: awsIcon },
+    { name: 'Docker', src: dockerIcon },
+    { name: 'Kubernetes', src: kubernetesIcon },
   ],
   services: [
     {

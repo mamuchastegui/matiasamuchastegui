@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import FlowingMenu from '@components/FlowingMenu';
-
+import { useProfile } from '../../context/ProfileContext';
 
 import fusionadsLogo from '../../assets/images/projects/Fusionads.svg';
 import banditLogo from '../../assets/images/projects/Bandit.svg';
@@ -66,51 +66,25 @@ const MenuContainer = styled.div`
   }
 `;
 
+// Map of project names to their logos
+const projectLogos: Record<string, string> = {
+  'XCONS': xconsLogo,
+  'FusionAds': fusionadsLogo,
+  'Bandit': banditLogo,
+};
+
 const ProjectsSection: React.FC = () => {
   const { t } = useTranslation();
+  const { profile } = useProfile();
 
-
-  const companyItems = [
-    {
-      link: '/xcons',
-      text: 'XCONS',
-      image: xconsLogo,
-      color: '#15814B',
-      description: t(
-        'companyDescriptions.xcons',
-        'Constructora innovadora con enfoque en soluciones sustentables y tecnología avanzada.'
-      ),
-    },
-    {
-      link: '/fusionads',
-      text: 'FusionAds',
-      image: fusionadsLogo,
-      color: '#F7480B',
-      description: t(
-        'companyDescriptions.fusionads',
-        'Plataforma innovadora de publicidad digital que integra tecnologías emergentes.'
-      ),
-    },
-    {
-      link: '/bandit',
-      text: 'Bandit',
-      image: banditLogo,
-      color: '#F70F43',
-      description: t(
-        'companyDescriptions.bandit',
-        'Soluciones disruptivas en seguridad informática y protección de datos.'
-      ),
-    },
-    {
-      link: '/otros',
-      text: t('navbar.otros', 'Otros Proyectos'),
-      color: '#262626',
-      description: t(
-        'companyDescriptions.otros',
-        'Diversos proyectos personales y profesionales en desarrollo.'
-      ),
-    },
-  ];
+  // Build company items from profile projects
+  const companyItems = profile.projects.map(project => ({
+    link: project.link,
+    text: project.text,
+    image: projectLogos[project.text] || project.image,
+    color: project.color,
+    description: t(project.descriptionKey, project.text),
+  }));
 
   return (
     <SectionContainer id="experience">

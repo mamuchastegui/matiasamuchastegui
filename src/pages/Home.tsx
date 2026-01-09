@@ -3,8 +3,10 @@ import styled from 'styled-components';
 import PageTransition from '@components/PageTransition/PageTransition';
 import HeroSection from '@components/HeroSection/HeroSection';
 import BioSection from '@components/BioSection';
+import ExperienceSection from '@components/ExperienceSection';
 import ServicesSection from '@components/ServicesSection';
-import ProjectsSection from '@components/ProjectsSection/ProjectsSection';
+import FeaturedProjectsSection from '@components/FeaturedProjectsSection';
+import BeyondCodeSection from '@components/BeyondCodeSection';
 import ContactSection from '@components/ContactSection/ContactSection';
 import SEOContent from '@components/SEOContent';
 
@@ -69,11 +71,17 @@ const Home: React.FC<HomeProps> = ({ onAnimationComplete, fontsLoaded, onContact
           <HeroSection onAnimationComplete={onAnimationComplete} fontsLoaded={fontsLoaded} />
           <BioSection />
         </ContentWrapper>
+        <ContentWrapper id="experience">
+          <ExperienceSection />
+        </ContentWrapper>
         <ContentWrapper id="services">
           <ServicesSection />
         </ContentWrapper>
+        <ContentWrapper id="projects">
+          <FeaturedProjectsSection />
+        </ContentWrapper>
         <ContentWrapper>
-          <ProjectsSection />
+          <BeyondCodeSection />
         </ContentWrapper>
         <ContentWrapper>
           <ContactSection ref={contactSectionRef} id="contact" />

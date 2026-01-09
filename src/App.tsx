@@ -440,7 +440,7 @@ function App() {
     [
       {
         path: '/',
-        element: <Navigate to="/alexis" replace />,
+        element: <Navigate to="/matias" replace />,
       },
       {
         path: '/:profileId',

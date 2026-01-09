@@ -49,8 +49,8 @@ const resources = {
       Desconocido: 'Unknown',
 
       home: 'Home',
-      projects: 'Projects',
-      experience: 'Projects',
+      projectsNav: 'Projects',
+      experienceNav: 'Projects',
       skills: 'Skills',
       contact: 'Contact',
 
@@ -77,6 +77,7 @@ const resources = {
         home: 'Home',
         about: 'About Me',
         projects: 'Projects',
+        experience: 'Experience',
         resume: 'Resume',
         services: 'Services',
         xcons: 'XCONS',
@@ -173,6 +174,86 @@ const resources = {
           tools: 'Tools',
           results: 'Results',
         },
+      },
+
+      experience: {
+        title: 'Experience',
+        subtitle: 'Building high-traffic systems for fintech and ad-tech companies.',
+        projects: 'Projects:',
+        freelance: {
+          company: 'Freelance',
+          role: 'Full-Stack Developer & Founder',
+          period: '2026 – Present',
+          location: 'Córdoba, Argentina',
+          description:
+            'Building innovative products and helping businesses scale. From AI-powered assistants to community platforms and e-commerce solutions.',
+        },
+        fusionads: {
+          company: 'FusionAds',
+          role: 'Staff Engineer',
+          period: '2024 – 2025',
+          location: 'Remote, United States',
+          description:
+            'Designed orchestration engine in TypeScript/Node.js for multi-channel ad campaigns. Implemented fan-out/fan-in workflows with AI integration. Deployed observability stack and mentored distributed team of 4 developers.',
+        },
+        pomelo: {
+          company: 'Pomelo',
+          role: 'Backend Developer',
+          period: '2022 – 2023',
+          location: 'Buenos Aires, Argentina',
+          description:
+            'Developed clearing processes & microservices using Hexagonal Architecture, DDD & Event Sourcing. Built AWS services in Go processing millions of daily events.',
+        },
+        mercadolibre: {
+          company: 'MercadoLibre',
+          role: 'Backend Developer',
+          period: '2018 – 2021',
+          location: 'Buenos Aires, Argentina',
+          description:
+            'Developed scalable backend services for post-purchase features serving 200M+ users across LATAM with P95 < 150ms. Led technical analysis and cross-functional collaboration.',
+        },
+        ayi: {
+          company: 'Ayi & Asociados',
+          role: 'Full-Stack Developer',
+          period: '2017 – 2018',
+          location: 'Córdoba, Argentina',
+          description:
+            'Developed core features for NaranjaX fintech platform. Built REST APIs with Node.js and frontend components with Angular.',
+        },
+        darwoft: {
+          company: 'Darwoft',
+          role: 'Software Developer',
+          period: '2016 – 2017',
+          location: 'Córdoba, Argentina',
+          description:
+            'Built backend services for Finandino banking platform using C# .NET. Developed financial reporting modules.',
+        },
+        brandigital: {
+          company: 'Brandigital',
+          role: 'Web Developer',
+          period: '2015 – 2016',
+          location: 'Córdoba, Argentina',
+          description:
+            'Developed websites for major brands including Aguas Cordobesas, Coca Cola, Huggies, and Volkswagen.',
+        },
+      },
+
+      projects: {
+        title: 'Featured Projects',
+        subtitle:
+          'A selection of projects that showcase my expertise in backend development, infrastructure, and AI integration.',
+        view: 'View Project',
+      },
+
+      beyondCode: {
+        title: 'Beyond Code',
+        subtitle: 'Life is more than just code',
+        skating: 'Freeskate',
+        'skating.description':
+          "Co-founder of Córdoba Rollea, building community through urban skating. There's something meditative about flowing through city streets.",
+        music: 'Electronic Music',
+        'music.description':
+          'Producing beats and exploring sound design. Music production shares more with coding than you might think—both are about patterns, structure, and creativity.',
       },
 
       services: {
@@ -379,8 +460,8 @@ const resources = {
       Desconocido: 'Desconocido',
 
       home: 'Inicio',
-      projects: 'Proyectos',
-      experience: 'Proyectos',
+      projectsNav: 'Proyectos',
+      experienceNav: 'Proyectos',
       skills: 'Habilidades',
       contact: 'Contacto',
 
@@ -407,6 +488,7 @@ const resources = {
         home: 'Inicio',
         about: 'Sobre Mí',
         projects: 'Proyectos',
+        experience: 'Experiencia',
         resume: 'Currículum',
         services: 'Servicios',
         xcons: 'XCONS',
@@ -505,6 +587,86 @@ const resources = {
           tools: 'Herramientas',
           results: 'Resultados',
         },
+      },
+
+      experience: {
+        title: 'Experiencia',
+        subtitle: 'Construyendo sistemas de alto tráfico para empresas fintech y ad-tech.',
+        projects: 'Proyectos:',
+        freelance: {
+          company: 'Freelance',
+          role: 'Full-Stack Developer & Founder',
+          period: '2026 – Presente',
+          location: 'Córdoba, Argentina',
+          description:
+            'Construyendo productos innovadores y ayudando a negocios a escalar. Desde asistentes con IA hasta plataformas comunitarias y soluciones e-commerce.',
+        },
+        fusionads: {
+          company: 'FusionAds',
+          role: 'Staff Engineer',
+          period: '2024 – 2025',
+          location: 'Remoto, Estados Unidos',
+          description:
+            'Diseñé motor de orquestación en TypeScript/Node.js para campañas publicitarias multicanal. Implementé workflows fan-out/fan-in con integración de IA. Desplegué stack de observabilidad y mentoré equipo distribuido de 4 developers.',
+        },
+        pomelo: {
+          company: 'Pomelo',
+          role: 'Backend Developer',
+          period: '2022 – 2023',
+          location: 'Buenos Aires, Argentina',
+          description:
+            'Desarrollé procesos de clearing y microservicios usando Arquitectura Hexagonal, DDD y Event Sourcing. Construí servicios AWS en Go procesando millones de eventos diarios.',
+        },
+        mercadolibre: {
+          company: 'MercadoLibre',
+          role: 'Backend Developer',
+          period: '2018 – 2021',
+          location: 'Buenos Aires, Argentina',
+          description:
+            'Desarrollé servicios backend escalables para features post-compra sirviendo +200M usuarios en LATAM con P95 < 150ms. Lideré análisis técnico y colaboración cross-funcional.',
+        },
+        ayi: {
+          company: 'Ayi & Asociados',
+          role: 'Full-Stack Developer',
+          period: '2017 – 2018',
+          location: 'Córdoba, Argentina',
+          description:
+            'Desarrollé funcionalidades core para la plataforma fintech NaranjaX. Construí APIs REST con Node.js y componentes frontend con Angular.',
+        },
+        darwoft: {
+          company: 'Darwoft',
+          role: 'Software Developer',
+          period: '2016 – 2017',
+          location: 'Córdoba, Argentina',
+          description:
+            'Construí servicios backend para la plataforma bancaria Finandino usando C# .NET. Desarrollé módulos de reportes financieros.',
+        },
+        brandigital: {
+          company: 'Brandigital',
+          role: 'Web Developer',
+          period: '2015 – 2016',
+          location: 'Córdoba, Argentina',
+          description:
+            'Desarrollé sitios web para marcas importantes como Aguas Cordobesas, Coca Cola, Huggies y Volkswagen.',
+        },
+      },
+
+      projects: {
+        title: 'Proyectos Destacados',
+        subtitle:
+          'Una selección de proyectos que muestran mi experiencia en desarrollo backend, infraestructura e integración con IA.',
+        view: 'Ver Proyecto',
+      },
+
+      beyondCode: {
+        title: 'Más Allá del Código',
+        subtitle: 'La vida es más que solo código',
+        skating: 'Freeskate',
+        'skating.description':
+          'Co-fundador de Córdoba Rollea, construyendo comunidad a través del patinaje urbano. Hay algo meditativo en fluir por las calles de la ciudad.',
+        music: 'Música Electrónica',
+        'music.description':
+          'Produciendo beats y explorando diseño sonoro. La producción musical comparte más con la programación de lo que imaginas: ambas tratan sobre patrones, estructura y creatividad.',
       },
 
       services: {

@@ -1,4 +1,16 @@
 {
+  "redirects": [
+    {
+      "source": "/alexis/:path*",
+      "destination": "/matias/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/alexis",
+      "destination": "/matias",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/((?!assets/).*)",

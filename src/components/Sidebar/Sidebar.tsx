@@ -6,7 +6,7 @@ import { useTheme } from '../../context/ThemeContext';
 import { useProfileOptional } from '../../context/ProfileContext';
 import ThemeToggle from '../ThemeToggle/ThemeToggle';
 import LanguageSelector from '../LanguageSelector/LanguageSelector';
-import ProfileSelector from '../ProfileSelector/ProfileSelector';
+// import ProfileSelector from '../ProfileSelector/ProfileSelector'; // Hidden for single-profile deployment
 import {
   Menu,
   Home as HomeIcon,
@@ -20,7 +20,6 @@ import {
 } from 'lucide-react';
 import PortfolioLogo from '../../assets/images/projects/Logo AV.png';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
-import { FaXTwitter } from 'react-icons/fa6';
 
 interface NavLinkItem {
   href: string;
@@ -154,13 +153,14 @@ const LogoText = styled.h1<{ $isCollapsed?: boolean }>`
   will-change: transform, opacity;
 `;
 
-const ProfileSelectorWrapper = styled.div<{ $isCollapsed?: boolean }>`
-  margin-bottom: ${({ theme }) => theme.space.md};
-  opacity: ${({ $isCollapsed }) => $isCollapsed ? '0' : '1'};
-  max-height: ${({ $isCollapsed }) => $isCollapsed ? '0' : '200px'};
-  overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
-`;
+// ProfileSelectorWrapper - Hidden for single-profile deployment
+// const ProfileSelectorWrapper = styled.div<{ $isCollapsed?: boolean }>`
+//   margin-bottom: ${({ theme }) => theme.space.md};
+//   opacity: ${({ $isCollapsed }) => $isCollapsed ? '0' : '1'};
+//   max-height: ${({ $isCollapsed }) => $isCollapsed ? '0' : '200px'};
+//   overflow: hidden;
+//   transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+// `;
 
 const NavList = styled.ul`
   list-style: none;
@@ -628,7 +628,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
   const [isFirstRender, setIsFirstRender] = useState(true);
   const [showGithubTooltip, setShowGithubTooltip] = useState(false);
   const [showLinkedinTooltip, setShowLinkedinTooltip] = useState(false);
-  const [showXTooltip, setShowXTooltip] = useState(false);
   const [showThemeTooltip, setShowThemeTooltip] = useState(false);
   const [showLanguageTooltip, setShowLanguageTooltip] = useState(false);
   const [showNavTooltips, setShowNavTooltips] = useState<{[key: string]: boolean}>({});
@@ -666,7 +665,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
   };
 
   // Helper: stagger order depending on layout
-  const totalControls = 5;
+  const totalControls = 4;
   const isCollapsedLayout = !isMobile && isCollapsed;
   const getStaggerDelay = (index: number) => {
     const step = 40; // ms, más inmediato
@@ -714,7 +713,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
     { href: '#services', labelKey: 'navbar.services', defaultLabel: 'Servicios', IconComponent: ServicesIcon },
     {
       href: '#experience',
-      labelKey: 'experience',
+      labelKey: 'navbar.experience',
       defaultLabel: 'Experiencia',
       IconComponent: ExperienceIcon,
       subLinks: getExperienceSubLinks(),
@@ -1036,12 +1035,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
           <LogoText $isCollapsed={!isMobile && isCollapsed}>{profile?.name || 'Alexis Vedia'}</LogoText>
         </LogoContainer>
 
-        {/* Profile Selector */}
+        {/* Profile Selector - Hidden for single-profile deployment
         {profileContext && (
           <ProfileSelectorWrapper $isCollapsed={!isMobile && isCollapsed}>
             <ProfileSelector isCollapsed={!isMobile && isCollapsed} />
           </ProfileSelectorWrapper>
         )}
+        */}
         <NavList ref={navListRef}>
           <NavBackground 
             $top={navBackgroundPosition.top}
@@ -1141,7 +1141,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
              aria-label="GitHub"
              $isCollapsed={!isMobile && isCollapsed}
              $index={0}
-             $total={5}
+             $total={4}
              $phase={iconsFadePhase}
              onMouseEnter={(e) => { setShowGithubTooltip(true); handleControlHover(e.currentTarget); }}
              onMouseLeave={() => { setShowGithubTooltip(false); handleControlLeave(); }}
@@ -1159,7 +1159,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
              aria-label="LinkedIn"
              $isCollapsed={!isMobile && isCollapsed}
              $index={1}
-             $total={5}
+             $total={4}
              $phase={iconsFadePhase}
              onMouseEnter={(e) => { setShowLinkedinTooltip(true); handleControlHover(e.currentTarget); }}
              onMouseLeave={() => { setShowLinkedinTooltip(false); handleControlLeave(); }}
@@ -1170,29 +1170,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
                {t('tooltip.linkedin')}
              </TechTooltip>
            </SocialMediaButton>
-           <SocialMediaButton
-               href={profile?.socialLinks?.x || "https://x.com/AlexisVedia"}
-               target="_blank"
-               rel="noopener noreferrer"
-               aria-label="X (Twitter)"
-               $isCollapsed={!isMobile && isCollapsed}
-               $index={2}
-               $total={5}
-               $phase={iconsFadePhase}
-               onMouseEnter={(e) => { setShowXTooltip(true); handleControlHover(e.currentTarget); }}
-               onMouseLeave={() => { setShowXTooltip(false); handleControlLeave(); }}
-               style={{ transitionDelay: getStaggerDelay(2) }}
-             >
-              <FaXTwitter />
-              <TechTooltip $isVisible={showXTooltip} $isDarkMode={theme.isDark} $isCollapsed={!isMobile && isCollapsed} $distance={30}>
-                {t('tooltip.x')}
-              </TechTooltip>
-            </SocialMediaButton>
           <ControlsSeparator $isCollapsed={!isMobile && isCollapsed} $phase={iconsFadePhase} />
-          <ThemeToggleWrapper 
+          <ThemeToggleWrapper
               $isCollapsed={!isMobile && isCollapsed}
-              $index={3}
-              $total={5}
+              $index={2}
+              $total={4}
               $phase={iconsFadePhase}
               style={{ lineHeight: 1, position: 'relative', transitionDelay: getStaggerDelay(3) }}
               onMouseEnter={(e) => { setShowThemeTooltip(true); handleControlHover(e.currentTarget as HTMLDivElement); }}
@@ -1204,10 +1186,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
                 {t('tooltip.toggleTheme')}
               </TechTooltip>
             </ThemeToggleWrapper>
-            <LanguageSelectorWrapper 
+            <LanguageSelectorWrapper
               $isCollapsed={!isMobile && isCollapsed}
-              $index={4}
-              $total={5}
+              $index={3}
+              $total={4}
               $phase={iconsFadePhase}
               style={{ lineHeight: 1, position: 'relative', transitionDelay: getStaggerDelay(4) }}
               onMouseEnter={(e) => { setShowLanguageTooltip(true); handleControlHover(e.currentTarget as HTMLDivElement); }}

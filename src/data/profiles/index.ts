@@ -7,7 +7,7 @@ export const profiles: Record<ProfileId, Profile> = {
   matias: matiasProfile,
 };
 
-export const defaultProfileId: ProfileId = 'alexis';
+export const defaultProfileId: ProfileId = 'matias';
 
 export const getProfile = (id: ProfileId): Profile => {
   return profiles[id] || profiles[defaultProfileId];

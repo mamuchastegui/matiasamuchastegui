@@ -1,7 +1,6 @@
 import { Profile } from '../../types/profile';
 
 // Technology icons
-import reactIcon from '../../assets/images/Logos/react-svgrepo-com.svg';
 import nodejsIcon from '../../assets/images/Logos/nodejs-svgrepo-com.svg';
 import golangIcon from '../../assets/images/Logos/golang-svgrepo-com.svg';
 import pythonIcon from '../../assets/images/Logos/python-svgrepo-com.svg';
@@ -10,10 +9,15 @@ import awsIcon from '../../assets/images/Logos/aws-svgrepo-com.svg';
 import dockerIcon from '../../assets/images/Logos/docker-svgrepo-com.svg';
 import kubernetesIcon from '../../assets/images/Logos/kubernetes-svgrepo-com.svg';
 import typescriptIcon from '../../assets/images/Logos/typescript-svgrepo-com.svg';
+import mongodbIcon from '../../assets/images/Logos/mongodb-svgrepo-com.svg';
+import gcpIcon from '../../assets/images/Logos/gcp-svgrepo-com.svg';
+import terraformIcon from '../../assets/images/Logos/terraform-svgrepo-com.svg';
+import openaiIcon from '../../assets/images/Logos/openai-svgrepo-com.svg';
+import hexagonalIcon from '../../assets/images/Logos/hexagonal-architecture.svg';
 
 export const matiasProfile: Profile = {
   id: 'matias',
-  name: 'Matias Amuchastegui',
+  name: 'Matias Amuchástegui',
   titleKey: 'matias.heroTitle',
   subtitle1Key: 'matias.heroSubtitle1',
   subtitle2Key: 'matias.heroSubtitle2',
@@ -34,11 +38,15 @@ export const matiasProfile: Profile = {
     { name: 'Node.js', src: nodejsIcon },
     { name: 'Go', src: golangIcon },
     { name: 'Python', src: pythonIcon },
-    { name: 'React', src: reactIcon },
     { name: 'PostgreSQL', src: postgresqlIcon },
+    { name: 'MongoDB', src: mongodbIcon },
     { name: 'AWS', src: awsIcon },
+    { name: 'GCP', src: gcpIcon },
     { name: 'Docker', src: dockerIcon },
     { name: 'Kubernetes', src: kubernetesIcon },
+    { name: 'Terraform', src: terraformIcon },
+    { name: 'OpenAI/LLMs', src: openaiIcon },
+    { name: 'Hexagonal', src: hexagonalIcon },
   ],
   services: [
     {

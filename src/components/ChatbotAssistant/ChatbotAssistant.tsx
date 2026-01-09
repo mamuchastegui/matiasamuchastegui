@@ -2,8 +2,9 @@ import React, { useState, useEffect, useRef, useCallback, useLayoutEffect } from
 import styled, { keyframes, css } from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import ReactMarkdown from 'react-markdown';
-import { sendMessageToN8N } from '../../services/n8nService';
+import { sendMessageToOpenAI } from '../../services/openaiService';
 import { useTheme } from '../../context/ThemeContext';
+import { useProfileOptional } from '../../context/ProfileContext';
 import TypewriterText from '../TypewriterText';
 
 // Animaciones
@@ -857,29 +858,40 @@ interface ChatbotAssistantProps {
   isSidebarCollapsed?: boolean;
 }
 
-const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({ 
-  initialDelay = 0, 
-  isSidebarPresent = false, 
+const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
+  initialDelay = 0,
+  isSidebarPresent = false,
   isSidebarCollapsed = false,
   n8nServerReady: _n8nServerReady = false,
-}) => { 
+}) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [hasBeenExpanded, setHasBeenExpanded] = useState(false);
   const { t, i18n } = useTranslation();
   const { themeMode } = useTheme();
+  const profileContext = useProfileOptional();
   const isDark = themeMode === 'dark';
+  const isMatias = profileContext?.profile?.id === 'matias';
   // Nuevo: estado para disparar animación inicial del input
   const [inputAnimated, setInputAnimated] = useState(false);
 
   // Chat state
   const getWelcomeMessage = useCallback(() => {
     const lang = (i18n?.language || 'es').toLowerCase();
-    if (lang.startsWith('en')) {
-      return `Hi, I’m Alexis Vedia’s assistant. Developed with n8n and powered by AI, I’m here to help.\n\nWould you like a tour of projects, to talk about the stack, or to explore ideas for your next step?`;
+    const isEn = lang.startsWith('en');
+
+    if (isMatias) {
+      if (isEn) {
+        return `Hi, I'm Matias Amuchástegui's assistant. Powered by AI, I'm here to help you learn about my experience in backend development and distributed systems.\n\nWant to explore projects, discuss architecture, or talk about how I can help your team?`;
+      }
+      return `Hola, soy el asistente de Matias Amuchástegui. Potenciado por IA, estoy acá para ayudarte a conocer mi experiencia en desarrollo backend y sistemas distribuidos.\n\n¿Querés explorar proyectos, hablar de arquitectura o ver cómo puedo ayudar a tu equipo?`;
+    }
+
+    if (isEn) {
+      return `Hi, I'm Alexis Vedia's assistant. Developed with n8n and powered by AI, I'm here to help.\n\nWould you like a tour of projects, to talk about the stack, or to explore ideas for your next step?`;
     }
     return `Hola, soy el asistente de Alexis Vedia. Desarrollado con n8n y potenciado por IA, estoy acá para ayudarte.\n\n¿Te muestro proyectos, hablamos del stack o exploramos ideas para tu próximo paso?`;
-  }, [i18n?.language]);
+  }, [i18n?.language, isMatias]);
 
   // Placeholder según idioma
   const getPlaceholder = useCallback(() => {
@@ -1030,7 +1042,7 @@ const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isExpanded]);
 
-  // Reset welcome message when language changes
+  // Reset welcome message when language or profile changes
   useEffect(() => {
     const newWelcome = getWelcomeMessage();
     setMessages([{ text: newWelcome, isUser: false }]);
@@ -1038,7 +1050,7 @@ const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
     setIsTyping(false);
     setInputValue('');
     setAutoScrollEnabled(true);
-  }, [i18n?.language, getWelcomeMessage]);
+  }, [i18n?.language, isMatias, getWelcomeMessage]);
 
   // Auto scroll messages
   useEffect(() => {
@@ -1224,13 +1236,15 @@ const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
     setIsTyping(true);
 
     try {
-      const response = await sendMessageToN8N(userMessage);
+      const profileId = (profileContext?.profile?.id === 'matias' ? 'matias' : 'alexis') as 'matias' | 'alexis';
+      const language = (i18n?.language || 'es').toLowerCase().startsWith('en') ? 'en' : 'es';
+      const response = await sendMessageToOpenAI(userMessage, profileId, language);
       setIsTyping(false);
       setMessages(prev => [...prev, response]);
     } catch (error) {
       console.error('Error al enviar mensaje:', error);
       setIsTyping(false);
-      
+
       setMessages(prev => [
         ...prev,
         {

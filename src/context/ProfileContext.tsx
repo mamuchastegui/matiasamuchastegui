@@ -43,7 +43,7 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({ children }) =>
   useEffect(() => {
     const titles: Record<ProfileId, string> = {
       alexis: 'Alexis Vedia - Desarrollador Full Stack | Portfolio Profesional',
-      matias: 'Matias Amuchastegui - Staff Engineer | Portfolio Profesional',
+      matias: 'Matias Amuchástegui - Staff Engineer | Portfolio Profesional',
     };
     document.title = titles[profileId] || titles.alexis;
   }, [profileId]);

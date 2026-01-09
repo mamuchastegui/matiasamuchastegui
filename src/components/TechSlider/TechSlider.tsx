@@ -118,17 +118,14 @@ const SliderItem = styled.div`
   }
 `;
 
-const TechIcon = styled.img<{ $isDarkMode: boolean }>`
+const TechIcon = styled.img`
   height: 35px;
   max-height: 35px;
   width: auto;
   max-width: 100px;
   object-fit: contain;
   opacity: 1;
-  transition:
-    transform 0.3s ease,
-    filter 0.3s ease;
-  filter: ${({ $isDarkMode }) => ($isDarkMode ? 'brightness(0) invert(1)' : 'none')};
+  transition: transform 0.3s ease;
 
   &:hover {
     transform: translateY(-5px);
@@ -177,7 +174,7 @@ const TechSlider: React.FC<TechSliderProps> = ({ className, technologies: propTe
               onMouseEnter={() => handleMouseEnter(tech.name)}
               onMouseLeave={handleMouseLeave}
             >
-              <TechIcon src={tech.src} alt={tech.name} $isDarkMode={isDarkMode} />
+              <TechIcon src={tech.src} alt={tech.name} />
               <Tooltip $isVisible={activeTooltip === tech.name} $isDarkMode={isDarkMode}>
                 {tech.name}
               </Tooltip>
@@ -192,7 +189,7 @@ const TechSlider: React.FC<TechSliderProps> = ({ className, technologies: propTe
                 onMouseEnter={() => handleMouseEnter(`dup-${tech.name}`)}
                 onMouseLeave={handleMouseLeave}
               >
-                <TechIcon src={tech.src} alt={tech.name} $isDarkMode={isDarkMode} />
+                <TechIcon src={tech.src} alt={tech.name} />
                 <Tooltip $isVisible={activeTooltip === `dup-${tech.name}`} $isDarkMode={isDarkMode}>
                   {tech.name}
                 </Tooltip>

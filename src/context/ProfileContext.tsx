@@ -45,7 +45,7 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({ children }) =>
       alexis: 'Alexis Vedia - Desarrollador Full Stack | Portfolio Profesional',
       matias: 'Matias Amuchástegui - Staff Engineer | Portfolio Profesional',
     };
-    document.title = titles[profileId] || titles.alexis;
+    document.title = titles[profileId] || titles.matias;
   }, [profileId]);
 
   const switchProfile = (newProfileId: ProfileId) => {

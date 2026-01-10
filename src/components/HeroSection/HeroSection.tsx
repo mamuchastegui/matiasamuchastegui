@@ -84,7 +84,7 @@ const Name = styled.h1`
   font-weight: ${({ theme }) => theme.fontWeights.medium};
   color: ${({ theme }) => theme.colors.text};
   margin: 0 0 1.5rem 0;
-  line-height: 1.1;
+  line-height: 1.2;
   letter-spacing: -0.025em;
   position: relative;
   z-index: 2;
@@ -92,6 +92,7 @@ const Name = styled.h1`
   .line {
     display: block;
     overflow: hidden;
+    padding-bottom: 0.1em;
   }
 
   @media (max-width: 768px) {

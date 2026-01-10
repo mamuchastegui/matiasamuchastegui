@@ -55,12 +55,12 @@ const resources = {
       contact: 'Contact',
 
       contactText:
-        'Want to work together? Have a project in mind? Feel free to contact me at alexisleonelvedia@gmail.com or using the form!',
+        "Need to scale your backend? Integrate AI into your product? Someone who understands and executes fast? Tell me what you need. If I can help, I'll tell you how. If not, I'll recommend someone who can. Email me at matias@condamind.com or use the form.",
       name: 'Name',
       email: 'Email',
       message: 'Message',
       subject: 'Subject',
-      send: 'Send Message',
+      send: "Let's talk",
       sending: 'Sending...',
       messageSent: 'Message sent successfully! I will get back to you soon.',
       messageError: 'There was an error sending your message. Please try again.',
@@ -186,7 +186,7 @@ const resources = {
           period: '2026 – Present',
           location: 'Córdoba, Argentina',
           description:
-            'Building innovative products and helping businesses scale. From AI-powered assistants to community platforms and e-commerce solutions.',
+            'After 10 years at companies, I decided to apply all that knowledge to my own projects and for clients who want to move fast. Projects: Condamind (WhatsApp AI assistant, 15+ buildings), Micelaria (subscription e-commerce), Senda (personal productivity), Córdoba Rollea (500+ freeskaters).',
         },
         fusionads: {
           company: 'FusionAds',
@@ -194,7 +194,7 @@ const resources = {
           period: '2024 – 2025',
           location: 'Remote, United States',
           description:
-            'Designed orchestration engine in TypeScript/Node.js for multi-channel ad campaigns. Implemented fan-out/fan-in workflows with AI integration. Deployed observability stack and mentored distributed team of 4 developers.',
+            'Led architecture for multi-channel ads platform. Designed orchestration engine that reduced campaign deploy time from 2 days to <1 hour. Workflow engine processing 100k+ events/day. Mentored distributed team of 4 devs. Result: 10x product velocity.',
         },
         pomelo: {
           company: 'Pomelo',
@@ -202,7 +202,7 @@ const resources = {
           period: '2022 – 2023',
           location: 'Buenos Aires, Argentina',
           description:
-            'Developed clearing processes & microservices using Hexagonal Architecture, DDD & Event Sourcing. Built AWS services in Go processing millions of daily events.',
+            'Fintech processing millions in transactions. Built clearing and settlement services with Hexagonal Architecture + Event Sourcing. Microservices in Go processing 500k+ daily events. Result: 0 production downtime, 100% compliance.',
         },
         mercadolibre: {
           company: 'MercadoLibre',
@@ -210,7 +210,7 @@ const resources = {
           period: '2018 – 2021',
           location: 'Buenos Aires, Argentina',
           description:
-            'Developed scalable backend services for post-purchase features serving 200M+ users across LATAM with P95 < 150ms. Led technical analysis and cross-functional collaboration.',
+            'Post-purchase notification system for +200M users across LATAM. Java microservices with P99 < 100ms. 50+ releases/week. Result: 2M+ notifications/day, 99.9% uptime.',
         },
         ayi: {
           company: 'Ayi & Asociados',
@@ -299,24 +299,24 @@ const resources = {
 
         services: {
           backend: {
-            title: 'Backend Development',
+            title: 'Backend that holds up',
             description:
-              'Scalable microservices, RESTful APIs, and high-performance systems. Expert in Node.js, Go, and Python.',
+              'APIs, microservices, complex integrations. With Node.js, Go, or Python. If your app crashes when it grows, or you want to prevent that, I can help.',
           },
           infrastructure: {
-            title: 'Cloud Infrastructure',
+            title: "Infrastructure that won't break you",
             description:
-              'AWS, GCP, Docker, Kubernetes. Building resilient, cost-effective cloud architectures.',
+              "AWS, GCP, Docker, Kubernetes. Automated deployments, monitoring, and costs under control. I've worked on systems with thousands of deploys per day.",
           },
           ai: {
-            title: 'AI Integration',
+            title: 'AI that adds real value',
             description:
-              'LLMs, OpenAI, LangChain, RAG. Building intelligent systems that enhance business operations.',
+              'LLMs, OpenAI, intelligent automation. No hype, just concrete use cases. Condamind processes thousands of WhatsApp conversations with AI.',
           },
           fullstack: {
-            title: 'Full-Stack Development',
+            title: 'The full stack when you need it',
             description:
-              'End-to-end application development with React, TypeScript, and modern backend technologies.',
+              'React, TypeScript, Next.js. Backend + frontend when you need someone to close the complete loop. One person responsible, less coordination.',
           },
         },
 
@@ -337,7 +337,7 @@ const resources = {
             period: '2026 – Present',
             location: 'Córdoba, Argentina',
             description:
-              'Building innovative products and helping businesses scale. From AI-powered assistants to community platforms and e-commerce solutions.',
+              'After 10 years at companies, I decided to apply all that knowledge to my own projects and for clients who want to move fast. Projects: Condamind (WhatsApp AI assistant, 15+ buildings), Micelaria (subscription e-commerce), Senda (personal productivity), Córdoba Rollea (500+ freeskaters).',
           },
           fusionads: {
             company: 'FusionAds',
@@ -345,7 +345,7 @@ const resources = {
             period: '2024 – 2025',
             location: 'Remote, United States',
             description:
-              'Designed orchestration engine in TypeScript/Node.js for multi-channel ad campaigns. Implemented fan-out/fan-in workflows with AI integration. Deployed observability stack and mentored distributed team of 4 developers.',
+              'Led architecture for multi-channel ads platform. Designed orchestration engine that reduced campaign deploy time from 2 days to <1 hour. Workflow engine processing 100k+ events/day. Mentored distributed team of 4 devs. Result: 10x product velocity.',
           },
           pomelo: {
             company: 'Pomelo',
@@ -353,7 +353,7 @@ const resources = {
             period: '2022 – 2023',
             location: 'Buenos Aires, Argentina',
             description:
-              'Developed clearing processes & microservices using Hexagonal Architecture, DDD & Event Sourcing. Built AWS services in Go processing millions of daily events.',
+              'Fintech processing millions in transactions. Built clearing and settlement services with Hexagonal Architecture + Event Sourcing. Microservices in Go processing 500k+ daily events. Result: 0 production downtime, 100% compliance.',
           },
           mercadolibre: {
             company: 'MercadoLibre',
@@ -361,7 +361,7 @@ const resources = {
             period: '2018 – 2021',
             location: 'Buenos Aires, Argentina',
             description:
-              'Developed scalable backend services for post-purchase features serving 200M+ users across LATAM with P95 < 150ms. Led technical analysis and cross-functional collaboration.',
+              'Post-purchase notification system for +200M users across LATAM. Java microservices with P99 < 100ms. 50+ releases/week. Result: 2M+ notifications/day, 99.9% uptime.',
           },
           ayi: {
             company: 'Ayi & Asociados',
@@ -466,12 +466,12 @@ const resources = {
       contact: 'Contacto',
 
       contactText:
-        '¿Quieres trabajar juntos? ¿Tienes un proyecto en mente? ¡No dudes en contactarme a alexisleonelvedia@gmail.com o usando el formulario!',
+        '¿Necesitás escalar tu backend? ¿Integrar IA en tu producto? ¿Alguien que entienda y ejecute rápido? Contame qué necesitás. Si puedo ayudar, te digo cómo. Si no, te recomiendo a alguien que sí pueda. Escribime a matias@condamind.com o usá el form.',
       name: 'Nombre',
       email: 'Correo electrónico',
       message: 'Mensaje',
       subject: 'Asunto',
-      send: 'Enviar Mensaje',
+      send: 'Hablemos',
       sending: 'Enviando...',
       messageSent: '¡Mensaje enviado con éxito! Te responderé pronto.',
       messageError: 'Hubo un error al enviar tu mensaje. Por favor, intenta de nuevo.',
@@ -599,7 +599,7 @@ const resources = {
           period: '2026 – Presente',
           location: 'Córdoba, Argentina',
           description:
-            'Construyendo productos innovadores y ayudando a negocios a escalar. Desde asistentes con IA hasta plataformas comunitarias y soluciones e-commerce.',
+            'Después de 10 años en empresas, decidí aplicar todo ese conocimiento en proyectos propios y para clientes que quieren moverse rápido. Proyectos: Condamind (asistente IA para WhatsApp, 15+ consorcios), Micelaria (e-commerce con suscripciones), Senda (productividad personal), Córdoba Rollea (500+ freeskaters).',
         },
         fusionads: {
           company: 'FusionAds',
@@ -705,31 +705,31 @@ const resources = {
         heroTitle: 'Desarrollador Backend & Arquitecto de Infraestructura',
         heroSubtitle1: 'Desarrollador Backend',
         heroSubtitle2: 'Arquitecto de Infraestructura',
-        heroDescription1: 'Construyendo sistemas escalables para empresas globales,',
-        heroDescription2: 'integrando IA en flujos de producción,',
-        heroDescription3: 'y convirtiendo problemas complejos',
-        heroDescription4: 'en soluciones elegantes',
+        heroDescription1: 'Después de 10 años construyendo para empresas grandes,',
+        heroDescription2: 'descubrí que las mejores soluciones no necesitan equipos de 30 personas.',
+        heroDescription3: 'Te ayudo a escalar tu negocio con la misma calidad enterprise,',
+        heroDescription4: 'pero con la velocidad y costo de un freelance senior.',
 
         services: {
           backend: {
-            title: 'Desarrollo Backend',
+            title: 'Backend que aguanta',
             description:
-              'Microservicios escalables, APIs RESTful y sistemas de alto rendimiento. Experto en Node.js, Go y Python.',
+              'APIs, microservicios, integraciones complejas. Con Node.js, Go o Python. Si tu app se cae cuando crece, o querés evitar que pase, puedo ayudar.',
           },
           infrastructure: {
-            title: 'Infraestructura Cloud',
+            title: 'Infraestructura que no te arruina',
             description:
-              'AWS, GCP, Docker, Kubernetes. Construyendo arquitecturas cloud resilientes y costo-efectivas.',
+              'AWS, GCP, Docker, Kubernetes. Deployments automatizados, monitoreo, y costos bajo control. Trabajé en sistemas con miles de deploys por día.',
           },
           ai: {
-            title: 'Integración de IA',
+            title: 'IA que suma valor real',
             description:
-              'LLMs, OpenAI, LangChain, RAG. Construyendo sistemas inteligentes que mejoran las operaciones empresariales.',
+              'LLMs, OpenAI, automatización inteligente. Sin hype, con casos de uso concretos. Condamind procesa miles de conversaciones en WhatsApp con IA.',
           },
           fullstack: {
-            title: 'Desarrollo Full-Stack',
+            title: 'El stack completo si lo necesitás',
             description:
-              'Desarrollo de aplicaciones end-to-end con React, TypeScript y tecnologías backend modernas.',
+              'React, TypeScript, Next.js. Backend + frontend cuando necesitás que alguien cierre el círculo completo. Un solo responsable, menos coordinación.',
           },
         },
 
@@ -750,7 +750,7 @@ const resources = {
             period: '2026 – Presente',
             location: 'Córdoba, Argentina',
             description:
-              'Construyendo productos innovadores y ayudando a negocios a escalar. Desde asistentes con IA hasta plataformas comunitarias y soluciones e-commerce.',
+              'Después de 10 años en empresas, decidí aplicar todo ese conocimiento en proyectos propios y para clientes que quieren moverse rápido. Proyectos: Condamind (asistente IA para WhatsApp, 15+ consorcios), Micelaria (e-commerce con suscripciones), Senda (productividad personal), Córdoba Rollea (500+ freeskaters).',
           },
           fusionads: {
             company: 'FusionAds',

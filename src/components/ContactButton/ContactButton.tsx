@@ -121,8 +121,8 @@ const ContactButton: React.FC<ContactButtonProps> = ({
   const { i18n } = useTranslation();
   const isDark = themeMode === 'dark';
   const isEn = (i18n?.language || 'es').toLowerCase().startsWith('en');
-  const labelText = isEn ? 'Start project' : 'Iniciar proyecto';
-  const ariaText = isEn ? 'Start project' : 'Iniciar proyecto';
+  const labelText = isEn ? "Let's talk about your project" : 'Hablemos de tu proyecto';
+  const ariaText = isEn ? "Let's talk about your project" : 'Hablemos de tu proyecto';
 
   const handleClick = () => {
     if (onClick) {

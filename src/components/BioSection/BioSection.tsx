@@ -188,35 +188,45 @@ const BioSection: React.FC = () => {
   // Profile-specific intro text
   const intro = isMatias
     ? isEs
-      ? 'Diseño y construyo sistemas backend escalables y de alto rendimiento. Especializado en microservicios, arquitecturas distribuidas e integraciones de IA que procesan millones de transacciones diarias.'
-      : 'I design and build scalable, high-performance backend systems. Specialized in microservices, distributed architectures, and AI integrations that process millions of daily transactions.'
+      ? 'Trabajé 10 años en MercadoLibre, Pomelo y startups de US. Ahora aplico esa experiencia para ayudarte a escalar sin los costos de un equipo enterprise.'
+      : 'After 10 years at MercadoLibre, Pomelo, and US startups, I now apply that experience to help you scale without enterprise-level costs.'
     : isEs
       ? 'Impulso a emprendedores, agencias y startups ideando soluciones innovadoras y llevándolas a la realidad con diseño UX/UI de alto nivel, desarrollo en código y herramientas de IA que optimizan procesos y maximizan resultados.'
       : 'I empower entrepreneurs, agencies, and startups by ideating innovative solutions and bringing them to life with high‑level UX/UI design, production‑ready code, and AI tools that streamline processes and maximize results.';
 
   // Profile-specific block 1
   const block1Title = isMatias
-    ? isEs ? 'Arquitectura a escala' : 'Architecture at Scale'
+    ? isEs ? 'Entiendo antes de codear' : 'I understand before I code'
     : isEs ? 'De principio a fin' : 'End‑to‑End';
   const block1Text = isMatias
     ? isEs
-      ? 'Desde diseño de APIs REST/gRPC hasta implementación de microservicios con Go, Node.js y Python. Aplico patrones como DDD, Event Sourcing y CQRS para sistemas que requieren alta disponibilidad y consistencia eventual. Infraestructura en AWS/GCP con Docker y Kubernetes.'
-      : 'From REST/gRPC API design to microservices implementation with Go, Node.js, and Python. I apply patterns like DDD, Event Sourcing, and CQRS for systems requiring high availability and eventual consistency. Infrastructure on AWS/GCP with Docker and Kubernetes.'
+      ? 'Trabajé en sistemas que procesan millones de transacciones diarias. Aprendí que la arquitectura correcta sale de entender el negocio, no de tirar tecnología porque sí.'
+      : "I've worked on systems processing millions of daily transactions. I learned that the right architecture comes from understanding the business, not throwing technology at it."
     : isEs
       ? 'Desde investigación UX y prototipos de alta fidelidad en Figma, hasta una impecable implementación completa. ¿No es suficiente? Elevo el nivel de tu producto con AI: búsquedas vectoriales semánticas, diseño de agentes autónomos, flujos en n8n, RAG, etc. Pruebo nuevas herramientas a diario y comparto mis hallazgos en redes. Tu proyecto siempre se beneficia de lo más avanzado.'
       : 'From UX research and high‑fidelity Figma prototypes to a polished end‑to‑end implementation. Need more? I supercharge your product with AI: semantic vector search, autonomous agent design, n8n workflows, RAG, and more. I test new tools daily and share findings — your project always benefits from the cutting edge.';
 
   // Profile-specific block 2
   const block2Title = isMatias
-    ? isEs ? 'Liderazgo técnico' : 'Technical Leadership'
+    ? isEs ? 'Ejecuto con velocidad' : 'I execute fast'
     : isEs ? 'Solo o en equipo' : 'Solo or Team Player';
   const block2Text = isMatias
     ? isEs
-      ? 'Como Staff Engineer, lidero decisiones arquitectónicas y mentoreo equipos. Facilito la comunicación entre áreas técnicas y de negocio, asegurando que las soluciones no solo funcionen, sino que escalen y sean mantenibles a largo plazo.'
-      : 'As a Staff Engineer, I lead architectural decisions and mentor teams. I facilitate communication between technical and business areas, ensuring solutions not only work but scale and remain maintainable long-term.'
+      ? 'Más de 10 años de experiencia significan que vi los problemas antes. No pierdo tiempo reinventando la rueda. Propongo, validamos juntos, ejecuto.'
+      : "10 years of experience means I've seen the problems before. I don't waste time reinventing the wheel. I propose, we validate together, I execute."
     : isEs
       ? 'Trabajo de forma autónoma o integrado a tu equipo, adaptándome a las necesidades del proyecto para entregar resultados sobresalientes, ya sea como fuerza individual o en colaboración multidisciplinaria.'
       : 'I work autonomously or embedded in your team, adapting to project needs to deliver outstanding outcomes — either as an individual contributor or within a multidisciplinary collaboration.';
+
+  // Profile-specific block 3 (only for Matias)
+  const block3Title = isMatias
+    ? isEs ? 'ROI que se ve' : 'ROI you can see'
+    : '';
+  const block3Text = isMatias
+    ? isEs
+      ? 'No te vendo over-engineering. Si tu startup necesita algo simple, hacemos algo simple bien hecho. Si necesitás escalar a millones de usuarios, también sé cómo llegar ahí sin fundirte.'
+      : "I don't sell over-engineering. If your startup needs something simple, we build something simple done right. If you need to scale to millions of users, I know how to get there without burning through your budget."
+    : '';
 
   return (
     <SectionContainer id="about">
@@ -234,6 +244,12 @@ const BioSection: React.FC = () => {
               <BlockTitle>{block2Title}</BlockTitle>
               <BioText>{block2Text}</BioText>
             </BlockCard>
+            {isMatias && block3Title && (
+              <BlockCard>
+                <BlockTitle>{block3Title}</BlockTitle>
+                <BioText>{block3Text}</BioText>
+              </BlockCard>
+            )}
           </TextContainer>
 
           {/* X Invite module between bio blocks and tech slider */}

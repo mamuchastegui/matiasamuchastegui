@@ -5,7 +5,6 @@ import {
   Outlet,
   useLocation,
   useOutletContext,
-  Navigate,
 } from 'react-router-dom';
 import { useState, useEffect, useLayoutEffect } from 'react';
 import { Provider } from 'react-redux';
@@ -436,11 +435,51 @@ function App() {
     }
   }, []);
 
+  const profileRouteChildren = [
+    {
+      index: true,
+      element: <HomeWrapper />,
+    },
+    {
+      path: 'xcons',
+      element: <XConsExperiencePage />,
+    },
+    {
+      path: 'bandit',
+      element: <XCons2ExperiencePage />,
+    },
+    {
+      path: 'fusionads',
+      element: <FusionAdsWrapper />,
+    },
+    {
+      path: 'otros',
+      element: <OtrosWrapper />,
+    },
+    {
+      path: 'pomelo',
+      element: <PomeloWrapper />,
+    },
+    {
+      path: 'mercadolibre',
+      element: <MercadoLibreWrapper />,
+    },
+    {
+      path: ':projectId',
+      element: <ProjectPage />,
+    },
+  ];
+
   const router = createBrowserRouter(
     [
       {
         path: '/',
-        element: <Navigate to="/matias" replace />,
+        element: (
+          <ProfileProvider>
+            <AppContent />
+          </ProfileProvider>
+        ),
+        children: profileRouteChildren,
       },
       {
         path: '/:profileId',
@@ -449,40 +488,7 @@ function App() {
             <AppContent />
           </ProfileProvider>
         ),
-        children: [
-          {
-            index: true,
-            element: <HomeWrapper />,
-          },
-          {
-            path: 'xcons',
-            element: <XConsExperiencePage />,
-          },
-          {
-            path: 'bandit',
-            element: <XCons2ExperiencePage />,
-          },
-          {
-            path: 'fusionads',
-            element: <FusionAdsWrapper />,
-          },
-          {
-            path: 'otros',
-            element: <OtrosWrapper />,
-          },
-          {
-            path: 'pomelo',
-            element: <PomeloWrapper />,
-          },
-          {
-            path: 'mercadolibre',
-            element: <MercadoLibreWrapper />,
-          },
-          {
-            path: ':projectId',
-            element: <ProjectPage />,
-          },
-        ],
+        children: profileRouteChildren,
       },
     ],
     {

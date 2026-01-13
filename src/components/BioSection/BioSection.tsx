@@ -188,8 +188,9 @@ const BioSection: React.FC = () => {
   // Profile-specific intro text
   const intro = isMatias
     ? isEs
-      ? 'Trabajé 10 años en MercadoLibre, Pomelo y startups de US. Ahora aplico esa experiencia para ayudarte a escalar sin los costos de un equipo enterprise.'
-      : 'After 10 years at MercadoLibre, Pomelo, and US startups, I now apply that experience to help you scale without enterprise-level costs.'
+      // Hoy uso esa experiencia para ayudarte a escalar sin los costos de un equipo enterprise.
+      ? 'Trabajé 10 años en empresas como MercadoLibre, Pomelo y startups de EE.UU. Hoy uso esa experiencia para ayudarte a escalar sin los costos de un equipo enterprise.'
+      : 'After 10 years working in companies like MercadoLibre, Pomelo, and US startups, I now apply that experience to help you scale without enterprise-level costs.'
     : isEs
       ? 'Impulso a emprendedores, agencias y startups ideando soluciones innovadoras y llevándolas a la realidad con diseño UX/UI de alto nivel, desarrollo en código y herramientas de IA que optimizan procesos y maximizan resultados.'
       : 'I empower entrepreneurs, agencies, and startups by ideating innovative solutions and bringing them to life with high‑level UX/UI design, production‑ready code, and AI tools that streamline processes and maximize results.';

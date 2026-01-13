@@ -3,7 +3,6 @@ import styled, { css } from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../../context/ThemeContext';
 import { useProfile } from '../../context/ProfileContext';
-import emailjs from '@emailjs/browser';
 import confetti from 'canvas-confetti';
 import Tooltip from '../Tooltip';
 
@@ -364,27 +363,25 @@ const ContactSection = forwardRef<HTMLDivElement, ContactSectionProps>(({ id }, 
     try {
       setIsLoading(true);
 
-  
-      const serviceId = 'service_srdurzn';
-      const templateId = 'template_efoo7fz';
-      const publicKey = 'CoI3CL1-8DQHvdStw';
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          title: formData.title,
+          message: formData.message,
+        }),
+      });
 
-  
-      const templateParams = {
-        name: formData.name,
-        email: formData.email,
-        message: formData.message,
-        title: formData.title,
-        time: new Date().toLocaleString(),
-      };
+      if (!response.ok) {
+        throw new Error('Failed to send email');
+      }
 
-  
-      await emailjs.send(serviceId, templateId, templateParams, publicKey);
-
-      // Mensaje enviado exitosamente
       setIsLoading(false);
       setFormData({ name: '', title: '', email: '', message: '' });
-
 
       confetti({
         particleCount: 150,
@@ -395,7 +392,6 @@ const ContactSection = forwardRef<HTMLDivElement, ContactSectionProps>(({ id }, 
     } catch (error) {
       console.error('FAILED...', error);
       setIsLoading(false);
-      // Error al enviar mensaje
     }
   };
 

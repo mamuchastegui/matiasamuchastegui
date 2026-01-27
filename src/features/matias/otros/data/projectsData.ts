@@ -25,8 +25,8 @@ export const projectsData: Project[] = [
     name: 'Cratos',
     image: cratosImg,
     description: {
-      es: 'Plataforma de fitness con planes de entrenamiento generados por IA, biblioteca de 2000+ ejercicios y sistema de gestión para trainers y gimnasios.',
-      en: 'Fitness platform with AI-generated workout plans, 2000+ exercise library, and management system for trainers and gyms.',
+      es: 'Después de años usando apps de fitness que no encajaban, decidí crear la mía. Hoy Cratos es una plataforma completa con 2000+ ejercicios, planes inteligentes, y un sistema que gimnasios y trainers usan en producción. Parte del ecosistema CondaMind.',
+      en: "After years using fitness apps that didn't fit, I decided to build my own. Today Cratos is a complete platform with 2000+ exercises, smart plans, and a system that gyms and trainers use in production. Part of the CondaMind ecosystem.",
     },
     technologies: ['Astro', 'React', 'TypeScript', 'OpenAI', 'PostgreSQL', 'Drizzle'],
     url: 'https://gym.condamind.com',
@@ -37,8 +37,8 @@ export const projectsData: Project[] = [
     name: 'Condamind',
     image: condamindImg,
     description: {
-      es: 'Ecosistema de automatización para gimnasios: WhatsApp assistant 24/7, panel de administración con pagos integrados, y app de entrenamiento para clientes.',
-      en: 'Automation ecosystem for gyms: 24/7 WhatsApp assistant, admin dashboard with integrated payments, and training app for clients.',
+      es: 'Un asistente de WhatsApp con IA que responde clientes 24/7, agenda turnos y procesa pagos. Construido con la misma arquitectura que usé en MercadoLibre y Pomelo. Ya opera en 15+ negocios con resultados que hablan solos.',
+      en: "An AI WhatsApp assistant that answers clients 24/7, schedules appointments, and processes payments. Built with the same architecture I used at MercadoLibre and Pomelo. Already operating in 15+ businesses with results that speak for themselves.",
     },
     technologies: ['Node.js', 'OpenAI', 'WhatsApp API', 'PostgreSQL', 'MercadoPago'],
     url: 'https://condamind.com/gym',
@@ -49,8 +49,8 @@ export const projectsData: Project[] = [
     name: 'Senda',
     image: sendaImg,
     description: {
-      es: 'Sistema de productividad personal que combina gestión de tareas, hábitos y objetivos con seguimiento inteligente y recordatorios.',
-      en: 'Personal productivity system that combines task, habit, and goal management with intelligent tracking and reminders.',
+      es: 'El sistema de productividad que construí para mis propias necesidades. Gestión de tareas, hábitos y objetivos conectados con recordatorios inteligentes vía WhatsApp. Si funciona para mi día a día exigente, funciona.',
+      en: 'The productivity system I built for my own needs. Task, habit, and goal management connected with smart WhatsApp reminders. If it works for my demanding daily life, it works.',
     },
     technologies: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'Tailwind CSS'],
     status: 'development',

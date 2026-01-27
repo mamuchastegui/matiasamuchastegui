@@ -6,12 +6,12 @@ export const backendDevelopmentExperienceData = {
     period: 'Marzo 2018 - Diciembre 2021',
     tasksTitle: 'Tareas',
     tasks: [
-      'Desarrollo de features de post-compra para más de 200 millones de usuarios',
+      'Desarrollo de features de post-compra para más de 100 millones de usuarios',
       'Diseño e implementación de microservicios con latencia P95 < 150ms',
       'Integración con sistemas de pagos, envíos y atención al cliente',
       'Optimización de queries y caching para manejar alto tráfico',
       'Participación en definición de arquitectura y decisiones técnicas',
-      'Colaboración cross-funcional con equipos de producto, UX y data',
+      'Colaboración cross-funcional con equipos de producto, ingeniería y UX',
       'Implementación de A/B tests y feature flags para rollouts graduales',
       'Monitoreo y alerting de métricas de negocio y técnicas',
     ],
@@ -30,11 +30,10 @@ export const backendDevelopmentExperienceData = {
     ],
     resultsTitle: 'Resultados',
     results: [
-      'Features de post-compra impactando a más de 200 millones de usuarios en LATAM',
+      'Features de post-compra impactando a más de 100 millones de usuarios en LATAM',
       'Mantenimiento de latencia P95 < 150ms en endpoints críticos',
       'Reducción del 30% en tickets de soporte mediante mejoras en UX de post-compra',
       'Implementación exitosa de features con rollouts graduales sin incidentes',
-      'Contribución a la cultura de excelencia técnica del equipo',
     ],
   },
   en: {
@@ -44,7 +43,7 @@ export const backendDevelopmentExperienceData = {
     period: 'March 2018 - December 2021',
     tasksTitle: 'Tasks',
     tasks: [
-      'Development of post-purchase features for 200+ million users',
+      'Development of post-purchase features for 100+ million users',
       'Design and implementation of microservices with P95 latency < 150ms',
       'Integration with payment, shipping, and customer service systems',
       'Query optimization and caching for high traffic handling',
@@ -68,11 +67,10 @@ export const backendDevelopmentExperienceData = {
     ],
     resultsTitle: 'Results',
     results: [
-      'Post-purchase features impacting 200+ million users in LATAM',
+      'Post-purchase features impacting 100+ million users in LATAM',
       'Maintenance of P95 latency < 150ms on critical endpoints',
       '30% reduction in support tickets through post-purchase UX improvements',
       'Successful feature implementation with gradual rollouts without incidents',
-      'Contribution to the team technical excellence culture',
     ],
   },
 };

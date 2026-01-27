@@ -51,7 +51,7 @@ Matias está disponible para:
 - **Stack principal:** Go, AWS (Lambda, SQS, DynamoDB), Kubernetes, Terraform
 
 ### MercadoLibre (2018 - 2021) - Backend Developer
-- Features de post-compra para 200M+ usuarios en LATAM
+- Features de post-compra para 100M+ usuarios en LATAM
 - Sistemas de alta disponibilidad con P95 < 150ms de latencia
 - Arquitectura de microservicios a escala continental
 - **Stack principal:** Java, Go, MySQL, Redis, Kafka
@@ -158,7 +158,7 @@ Matias is available for:
 - **Main Stack:** Go, AWS (Lambda, SQS, DynamoDB), Kubernetes, Terraform
 
 ### MercadoLibre (2018 - 2021) - Backend Developer
-- Post-purchase features for 200M+ users in LATAM
+- Post-purchase features for 100M+ users in LATAM
 - High availability systems with P95 < 150ms latency
 - Continental-scale microservices architecture
 - **Main Stack:** Java, Go, MySQL, Redis, Kafka

@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import PageTransition from '@components/PageTransition/PageTransition';
 
 // Import company logo
-import mercadolibreLogo from '../../../assets/images/companies/mercadolibre.svg';
+import mercadolibreLogo from '../../../assets/images/companies/meli_logo.png';
 
 // Import shared components
 import { FrontendDevelopmentExperience } from '../../fusionads/components/FrontendDevelopmentExperience';
@@ -25,7 +25,7 @@ const PageContainer = styled.div`
 const Banner = styled.div`
   position: relative;
   width: 100%;
-  background: linear-gradient(135deg, #FFE600 0%, #FFC107 100%);
+  background: #ffd100;
   display: flex;
   align-items: center;
   padding: 20px;
@@ -173,12 +173,12 @@ const MercadoLibrePage: React.FC = () => {
 
   const bannerSectionTexts = {
     description: {
-      es: 'MercadoLibre es el ecosistema de comercio electrónico y fintech más grande de Latinoamérica, con presencia en 18 países y más de 200 millones de usuarios activos.',
-      en: 'MercadoLibre is the largest e-commerce and fintech ecosystem in Latin America, with presence in 18 countries and over 200 million active users.',
+      es: 'MercadoLibre es el ecosistema de comercio electrónico y fintech más grande de Latinoamérica, con presencia en 18 países y más de 100 millones de usuarios activos.',
+      en: 'MercadoLibre is the largest e-commerce and fintech ecosystem in Latin America, with presence in 18 countries and over 100 million active users.',
     },
     location: {
-      es: 'Buenos Aires, Argentina',
-      en: 'Buenos Aires, Argentina',
+      es: 'Córdoba, Argentina',
+      en: 'Córdoba, Argentina',
     },
     visitSiteButton: {
       es: 'Visitar sitio',
@@ -192,12 +192,12 @@ const MercadoLibrePage: React.FC = () => {
       en: 'Role Summary',
     },
     description: {
-      es: `Como Backend Developer en MercadoLibre, trabajé en el equipo de Post-Compra, desarrollando features que impactan directamente a más de 200 millones de usuarios en toda Latinoamérica.
+      es: `Como Backend Developer en MercadoLibre, trabajé en el equipo de Post-Compra, desarrollando features que impactan directamente a más de 100 millones de usuarios en toda Latinoamérica.
 
 Mi trabajo se centró en el desarrollo de microservicios de alta disponibilidad y baja latencia, integrando sistemas de pagos, envíos y atención al cliente. Mantuve endpoints críticos con latencia P95 menor a 150ms.
 
-Colaboré de forma cross-funcional con equipos de producto, UX y data para definir y priorizar features, implementando A/B tests y rollouts graduales para minimizar riesgos.`,
-      en: `As a Backend Developer at MercadoLibre, I worked on the Post-Purchase team, developing features that directly impact over 200 million users across Latin America.
+Colaboré de forma cross-funcional con equipos de producto, ingeniería y UX para definir y priorizar features, implementando A/B tests y rollouts graduales para minimizar riesgos.`,
+      en: `As a Backend Developer at MercadoLibre, I worked on the Post-Purchase team, developing features that directly impact over 100 million users across Latin America.
 
 My work focused on developing high-availability, low-latency microservices, integrating payment, shipping, and customer service systems. I maintained critical endpoints with P95 latency under 150ms.
 

@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import PageTransition from '@components/PageTransition/PageTransition';
 
 // Import company logo
-import pomeloLogo from '../../../assets/images/companies/pomelo.svg';
+import pomeloLogo from '../../../assets/images/companies/pomelo_logo.jpg';
 
 // Import shared components
 import { FrontendDevelopmentExperience } from '../../fusionads/components/FrontendDevelopmentExperience';
@@ -25,7 +25,7 @@ const PageContainer = styled.div`
 const Banner = styled.div`
   position: relative;
   width: 100%;
-  background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
+  background: #181818;
   display: flex;
   align-items: center;
   padding: 20px;
@@ -68,7 +68,6 @@ const LeftContent = styled.div`
 const LogoImage = styled.img`
   max-width: 180px;
   margin-bottom: 15px;
-  filter: brightness(0) invert(1);
 `;
 
 const BannerText = styled.p`

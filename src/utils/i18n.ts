@@ -186,7 +186,7 @@ const resources = {
           period: '2026 – Present',
           location: 'Córdoba, Argentina',
           description:
-            'After 10 years at companies, I decided to apply all that knowledge to my own projects and for clients who want to move fast. Projects: Condamind (WhatsApp AI assistant, 15+ buildings), Micelaria (subscription e-commerce), Senda (personal productivity), Córdoba Rollea (500+ freeskaters).',
+            'After 10 years building systems for companies like MercadoLibre, Pomelo, and US startups, I channeled that experience into my own products. Condamind (AI for WhatsApp, 15+ businesses), Cratos (fitness for gyms), Senda (personal productivity). Each solves real problems because I built them for real users - starting with myself.',
         },
         fusionads: {
           company: 'FusionAds',
@@ -208,9 +208,9 @@ const resources = {
           company: 'MercadoLibre',
           role: 'Backend Developer',
           period: '2018 – 2021',
-          location: 'Buenos Aires, Argentina',
+          location: 'Córdoba, Argentina',
           description:
-            'Post-purchase notification system for +200M users across LATAM. Java microservices with P99 < 100ms. 50+ releases/week. Result: 2M+ notifications/day, 99.9% uptime.',
+            'Post-purchase notification system for +100M users across LATAM. Java microservices with P99 < 100ms. 50+ releases/week. Result: 2M+ notifications/day, 99.9% uptime.',
         },
         ayi: {
           company: 'Ayi & Asociados',
@@ -326,7 +326,7 @@ const resources = {
           pomelo:
             'Backend Developer building clearing processes and microservices with Go and AWS.',
           mercadolibre:
-            'Backend Developer serving 200M+ users across LATAM with high-performance services.',
+            'Backend Developer serving 100M+ users across LATAM with high-performance services.',
           otros: 'Personal projects including Condamind, Senda, Micelaria, and Córdoba Rollea.',
         },
 
@@ -337,7 +337,7 @@ const resources = {
             period: '2026 – Present',
             location: 'Córdoba, Argentina',
             description:
-              'After 10 years at companies, I decided to apply all that knowledge to my own projects and for clients who want to move fast. Projects: Condamind (WhatsApp AI assistant, 15+ buildings), Micelaria (subscription e-commerce), Senda (personal productivity), Córdoba Rollea (500+ freeskaters).',
+              'After 10 years building systems for companies like MercadoLibre, Pomelo, and US startups, I channeled that experience into my own products. Condamind (AI for WhatsApp, 15+ businesses), Cratos (fitness for gyms), Senda (personal productivity). Each solves real problems because I built them for real users - starting with myself.',
           },
           fusionads: {
             company: 'FusionAds',
@@ -359,9 +359,9 @@ const resources = {
             company: 'MercadoLibre',
             role: 'Backend Developer',
             period: '2018 – 2021',
-            location: 'Buenos Aires, Argentina',
+            location: 'Córdoba, Argentina',
             description:
-              'Post-purchase notification system for +200M users across LATAM. Java microservices with P99 < 100ms. 50+ releases/week. Result: 2M+ notifications/day, 99.9% uptime.',
+              'Post-purchase notification system for +100M users across LATAM. Java microservices with P99 < 100ms. 50+ releases/week. Result: 2M+ notifications/day, 99.9% uptime.',
           },
           ayi: {
             company: 'Ayi & Asociados',
@@ -393,12 +393,17 @@ const resources = {
           condamind: {
             title: 'Condamind',
             description:
-              'AI-powered WhatsApp assistant built with advanced language models for business automation.',
+              "The ecosystem's brain: AI WhatsApp assistant, admin panel, and the connection between all products. Enterprise architecture, immediate results.",
           },
           senda: {
             title: 'Senda',
             description:
-              'Comprehensive personal productivity system with task management and automation workflows.',
+              'My personal productivity system turned product. Tasks, habits, goals - all synced with smart reminders.',
+          },
+          cratos: {
+            title: 'Cratos',
+            description:
+              'Fitness platform born from personal need. 2000+ exercises, smart plans, and the trust of real gyms.',
           },
           micelaria: {
             title: 'Micelaria',
@@ -599,7 +604,7 @@ const resources = {
           period: '2026 – Presente',
           location: 'Córdoba, Argentina',
           description:
-            'Después de 10 años en empresas, decidí aplicar todo ese conocimiento en proyectos propios y para clientes que quieren moverse rápido. Proyectos: Condamind (asistente IA para WhatsApp, 15+ consorcios), Micelaria (e-commerce con suscripciones), Senda (productividad personal), Córdoba Rollea (500+ freeskaters).',
+            'Después de 10 años construyendo sistemas para empresas como MercadoLibre, Pomelo y startups de EE.UU., canalicé esa experiencia en productos propios. Condamind (IA para WhatsApp, 15+ negocios), Cratos (fitness para gimnasios), Senda (productividad personal). Cada uno resuelve problemas reales porque los construí para usuarios reales - empezando por mí.',
         },
         fusionads: {
           company: 'FusionAds',
@@ -621,9 +626,9 @@ const resources = {
           company: 'MercadoLibre',
           role: 'Backend Developer',
           period: '2018 – 2021',
-          location: 'Buenos Aires, Argentina',
+          location: 'Córdoba, Argentina',
           description:
-            'Desarrollé servicios backend escalables para features post-compra sirviendo +200M usuarios en LATAM con P95 < 150ms. Lideré análisis técnico y colaboración cross-funcional.',
+            'Desarrollé servicios backend escalables para features post-compra sirviendo +100M usuarios en LATAM con P95 < 150ms. Lideré análisis técnico y colaboración cross-funcional.',
         },
         ayi: {
           company: 'Ayi & Asociados',
@@ -739,7 +744,7 @@ const resources = {
           pomelo:
             'Backend Developer construyendo procesos de clearing y microservicios con Go y AWS.',
           mercadolibre:
-            'Backend Developer sirviendo a +200M usuarios en LATAM con servicios de alto rendimiento.',
+            'Backend Developer sirviendo a +100M usuarios en LATAM con servicios de alto rendimiento.',
           otros: 'Proyectos personales incluyendo Condamind, Senda, Micelaria y Córdoba Rollea.',
         },
 
@@ -750,7 +755,7 @@ const resources = {
             period: '2026 – Presente',
             location: 'Córdoba, Argentina',
             description:
-              'Después de 10 años en empresas, decidí aplicar todo ese conocimiento en proyectos propios y para clientes que quieren moverse rápido. Proyectos: Condamind (asistente IA para WhatsApp, 15+ consorcios), Micelaria (e-commerce con suscripciones), Senda (productividad personal), Córdoba Rollea (500+ freeskaters).',
+              'Después de 10 años construyendo sistemas para empresas como MercadoLibre, Pomelo y startups de EE.UU., canalicé esa experiencia en productos propios. Condamind (IA para WhatsApp, 15+ negocios), Cratos (fitness para gimnasios), Senda (productividad personal). Cada uno resuelve problemas reales porque los construí para usuarios reales - empezando por mí.',
           },
           fusionads: {
             company: 'FusionAds',
@@ -772,9 +777,9 @@ const resources = {
             company: 'MercadoLibre',
             role: 'Backend Developer',
             period: '2018 – 2021',
-            location: 'Buenos Aires, Argentina',
+            location: 'Córdoba, Argentina',
             description:
-              'Desarrollé servicios backend escalables para features post-compra sirviendo +200M usuarios en LATAM con P95 < 150ms. Lideré análisis técnico y colaboración cross-funcional.',
+              'Desarrollé servicios backend escalables para features post-compra sirviendo +100M usuarios en LATAM con P95 < 150ms. Lideré análisis técnico y colaboración cross-funcional.',
           },
           ayi: {
             company: 'Ayi & Asociados',
@@ -806,12 +811,17 @@ const resources = {
           condamind: {
             title: 'Condamind',
             description:
-              'Asistente de WhatsApp potenciado por IA con modelos de lenguaje avanzados para automatización empresarial.',
+              'El cerebro del ecosistema: asistente IA en WhatsApp, panel de administración, y la conexión entre todos los productos. Arquitectura enterprise, resultados inmediatos.',
           },
           senda: {
             title: 'Senda',
             description:
-              'Sistema integral de productividad personal con gestión de tareas y flujos de automatización.',
+              'Mi sistema de productividad personal convertido en producto. Tareas, hábitos, objetivos - todo sincronizado con recordatorios inteligentes.',
+          },
+          cratos: {
+            title: 'Cratos',
+            description:
+              'Plataforma de fitness nacida de necesidad propia. 2000+ ejercicios, planes inteligentes, y la confianza de gimnasios reales.',
           },
           micelaria: {
             title: 'Micelaria',

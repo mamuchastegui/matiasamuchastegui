@@ -192,12 +192,12 @@ const MercadoLibrePage: React.FC = () => {
       en: 'Role Summary',
     },
     description: {
-      es: `Como Backend Developer en MercadoLibre, trabajé en el equipo de Post-Compra, desarrollando features que impactan directamente a más de 100 millones de usuarios en toda Latinoamérica.
+      es: `En MercadoLibre trabajé como Backend Developer en el equipo de Post-Compra, construyendo y operando sistemas distribuidos que soportan millones de transacciones diarias en uno de los ecosistemas de e-commerce más grandes de Latinoamérica.
 
 Mi trabajo se centró en el desarrollo de microservicios de alta disponibilidad y baja latencia, integrando sistemas de pagos, envíos y atención al cliente. Mantuve endpoints críticos con latencia P95 menor a 150ms.
 
 Colaboré de forma cross-funcional con equipos de producto, ingeniería y UX para definir y priorizar features, implementando A/B tests y rollouts graduales para minimizar riesgos.`,
-      en: `As a Backend Developer at MercadoLibre, I worked on the Post-Purchase team, developing features that directly impact over 100 million users across Latin America.
+      en: `At MercadoLibre I worked as a Backend Developer on the Post-Purchase team, building and operating distributed systems that support millions of daily transactions in one of Latin America's largest e-commerce ecosystems.
 
 My work focused on developing high-availability, low-latency microservices, integrating payment, shipping, and customer service systems. I maintained critical endpoints with P95 latency under 150ms.
 

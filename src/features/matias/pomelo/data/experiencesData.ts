@@ -13,7 +13,7 @@ export const backendDevelopmentExperienceData = {
       'Procesamiento de millones de eventos diarios con alta disponibilidad',
       'Diseño de APIs RESTful para integraciones con sistemas externos',
       'Implementación de tests unitarios e integración con alta cobertura',
-      'Participación en on-call rotations y resolución de incidentes en producción',
+      'Participación en guardias rotativas',
     ],
     toolsTitle: 'Herramientas',
     tools: [
@@ -31,10 +31,10 @@ export const backendDevelopmentExperienceData = {
     resultsTitle: 'Resultados',
     results: [
       'Sistema de clearing procesando millones de transacciones diarias con 99.9% uptime',
-      'Reducción del 40% en tiempo de procesamiento de transacciones',
       'Arquitectura escalable soportando crecimiento 5x en volumen de transacciones',
       'Mejora en observabilidad permitiendo detección proactiva de issues',
-      'Documentación técnica completa facilitando onboarding de nuevos miembros',
+      'Participación activa en el desarrollo cross-company de librerías en Golang, mejorando reutilización y estandarización',
+      'Documentación técnica completa',
     ],
   },
   en: {
@@ -51,7 +51,7 @@ export const backendDevelopmentExperienceData = {
       'Processing millions of daily events with high availability',
       'RESTful API design for external system integrations',
       'Implementation of unit and integration tests with high coverage',
-      'Participation in on-call rotations and production incident resolution',
+      'Participation in on-call rotations',
     ],
     toolsTitle: 'Tools',
     tools: [
@@ -69,9 +69,9 @@ export const backendDevelopmentExperienceData = {
     resultsTitle: 'Results',
     results: [
       'Clearing system processing millions of daily transactions with 99.9% uptime',
-      '40% reduction in transaction processing time',
       'Scalable architecture supporting 5x growth in transaction volume',
       'Improved observability enabling proactive issue detection',
+      'Active participation in cross-company Golang library development, improving code reuse and standardization',
       'Comprehensive technical documentation facilitating new member onboarding',
     ],
   },

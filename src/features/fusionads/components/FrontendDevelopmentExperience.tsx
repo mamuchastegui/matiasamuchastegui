@@ -1,5 +1,9 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
+import type { IconType } from 'react-icons';
+import { SiAmazondynamodb, SiAmazonsqs, SiDatadog, SiDocker, SiGithubactions, SiGo, SiKubernetes, SiPostgresql, SiTerraform } from 'react-icons/si';
+import { TbLambda } from 'react-icons/tb';
+import Tooltip from '@components/Tooltip';
 
 
 export interface FrontendExperienceCardData {
@@ -95,13 +99,47 @@ const ExperienceListItem = styled.li<{ $isDark: boolean }>`
 const ToolsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.6rem;
   margin-bottom: 1rem;
 `;
 
-const Tool = styled.span<{ $isDark?: boolean }>`
+const ToolText = styled.span<{ $isDark?: boolean }>`
   font-family: ${({ theme }) => theme.fonts.body};
 `;
+
+const ToolIconWrapper = styled.span<{ $isDark: boolean }>`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: ${({ $isDark }) => ($isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.05)')};
+  border: 1px solid ${({ $isDark }) => ($isDark ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.08)')};
+`;
+
+const ToolIcon = styled.span<{ $isDark: boolean }>`
+  display: inline-flex;
+  color: ${({ $isDark }) => ($isDark ? '#FFFFFF' : '#1D1F23')};
+  line-height: 0;
+`;
+
+type ToolIconConfig = {
+  icon: IconType;
+};
+
+const toolIconMap: Record<string, ToolIconConfig> = {
+  Go: { icon: SiGo },
+  'AWS Lambda': { icon: TbLambda },
+  'AWS SQS': { icon: SiAmazonsqs },
+  DynamoDB: { icon: SiAmazondynamodb },
+  PostgreSQL: { icon: SiPostgresql },
+  Docker: { icon: SiDocker },
+  Kubernetes: { icon: SiKubernetes },
+  Datadog: { icon: SiDatadog },
+  'GitHub Actions': { icon: SiGithubactions },
+  Terraform: { icon: SiTerraform },
+};
 
 const FrontendDevelopmentExperienceFc: React.FC<FrontendDevelopmentExperienceProps> = ({ title, experience, isDark }) => {
   if (!experience) return null;
@@ -132,9 +170,29 @@ const FrontendDevelopmentExperienceFc: React.FC<FrontendDevelopmentExperiencePro
             <ExperienceListTitle $isDark={isDark}>{experience.toolsTitle}</ExperienceListTitle>
             <DividerLine $isDark={isDark} />
             <ToolsContainer>
-              {experience.tools.map((tool, index) => (
-                <Tool key={`tool-${index}`} $isDark={isDark}>{tool}</Tool>
-              ))}
+              {experience.tools.map((tool, index) => {
+                const toolConfig = toolIconMap[tool];
+
+                if (toolConfig) {
+                  const Icon = toolConfig.icon;
+
+                  return (
+                    <Tooltip key={`tool-${index}`} content={tool}>
+                      <ToolIconWrapper $isDark={isDark} role="img" aria-label={tool}>
+                        <ToolIcon $isDark={isDark}>
+                          <Icon size={20} aria-hidden={true} focusable={false} />
+                        </ToolIcon>
+                      </ToolIconWrapper>
+                    </Tooltip>
+                  );
+                }
+
+                return (
+                  <ToolText key={`tool-${index}`} $isDark={isDark}>
+                    {tool}
+                  </ToolText>
+                );
+              })}
             </ToolsContainer>
           </>
         )}

@@ -197,7 +197,7 @@ const PomeloPage: React.FC = () => {
 
 Trabajé principalmente en Go, diseñando e implementando microservicios con arquitectura hexagonal y patrones DDD. Implementé soluciones de Event Sourcing para garantizar la trazabilidad completa de transacciones financieras.
 
-Mi trabajo incluyó la integración con múltiples servicios de AWS, procesamiento de millones de eventos diarios, y participación activa en rotaciones de on-call para garantizar la disponibilidad del sistema 24/7.`,
+Mi trabajo incluyó la integración con múltiples servicios de AWS, procesamiento de millones de eventos diarios, y participación activa en guardias para garantizar la disponibilidad del sistema 24/7.`,
       en: `As a Backend Developer at Pomelo, I was responsible for developing and maintaining critical payment processing and transaction clearing systems.
 
 I worked primarily in Go, designing and implementing microservices with hexagonal architecture and DDD patterns. I implemented Event Sourcing solutions to ensure complete traceability of financial transactions.

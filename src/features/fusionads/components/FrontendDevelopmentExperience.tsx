@@ -1,8 +1,39 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import type { IconType } from 'react-icons';
-import { SiAmazondynamodb, SiAmazonsqs, SiDatadog, SiDocker, SiGithubactions, SiGo, SiKubernetes, SiPostgresql, SiTerraform } from 'react-icons/si';
-import { TbLambda } from 'react-icons/tb';
+import {
+  SiAmazondynamodb,
+  SiAmazonsqs,
+  SiApachegroovy,
+  SiApachekafka,
+  SiAmazonwebservices,
+  SiDatadog,
+  SiDocker,
+  SiFacebook,
+  SiGit,
+  SiGithubactions,
+  SiGo,
+  SiGoogledrive,
+  SiJenkins,
+  SiKubernetes,
+  SiMongodb,
+  SiMysql,
+  SiNewrelic,
+  SiNodedotjs,
+  SiOpenai,
+  SiPostgresql,
+  SiPostman,
+  SiReact,
+  SiReactrouter,
+  SiRedis,
+  SiSpringboot,
+  SiTerraform,
+  SiTypescript,
+  SiVite,
+  SiZod,
+} from 'react-icons/si';
+import { FaJava } from 'react-icons/fa';
+import { TbApi, TbLambda } from 'react-icons/tb';
 import Tooltip from '@components/Tooltip';
 
 
@@ -139,6 +170,30 @@ const toolIconMap: Record<string, ToolIconConfig> = {
   Datadog: { icon: SiDatadog },
   'GitHub Actions': { icon: SiGithubactions },
   Terraform: { icon: SiTerraform },
+  Java: { icon: FaJava },
+  Groovy: { icon: SiApachegroovy },
+  'Spring Boot': { icon: SiSpringboot },
+  MySQL: { icon: SiMysql },
+  Redis: { icon: SiRedis },
+  Kafka: { icon: SiApachekafka },
+  NewRelic: { icon: SiNewrelic },
+  Git: { icon: SiGit },
+  Jenkins: { icon: SiJenkins },
+  React: { icon: SiReact },
+  TypeScript: { icon: SiTypescript },
+  'Node.js': { icon: SiNodedotjs },
+  'AWS (Lambda, SQS, S3)': { icon: SiAmazonwebservices },
+  'OpenAI API': { icon: SiOpenai },
+  Zod: { icon: SiZod },
+  'Context API': { icon: SiReact },
+  'APIs RESTful': { icon: TbApi },
+  'RESTful APIs': { icon: TbApi },
+  'React Router': { icon: SiReactrouter },
+  Vite: { icon: SiVite },
+  'Google Drive API': { icon: SiGoogledrive },
+  'Facebook API': { icon: SiFacebook },
+  Postman: { icon: SiPostman },
+  MongoDB: { icon: SiMongodb },
 };
 
 const FrontendDevelopmentExperienceFc: React.FC<FrontendDevelopmentExperienceProps> = ({ title, experience, isDark }) => {

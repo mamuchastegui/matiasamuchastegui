@@ -1,5 +1,4 @@
 import React, { createContext, useContext, ReactNode, useMemo, useEffect } from 'react';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Profile, ProfileId } from '../types/profile';
 import { profiles, defaultProfileId } from '../data/profiles';
 
@@ -18,25 +17,15 @@ interface ProfileProviderProps {
 }
 
 export const ProfileProvider: React.FC<ProfileProviderProps> = ({ children }) => {
-  const { profileId: urlProfileId } = useParams<{ profileId: string }>();
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const profileId = useMemo(() => {
-    if (urlProfileId && (urlProfileId === 'alexis' || urlProfileId === 'matias')) {
-      return urlProfileId as ProfileId;
-    }
-    return defaultProfileId;
-  }, [urlProfileId]);
-
-  const isValidProfile = urlProfileId === 'alexis' || urlProfileId === 'matias';
+  const profileId = useMemo(() => defaultProfileId, []);
+  const isValidProfile = true;
 
   const profile = useMemo(() => {
     return profiles[profileId];
   }, [profileId]);
 
   const availableProfiles = useMemo(() => {
-    return Object.values(profiles);
+    return [profiles[defaultProfileId]];
   }, []);
 
   // Update document title when profile changes
@@ -48,19 +37,7 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({ children }) =>
     document.title = titles[profileId] || titles.matias;
   }, [profileId]);
 
-  const switchProfile = (newProfileId: ProfileId) => {
-    // Get current subpath after the profile id
-    const pathParts = location.pathname.split('/').filter(Boolean);
-
-    if (pathParts.length > 1) {
-      // Has subpath (e.g., /alexis/xcons -> /matias/xcons)
-      const subPath = pathParts.slice(1).join('/');
-      navigate(`/${newProfileId}/${subPath}`);
-    } else {
-      // Just profile root
-      navigate(`/${newProfileId}`);
-    }
-  };
+  const switchProfile = (_newProfileId: ProfileId) => {};
 
   const value = useMemo(() => ({
     profile,

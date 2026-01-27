@@ -308,7 +308,7 @@ const XInvite: React.FC<XInviteProps> = ({ className }) => {
         </Content>
         <InternalCta
           $isDark={isDark}
-          to="/matias/otros"
+          to="/otros"
           aria-label={isEs ? 'Ver proyecto Condamind' : 'View Condamind project'}
         >
           <ProjectBadge>🚀</ProjectBadge>

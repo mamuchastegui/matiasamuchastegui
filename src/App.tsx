@@ -57,12 +57,6 @@ const createLazyComponent = <T extends React.ComponentType<any>>( // eslint-disa
 };
 
 const ProjectPage = createLazyComponent(() => import('./pages/ProjectPage'));
-const XConsExperiencePage = createLazyComponent(
-  () => import('./features/xcons/XConsExperiencePage')
-);
-const XCons2ExperiencePage = createLazyComponent(
-  () => import('./features/xcons/XCons2ExperiencePage')
-);
 const FusionAdsWrapper = createLazyComponent(() => import('./features/shared/FusionAdsWrapper'));
 const PomeloWrapper = createLazyComponent(() => import('./features/shared/PomeloWrapper'));
 const MercadoLibreWrapper = createLazyComponent(() => import('./features/shared/MercadoLibreWrapper'));
@@ -124,8 +118,6 @@ try {
     if (!shouldPrefetch()) return;
     Promise.all([
       import('./pages/ProjectPage'),
-      import('./features/xcons/XConsExperiencePage'),
-      import('./features/xcons/XCons2ExperiencePage'),
       import('./features/fusionads/FusionAdsPage'),
       import('./features/shared/FusionAdsWrapper'),
       import('./features/matias/fusionads/MatisFusionAdsPage'),
@@ -404,8 +396,6 @@ function App() {
         // Disparar fetch de los chunks; se silencian errores para no afectar UX
         Promise.all([
           import('./pages/ProjectPage'),
-          import('./features/xcons/XConsExperiencePage'),
-          import('./features/xcons/XCons2ExperiencePage'),
           import('./features/fusionads/FusionAdsPage'),
           import('./features/shared/FusionAdsWrapper'),
           import('./features/matias/fusionads/MatisFusionAdsPage'),
@@ -441,14 +431,6 @@ function App() {
       element: <HomeWrapper />,
     },
     {
-      path: 'xcons',
-      element: <XConsExperiencePage />,
-    },
-    {
-      path: 'bandit',
-      element: <XCons2ExperiencePage />,
-    },
-    {
       path: 'fusionads',
       element: <FusionAdsWrapper />,
     },
@@ -474,15 +456,6 @@ function App() {
     [
       {
         path: '/',
-        element: (
-          <ProfileProvider>
-            <AppContent />
-          </ProfileProvider>
-        ),
-        children: profileRouteChildren,
-      },
-      {
-        path: '/:profileId',
         element: (
           <ProfileProvider>
             <AppContent />

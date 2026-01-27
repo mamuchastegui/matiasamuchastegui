@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled, { css } from 'styled-components';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
 import { useProfileOptional } from '../../context/ProfileContext';
 import ThemeToggle from '../ThemeToggle/ThemeToggle';
@@ -616,10 +616,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
-  const { profileId: urlProfileId } = useParams<{ profileId: string }>();
   const profileContext = useProfileOptional();
   const profile = profileContext?.profile;
-  const profileId = profileContext?.profileId || urlProfileId || 'alexis';
 
   const [openSubmenuKey, setOpenSubmenuKey] = useState<string | null>(null);
   const [activeLink, setActiveLink] = useState<string>("#home");
@@ -690,21 +688,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
 
   // Generate experience sublinks based on profile
   const getExperienceSubLinks = (): NavLinkItem[] => {
-    if (profile?.projects) {
-      return profile.projects.map(project => ({
-        href: project.link,
-        labelKey: `navbar.${project.text.toLowerCase()}`,
-        defaultLabel: project.text,
-        IconComponent: ChevronRight,
-      }));
-    }
-    // Default to Alexis sublinks
-    return [
-      { href: `/${profileId}/xcons`, labelKey: 'navbar.xcons', defaultLabel: 'XCONS', IconComponent: ChevronRight },
-      { href: `/${profileId}/fusionads`, labelKey: 'navbar.fusionads', defaultLabel: 'FusionAds', IconComponent: ChevronRight },
-      { href: `/${profileId}/bandit`, labelKey: 'navbar.bandit', defaultLabel: 'Bandit', IconComponent: ChevronRight },
-      { href: `/${profileId}/otros`, labelKey: 'navbar.otros', defaultLabel: 'Otros proyectos', IconComponent: ChevronRight },
-    ];
+    if (!profile?.projects) return [];
+    return profile.projects.map(project => ({
+      href: project.link,
+      labelKey: `navbar.${project.text.toLowerCase()}`,
+      defaultLabel: project.text,
+      IconComponent: ChevronRight,
+    }));
   };
 
   const navLinks: NavLinkItem[] = [
@@ -869,8 +859,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
       setOpenSubmenuKey(null);
     }
 
-    const basePath = `/${profileId}`;
-    const isOnProfileHome = location.pathname === basePath || location.pathname === `${basePath}/`;
+    const basePath = '/';
+    const isOnProfileHome = location.pathname === '/';
 
     if (href.startsWith('#')) {
       if (isOnProfileHome) {
@@ -996,8 +986,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
           role="button"
           tabIndex={0}
           onClick={() => {
-            const basePath = `/${profileId}`;
-            if (location.pathname === basePath || location.pathname === `${basePath}/`) {
+            const basePath = '/';
+            if (location.pathname === '/') {
               const el = document.getElementById('home');
               if (el) {
                 try {
@@ -1016,8 +1006,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
           onKeyDown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') {
               e.preventDefault();
-              const basePath = `/${profileId}`;
-              if (location.pathname === basePath || location.pathname === `${basePath}/`) {
+              const basePath = '/';
+              if (location.pathname === '/') {
                 const el = document.getElementById('home');
                 if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 else window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1032,7 +1022,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
           <LogoImageWrapper>
             <LogoImage src={PortfolioLogo} alt={t('portfolioLogoAlt', 'Logo del Portafolio')} />
           </LogoImageWrapper>
-          <LogoText $isCollapsed={!isMobile && isCollapsed}>{profile?.name || 'Alexis Vedia'}</LogoText>
+          <LogoText $isCollapsed={!isMobile && isCollapsed}>{profile?.name || 'Matias Amuchástegui'}</LogoText>
         </LogoContainer>
 
         {/* Profile Selector - Hidden for single-profile deployment

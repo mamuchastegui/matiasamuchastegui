@@ -84,25 +84,25 @@ export const matiasProfile: Profile = {
   ],
   projects: [
     {
-      link: '/matias/fusionads',
+      link: '/fusionads',
       text: 'FusionAds',
       color: '#F7480B',
       descriptionKey: 'matias.companyDescriptions.fusionads',
     },
     {
-      link: '/matias/pomelo',
+      link: '/pomelo',
       text: 'Pomelo',
       color: '#7C3AED',
       descriptionKey: 'matias.companyDescriptions.pomelo',
     },
     {
-      link: '/matias/mercadolibre',
+      link: '/mercadolibre',
       text: 'MercadoLibre',
       color: '#FFE600',
       descriptionKey: 'matias.companyDescriptions.mercadolibre',
     },
     {
-      link: '/matias/otros',
+      link: '/otros',
       text: 'Otros',
       color: '#6B7280',
       descriptionKey: 'matias.companyDescriptions.otros',

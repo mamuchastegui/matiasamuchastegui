@@ -31,7 +31,7 @@ export const experiences: Experience[] = [
     tech: ['Node.js', 'React', 'AI/LLMs', 'GCP', 'Kubernetes'],
     logo: condamindLogo,
     highlight: true,
-    link: '/matias/otros',
+    link: '/otros',
     projects: [
       { name: 'Condamind', href: '#projects' },
       { name: 'Senda', href: '#projects' },
@@ -49,7 +49,7 @@ export const experiences: Experience[] = [
     tech: ['TypeScript', 'Node.js', 'AI/LLMs', 'Grafana', 'GCP'],
     logo: fusionLogo,
     highlight: true,
-    link: '/matias/fusionads',
+    link: '/fusionads',
   },
   {
     id: 'pomelo',
@@ -60,7 +60,7 @@ export const experiences: Experience[] = [
     descriptionKey: 'experience.pomelo.description',
     tech: ['Go', 'AWS Lambda', 'DynamoDB', 'Event Sourcing', 'DDD'],
     logo: pomeloLogo,
-    link: '/matias/pomelo',
+    link: '/pomelo',
   },
   {
     id: 'mercadolibre',
@@ -72,7 +72,7 @@ export const experiences: Experience[] = [
     tech: ['Java', 'Microservices', 'High-scale', 'LATAM'],
     logo: mercadolibreLogo,
     highlight: true,
-    link: '/matias/mercadolibre',
+    link: '/mercadolibre',
   },
   {
     id: 'ayi',

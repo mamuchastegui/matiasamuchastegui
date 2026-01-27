@@ -207,8 +207,8 @@ const MatisFusionAdsPage: React.FC = () => {
 
   const bannerSectionTexts = {
     description: {
-      es: 'FusionAds.ai es una plataforma de publicidad generativa impulsada por inteligencia artificial que genera anuncios profesionales omni-canal.',
-      en: 'FusionAds.ai is an AI-powered generative advertising platform that creates professional omni-channel ads.',
+      es: 'FusionAds convierte un brief de marketing en 50+ versiones de anuncios (Facebook, Google, Instagram) en minutos. Lo que antes le tomaba a un equipo 2 días.',
+      en: 'FusionAds turns a marketing brief into 50+ ad versions (Facebook, Google, Instagram) in minutes. What used to take a team 2 days.',
     },
     location: {
       es: 'Estados Unidos',
@@ -222,20 +222,20 @@ const MatisFusionAdsPage: React.FC = () => {
 
   const roleSummaryTexts = {
     title: {
-      es: 'Resumen de Rol',
-      en: 'Role Summary',
+      es: 'El Problema',
+      en: 'The Problem',
     },
     description: {
-      es: `Como Staff Engineer, lideré el diseño e implementación de la arquitectura backend para la plataforma de publicidad generativa. Mi rol principal fue crear el motor de orquestación que coordina la generación de campañas publicitarias multicanal utilizando servicios de IA.
+      es: `FusionAds tenía un problema: generar miles de anuncios personalizados sin morir en el intento. Cada campaña necesita múltiples versiones (Facebook, Google, Instagram), con textos generados por IA, imágenes adaptadas, y todo publicado en canales diferentes.
 
-Diseñé sistemas distribuidos con patrones de resiliencia, implementé pipelines de procesamiento asíncrono para manejar grandes volúmenes de campañas, y establecí el stack de observabilidad completo con métricas, logs y traces.
+Construí el motor que orquesta todo eso. Desde coordinar las llamadas a OpenAI, manejar las colas de procesamiento, hasta asegurar que nada explote cuando el tráfico se multiplica por 10. Circuit breakers para cuando la IA decide tomarse un descanso, fallbacks para que las campañas sigan corriendo, y observabilidad completa para saber exactamente qué pasa cuando algo se rompe.
 
-Además de las responsabilidades técnicas, mentoré a un equipo distribuido de desarrolladores, estableciendo prácticas de código, documentación técnica y procesos de revisión que mejoraron significativamente la calidad del código y la velocidad de entrega.`,
-      en: `As Staff Engineer, I led the design and implementation of the backend architecture for the generative advertising platform. My main role was to create the orchestration engine that coordinates the generation of multichannel advertising campaigns using AI services.
+También mentoré un equipo de 4 developers distribuidos, estableciendo las bases de cómo trabajamos: code reviews que mejoran (no solo critican), documentación que la gente realmente usa, y procesos que escalan con el equipo.`,
+      en: `FusionAds had a problem: generate thousands of personalized ads without dying in the process. Each campaign needs multiple versions (Facebook, Google, Instagram), with AI-generated texts, adapted images, and everything published across different channels.
 
-I designed distributed systems with resilience patterns, implemented asynchronous processing pipelines to handle large volumes of campaigns, and established the complete observability stack with metrics, logs, and traces.
+I built the engine that orchestrates all of that. From coordinating OpenAI calls, handling processing queues, to ensuring nothing explodes when traffic multiplies by 10. Circuit breakers for when the AI decides to take a break, fallbacks to keep campaigns running, and complete observability to know exactly what's happening when something breaks.
 
-In addition to technical responsibilities, I mentored a distributed team of developers, establishing code practices, technical documentation, and review processes that significantly improved code quality and delivery speed.`,
+I also mentored a team of 4 distributed developers, establishing the foundations of how we work: code reviews that improve (not just criticize), documentation that people actually use, and processes that scale with the team.`,
     },
   };
 

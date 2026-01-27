@@ -1125,7 +1125,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
           />
           <ControlsFade $hidden={controlsHidden}>
           <SocialMediaButton
-             href={profile?.socialLinks?.github || "https://github.com/AlexisVedia"}
+             href={profile?.socialLinks?.github || "https://github.com/mamuchastegui"}
              target="_blank"
              rel="noopener noreferrer"
              aria-label="GitHub"
@@ -1143,7 +1143,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
              </TechTooltip>
            </SocialMediaButton>
            <SocialMediaButton
-             href={profile?.socialLinks?.linkedin || "https://www.linkedin.com/in/alexis-vedia/"}
+             href={profile?.socialLinks?.linkedin || "https://linkedin.com/in/matias-amuchastegui"}
              target="_blank"
              rel="noopener noreferrer"
              aria-label="LinkedIn"

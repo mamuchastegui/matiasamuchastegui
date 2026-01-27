@@ -384,7 +384,7 @@ const HeroSection: React.FC<HeroSectionProps> = () => {
         >
           <HeroVideo
             ref={heroVideoRef}
-            src={profile.heroVideo || '/assets/newAssets/Alexis4.mp4'}
+            src={profile.heroVideo || '/assets/newAssets/mati.mp4'}
             autoPlay
             muted
             loop

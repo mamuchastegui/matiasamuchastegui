@@ -33,29 +33,6 @@ export const projectsData: Project[] = [
     status: 'active',
   },
   {
-    id: 'condamind',
-    name: 'Condamind',
-    image: condamindImg,
-    description: {
-      es: 'Un asistente de WhatsApp con IA que responde clientes 24/7, agenda turnos y procesa pagos. Construido con la misma arquitectura que usé en MercadoLibre y Pomelo. Ya opera en 15+ negocios con resultados que hablan solos.',
-      en: "An AI WhatsApp assistant that answers clients 24/7, schedules appointments, and processes payments. Built with the same architecture I used at MercadoLibre and Pomelo. Already operating in 15+ businesses with results that speak for themselves.",
-    },
-    technologies: ['Node.js', 'OpenAI', 'WhatsApp API', 'PostgreSQL', 'MercadoPago'],
-    url: 'https://condamind.com/gym',
-    status: 'active',
-  },
-  {
-    id: 'senda',
-    name: 'Senda',
-    image: sendaImg,
-    description: {
-      es: 'El sistema de productividad que construí para mis propias necesidades. Gestión de tareas, hábitos y objetivos conectados con recordatorios inteligentes vía WhatsApp. Si funciona para mi día a día exigente, funciona.',
-      en: 'The productivity system I built for my own needs. Task, habit, and goal management connected with smart WhatsApp reminders. If it works for my demanding daily life, it works.',
-    },
-    technologies: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'Tailwind CSS'],
-    status: 'development',
-  },
-  {
     id: 'micelaria',
     name: 'Micelaria',
     image: micelariaImg,
@@ -76,5 +53,28 @@ export const projectsData: Project[] = [
     },
     technologies: ['React', 'Firebase', 'Google Maps API', 'PWA'],
     status: 'active',
+  },
+  {
+    id: 'condamind',
+    name: 'Condamind',
+    image: condamindImg,
+    description: {
+      es: 'Asistente de WhatsApp con IA en desarrollo para automatizar atención y operaciones. Enfocado en flujos reales y medición desde el día uno.',
+      en: 'AI WhatsApp assistant in development to automate support and operations. Focused on real workflows and measurement from day one.',
+    },
+    technologies: ['Node.js', 'OpenAI', 'WhatsApp API', 'PostgreSQL', 'MercadoPago'],
+    url: 'https://condamind.com',
+    status: 'development',
+  },
+  {
+    id: 'senda',
+    name: 'Senda',
+    image: sendaImg,
+    description: {
+      es: 'El sistema de productividad que construí para mis propias necesidades. Gestión de tareas, hábitos y objetivos conectados con recordatorios inteligentes vía WhatsApp. Si funciona para mi día a día exigente, funciona.',
+      en: 'The productivity system I built for my own needs. Task, habit, and goal management connected with smart WhatsApp reminders. If it works for my demanding daily life, it works.',
+    },
+    technologies: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'Tailwind CSS'],
+    status: 'development',
   },
 ];

@@ -201,8 +201,8 @@ const BioSection: React.FC = () => {
     : isEs ? 'De principio a fin' : 'End‑to‑End';
   const block1Text = isMatias
     ? isEs
-      ? 'Trabajé en sistemas que procesan millones de transacciones diarias. Aprendí que la arquitectura correcta sale de entender el negocio, no de tirar tecnología porque sí.'
-      : "I've worked on systems processing millions of daily transactions. I learned that the right architecture comes from understanding the business, not throwing technology at it."
+      ? 'Trabajé en sistemas que procesan millones de transacciones diarias. Esa experiencia reforzó mi criterio para diseñar arquitecturas alineadas al negocio, priorizando impacto, simplicidad y escalabilidad.'
+      : "I've worked on systems processing millions of daily transactions. That experience reinforced my ability to design architectures aligned with business goals, prioritizing impact, simplicity, and scalability."
     : isEs
       ? 'Desde investigación UX y prototipos de alta fidelidad en Figma, hasta una impecable implementación completa. ¿No es suficiente? Elevo el nivel de tu producto con AI: búsquedas vectoriales semánticas, diseño de agentes autónomos, flujos en n8n, RAG, etc. Pruebo nuevas herramientas a diario y comparto mis hallazgos en redes. Tu proyecto siempre se beneficia de lo más avanzado.'
       : 'From UX research and high‑fidelity Figma prototypes to a polished end‑to‑end implementation. Need more? I supercharge your product with AI: semantic vector search, autonomous agent design, n8n workflows, RAG, and more. I test new tools daily and share findings — your project always benefits from the cutting edge.';
@@ -213,8 +213,8 @@ const BioSection: React.FC = () => {
     : isEs ? 'Solo o en equipo' : 'Solo or Team Player';
   const block2Text = isMatias
     ? isEs
-      ? 'Más de 10 años de experiencia significan que vi los problemas antes. No pierdo tiempo reinventando la rueda. Propongo, validamos juntos, ejecuto.'
-      : "10 years of experience means I've seen the problems before. I don't waste time reinventing the wheel. I propose, we validate together, I execute."
+      ? 'Ya pasé por esto. Reconozco patrones, evito soluciones genéricas y no pierdo tiempo reinventando la rueda. Propongo, validamos juntos, ejecuto.'
+      : "I've been through this before. I recognize patterns, avoid generic solutions, and don't waste time reinventing the wheel. I propose, we validate together, I execute."
     : isEs
       ? 'Trabajo de forma autónoma o integrado a tu equipo, adaptándome a las necesidades del proyecto para entregar resultados sobresalientes, ya sea como fuerza individual o en colaboración multidisciplinaria.'
       : 'I work autonomously or embedded in your team, adapting to project needs to deliver outstanding outcomes — either as an individual contributor or within a multidisciplinary collaboration.';

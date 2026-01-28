@@ -101,7 +101,7 @@ export const experiences: Experience[] = [
     periodKey: 'experience.brandigital.period',
     locationKey: 'experience.brandigital.location',
     descriptionKey: 'experience.brandigital.description',
-    tech: ['PHP', 'WordPress', 'JavaScript'],
+    tech: ['PHP', 'JavaScript', 'MySQL', 'Node.js', 'AngularJS', 'MongoDB', 'C# .NET'],
     logo: brandigitalLogo,
   },
 ];

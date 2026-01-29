@@ -314,9 +314,9 @@ const resources = {
       },
       micelariaPage: {
         title: 'Micelaria',
-        subtitle: 'E-commerce experience focused on functional mushrooms and brand storytelling.',
+        subtitle: 'E-commerce for natural adaptogenic mushroom extracts.',
         intro:
-          'A personal project to build a full store from zero: product definition, brand, content and a smooth shopping flow for real customers.',
+          'End-to-end build: product definition, brand naming, logo, visual identity, packaging, supplier selection, and a full e-commerce experience.',
         logoAlt: 'Micelaria logo',
         cta: 'Visit site',
         ctaAria: 'Open Micelaria website in a new tab',
@@ -324,11 +324,11 @@ const resources = {
         igCtaAria: 'Open Micelaria Instagram profile in a new tab',
         highlightsTitle: 'What I built',
         highlights: [
-          'Product storytelling from landing to catalog',
-          'Storefront and cart optimized for conversion',
-          'Checkout flow with local payment methods',
-          'Backoffice to manage products and orders',
-          'Performance-focused UI with Astro + Tailwind',
+          'Brand identity: name, logo, and product visuals',
+          'Packaging design and print coordination with suppliers',
+          'Instagram launch and content direction',
+          'Storefront, cart, and checkout with local payments',
+          'Admin tools to manage products and orders',
         ],
         stackTitle: 'Stack',
         galleryTitle: 'Product highlights',
@@ -361,7 +361,7 @@ const resources = {
         subtitle: 'Life is more than just code',
         skating: 'Freeskate',
         'skating.description':
-          "Co-founder of Córdoba Rollea, building community through urban skating. There's something meditative about flowing through city streets.",
+          "Active member of Córdoba Rollea, building community through urban skating. There's something meditative about flowing through city streets.",
         music: 'Electronic Music',
         'music.description':
           'Producing beats and exploring sound design. Music production shares more with coding than you might think—both are about patterns, structure, and creativity.',
@@ -404,7 +404,7 @@ const resources = {
         heroSubtitle1: 'Backend Developer',
         heroSubtitle2: 'Infrastructure Architect',
         heroDescription1:
-          'Staff Engineer with 10 years at MercadoLibre, Pomelo, and US startups. I build backends that scale without a 30-person team.',
+          'Sernior Software Engineer with 10 years at MercadoLibre, Pomelo, and US startups. I build backends that scale without a 30-person team.',
         heroDescription2: '',
         heroDescription3: '',
         heroDescription4: '',
@@ -844,9 +844,9 @@ const resources = {
       },
       micelariaPage: {
         title: 'Micelaria',
-        subtitle: 'E-commerce enfocado en hongos funcionales y storytelling de marca.',
+        subtitle: 'E-commerce de extractos naturales de hongos adaptógenos.',
         intro:
-          'Proyecto personal para construir una tienda completa desde cero: producto, marca, contenidos y un flujo de compra pensado para clientes reales.',
+          'Proyecto end-to-end: definición del producto, naming, diseño de logo, identidad visual, packaging, elección de proveedor y tienda online completa.',
         logoAlt: 'Logo de Micelaria',
         cta: 'Visitar sitio',
         ctaAria: 'Abrir el sitio de Micelaria en una nueva pestaña',
@@ -854,11 +854,11 @@ const resources = {
         igCtaAria: 'Abrir el Instagram de Micelaria en una nueva pestaña',
         highlightsTitle: 'Lo que construí',
         highlights: [
-          'Narrativa del producto desde la home hasta el catálogo',
-          'Tienda y carrito optimizados para conversión',
-          'Checkout con métodos de pago locales',
-          'Backoffice para gestionar productos y pedidos',
-          'UI rápida con Astro + Tailwind',
+          'Identidad de marca: nombre, logo y visuales del producto',
+          'Diseño de packaging y coordinación con imprenta/proveedores',
+          'Creación de Instagram y dirección de contenido',
+          'Tienda, carrito y checkout con pagos locales',
+          'Backoffice para gestión de productos y pedidos',
         ],
         stackTitle: 'Stack',
         galleryTitle: 'Capturas del producto',
@@ -891,7 +891,7 @@ const resources = {
         subtitle: 'La vida es más que solo código',
         skating: 'Freeskate',
         'skating.description':
-          'Co-fundador de Córdoba Rollea, construyendo comunidad a través del patinaje urbano. Hay algo meditativo en fluir por las calles de la ciudad.',
+          'Miembro activo de Córdoba Rollea, construyendo comunidad a través del patinaje urbano. Hay algo meditativo en fluir por las calles de la ciudad.',
         music: 'Música Electrónica',
         'music.description':
           'Produciendo beats y explorando diseño sonoro. La producción musical comparte más con la programación de lo que imaginas: ambas tratan sobre patrones, estructura y creatividad.',
@@ -934,7 +934,7 @@ const resources = {
         heroSubtitle1: 'Desarrollador Backend',
         heroSubtitle2: 'Arquitecto de Infraestructura',
         heroDescription1:
-          'Staff Engineer con 10 años en MercadoLibre, Pomelo y startups de USA. Construyo backends que escalan sin necesitar un equipo de 30 personas.',
+          'Senior Software Engineer con 10 años en MercadoLibre, Pomelo y startups de USA. Construyo backends que escalan sin necesitar un equipo de 30 personas.',
         heroDescription2: '',
         heroDescription3: '',
         heroDescription4: '',

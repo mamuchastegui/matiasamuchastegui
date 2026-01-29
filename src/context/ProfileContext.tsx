@@ -30,7 +30,7 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({ children }) =>
 
   // Update document title when profile changes
   useEffect(() => {
-    document.title = 'Matias Amuchástegui - Staff Engineer | Portfolio Profesional';
+    document.title = 'Matias Amuchástegui - Sernior Software Engineer | Portfolio Profesional';
   }, [profileId]);
 
   const switchProfile = (_newProfileId: ProfileId) => {};

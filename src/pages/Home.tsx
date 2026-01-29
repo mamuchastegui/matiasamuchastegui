@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import PageTransition from '@components/PageTransition/PageTransition';
 import HeroSection from '@components/HeroSection/HeroSection';
+import TrustedBySection from '@components/TrustedBySection';
 import BioSection from '@components/BioSection';
 import ExperienceSection from '@components/ExperienceSection';
 import ServicesSection from '@components/ServicesSection';
@@ -69,6 +70,7 @@ const Home: React.FC<HomeProps> = ({ onAnimationComplete, fontsLoaded, onContact
         {/* Removed abstract 3D background experiment */}
         <ContentWrapper>
           <HeroSection onAnimationComplete={onAnimationComplete} fontsLoaded={fontsLoaded} />
+          <TrustedBySection />
           <BioSection />
         </ContentWrapper>
         <ContentWrapper id="experience">

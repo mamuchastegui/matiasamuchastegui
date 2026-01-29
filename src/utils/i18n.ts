@@ -65,13 +65,20 @@ const resources = {
       messageSent: 'Message sent successfully! I will get back to you soon.',
       messageError: 'There was an error sending your message. Please try again.',
 
-      namePlaceholder: 'E.g: Steve Jobs',
+      namePlaceholder: 'Your name',
       emailPlaceholder: 'example@example.com',
-      messagePlaceholder: 'Write a message...',
-      subjectPlaceholder: 'E.g: I need help improving Siri',
+      messagePlaceholder: 'What technical challenge do you have?',
+      subjectPlaceholder: 'What do you need to build?',
 
       yourName: 'Your Name',
       allRightsReserved: 'All Rights Reserved',
+      contactNeedsLabel: 'What do you need help with?',
+      contactNeeds: {
+        backend: 'Backend/APIs',
+        infra: 'Infrastructure/DevOps',
+        ai: 'AI integration',
+        fullstack: 'Full-stack',
+      },
 
       navbar: {
         home: 'Home',
@@ -86,6 +93,7 @@ const resources = {
         bandit: 'Bandit',
         otros: 'Other Projects',
       },
+      trustedBy: 'Worked with teams at:',
 
       tooltip: {
         github: 'Visit GitHub Profile',
@@ -186,7 +194,7 @@ const resources = {
           period: '2026 – Present',
           location: 'Córdoba, Argentina',
           description:
-            'After 10 years building systems for companies like MercadoLibre, Pomelo, and US startups, I channeled that experience into my own products. Condamind (AI for WhatsApp, 15+ businesses), Cratos (fitness for gyms), Senda (personal productivity). Each solves real problems because I built them for real users - starting with myself.',
+            'After 10 years building systems for companies like MercadoLibre, Pomelo, and US startups, I channeled that experience into my own products. Condamind (AI for WhatsApp, in development), Cratos (fitness for gyms), Senda (personal productivity). Each solves real problems because I built them for real users - starting with myself.',
         },
         fusionads: {
           company: 'FusionAds',
@@ -292,10 +300,11 @@ const resources = {
         heroTitle: 'Backend Developer & Infrastructure Architect',
         heroSubtitle1: 'Backend Developer',
         heroSubtitle2: 'Infrastructure Architect',
-        heroDescription1: 'Building scalable systems for global companies,',
-        heroDescription2: 'integrating AI into production workflows,',
-        heroDescription3: 'and turning complex problems',
-        heroDescription4: 'into elegant solutions',
+        heroDescription1:
+          'Staff Engineer with 10 years at MercadoLibre, Pomelo, and US startups. I build backends that scale without a 30-person team.',
+        heroDescription2: '',
+        heroDescription3: '',
+        heroDescription4: '',
 
         services: {
           backend: {
@@ -337,7 +346,7 @@ const resources = {
             period: '2026 – Present',
             location: 'Córdoba, Argentina',
             description:
-              'After 10 years building systems for companies like MercadoLibre, Pomelo, and US startups, I channeled that experience into my own products. Condamind (AI for WhatsApp, 15+ businesses), Cratos (fitness for gyms), Senda (personal productivity). Each solves real problems because I built them for real users - starting with myself.',
+              'After 10 years building systems for companies like MercadoLibre, Pomelo, and US startups, I channeled that experience into my own products. Condamind (AI for WhatsApp, in development), Cratos (fitness for gyms), Senda (personal productivity). Each solves real problems because I built them for real users - starting with myself.',
           },
           fusionads: {
             company: 'FusionAds',
@@ -481,13 +490,20 @@ const resources = {
       messageSent: '¡Mensaje enviado con éxito! Te responderé pronto.',
       messageError: 'Hubo un error al enviar tu mensaje. Por favor, intenta de nuevo.',
 
-      namePlaceholder: 'Ej: Steve Jobs',
+      namePlaceholder: 'Tu nombre',
       emailPlaceholder: 'ejemplo@ejemplo.com',
-      messagePlaceholder: 'Escribe un mensaje...',
-      subjectPlaceholder: 'Ej: Necesito ayuda para mejorar Siri',
+      messagePlaceholder: '¿Qué desafío técnico tenés?',
+      subjectPlaceholder: '¿Qué necesitás construir?',
 
       yourName: 'Tu Nombre',
       allRightsReserved: 'Todos los Derechos Reservados',
+      contactNeedsLabel: '¿En qué necesitás ayuda?',
+      contactNeeds: {
+        backend: 'Backend/APIs',
+        infra: 'Infraestructura/DevOps',
+        ai: 'Integración con IA',
+        fullstack: 'Full-stack',
+      },
 
       navbar: {
         home: 'Inicio',
@@ -502,6 +518,7 @@ const resources = {
         bandit: 'Bandit',
         otros: 'Otros Proyectos',
       },
+      trustedBy: 'Trabajé con equipos en:',
 
       tooltip: {
         github: 'Visitar Perfil de GitHub',
@@ -604,7 +621,7 @@ const resources = {
           period: '2026 – Presente',
           location: 'Córdoba, Argentina',
           description:
-            'Después de 10 años construyendo sistemas para empresas como MercadoLibre, Pomelo y startups de EE.UU., canalicé esa experiencia en productos propios. Condamind (IA para WhatsApp, 15+ negocios), Cratos (fitness para gimnasios), Senda (productividad personal). Cada uno resuelve problemas reales porque los construí para usuarios reales - empezando por mí.',
+            'Después de 10 años construyendo sistemas para empresas como MercadoLibre, Pomelo y startups de EE.UU., canalicé esa experiencia en productos propios. Condamind (IA para WhatsApp, en desarrollo), Cratos (fitness para gimnasios), Senda (productividad personal). Cada uno resuelve problemas reales porque los construí para usuarios reales - empezando por mí.',
         },
         fusionads: {
           company: 'FusionAds',
@@ -710,10 +727,11 @@ const resources = {
         heroTitle: 'Desarrollador Backend & Arquitecto de Infraestructura',
         heroSubtitle1: 'Desarrollador Backend',
         heroSubtitle2: 'Arquitecto de Infraestructura',
-        heroDescription1: 'Después de 10 años construyendo para empresas grandes,',
-        heroDescription2: 'descubrí que las mejores soluciones no necesitan equipos de 30 personas.',
-        heroDescription3: 'Te ayudo a escalar tu negocio con la misma calidad enterprise,',
-        heroDescription4: 'pero con la velocidad y costo de un freelance senior.',
+        heroDescription1:
+          'Staff Engineer con 10 años en MercadoLibre, Pomelo y startups de USA. Construyo backends que escalan sin necesitar un equipo de 30 personas.',
+        heroDescription2: '',
+        heroDescription3: '',
+        heroDescription4: '',
 
         services: {
           backend: {
@@ -755,7 +773,7 @@ const resources = {
             period: '2026 – Presente',
             location: 'Córdoba, Argentina',
             description:
-              'Después de 10 años construyendo sistemas para empresas como MercadoLibre, Pomelo y startups de EE.UU., canalicé esa experiencia en productos propios. Condamind (IA para WhatsApp, 15+ negocios), Cratos (fitness para gimnasios), Senda (productividad personal). Cada uno resuelve problemas reales porque los construí para usuarios reales - empezando por mí.',
+              'Después de 10 años construyendo sistemas para empresas como MercadoLibre, Pomelo y startups de EE.UU., canalicé esa experiencia en productos propios. Condamind (IA para WhatsApp, en desarrollo), Cratos (fitness para gimnasios), Senda (productividad personal). Cada uno resuelve problemas reales porque los construí para usuarios reales - empezando por mí.',
           },
           fusionads: {
             company: 'FusionAds',

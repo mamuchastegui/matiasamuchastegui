@@ -315,6 +315,34 @@ const SubmitButton = styled.button<{ $isDark: boolean }>`
   }
 `;
 
+const CheckboxGroup = styled.div`
+  width: 100%;
+  max-width: 500px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem 1rem;
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const CheckboxLabel = styled.label<{ $isDark: boolean }>`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+  color: ${({ $isDark }) => ($isDark ? '#DDDDDD' : '#444444')};
+  cursor: pointer;
+  user-select: none;
+`;
+
+const CheckboxInput = styled.input<{ $isDark: boolean }>`
+  width: 16px;
+  height: 16px;
+  accent-color: ${({ $isDark }) => ($isDark ? '#ffffff' : '#000000')};
+`;
+
 
 interface ContactSectionProps {
   id?: string;
@@ -334,6 +362,7 @@ const ContactSection = forwardRef<HTMLDivElement, ContactSectionProps>(({ id }, 
     title: '',
     email: '',
     message: '',
+    needs: [] as string[],
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -341,6 +370,16 @@ const ContactSection = forwardRef<HTMLDivElement, ContactSectionProps>(({ id }, 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleNeedsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, checked } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      needs: checked
+        ? [...prev.needs, value]
+        : prev.needs.filter(item => item !== value),
+    }));
   };
 
   const [emailCopied, setEmailCopied] = useState(false);
@@ -373,6 +412,7 @@ const ContactSection = forwardRef<HTMLDivElement, ContactSectionProps>(({ id }, 
           email: formData.email,
           title: formData.title,
           message: formData.message,
+          needs: formData.needs,
         }),
       });
 
@@ -381,7 +421,7 @@ const ContactSection = forwardRef<HTMLDivElement, ContactSectionProps>(({ id }, 
       }
 
       setIsLoading(false);
-      setFormData({ name: '', title: '', email: '', message: '' });
+      setFormData({ name: '', title: '', email: '', message: '', needs: [] });
 
       confetti({
         particleCount: 150,
@@ -475,6 +515,28 @@ const ContactSection = forwardRef<HTMLDivElement, ContactSectionProps>(({ id }, 
               $isDark={isDark}
               placeholder={t('messagePlaceholder', 'Escribe un mensaje...')}
             />
+          </FormGroup>
+          <FormGroup>
+            <Label>{t('contactNeedsLabel')}</Label>
+            <CheckboxGroup>
+              {[
+                { key: 'backend', label: t('contactNeeds.backend') },
+                { key: 'infra', label: t('contactNeeds.infra') },
+                { key: 'ai', label: t('contactNeeds.ai') },
+                { key: 'fullstack', label: t('contactNeeds.fullstack') },
+              ].map(option => (
+                <CheckboxLabel key={option.key} $isDark={isDark}>
+                  <CheckboxInput
+                    type="checkbox"
+                    value={option.key}
+                    checked={formData.needs.includes(option.key)}
+                    onChange={handleNeedsChange}
+                    $isDark={isDark}
+                  />
+                  {option.label}
+                </CheckboxLabel>
+              ))}
+            </CheckboxGroup>
           </FormGroup>
           <ButtonContainer>
             <SubmitButton

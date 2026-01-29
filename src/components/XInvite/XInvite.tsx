@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { useTheme } from '../../context/ThemeContext';
 import { useProfile } from '../../context/ProfileContext';
 import profileImage from '../../assets/images/x-profile.jpg';
-import cratosImage from '../../assets/images/projects-matias/cratos.png';
-import cratosLogo from '../../assets/images/projects-matias/cratos_logo.png';
+import cratosImage from '../../assets/images/projects-matias/cratos/cratos.png';
+import cratosLogo from '../../assets/images/projects-matias/cratos/cratos_logo.png';
 
 interface XInviteProps {
   className?: string;

@@ -244,6 +244,116 @@ const resources = {
         subtitle:
           'A selection of projects that showcase my expertise in backend development, infrastructure, and AI integration.',
         view: 'View Project',
+        viewDetails: 'View details',
+        visitSite: 'Visit site',
+      },
+
+      cordobarolleaPage: {
+        title: 'Córdoba Rollea',
+        subtitle:
+          'Platform to organize urban rides and strengthen the roller community in Córdoba.',
+        intro:
+          'WhatsApp groups did not scale: spam, lost info, and mixed levels. I built a site to organize rides by level, add routes and guides, and enable donations to fund events.',
+        logoAlt: 'Córdoba Rollea logo',
+        cta: 'Visit site',
+        ctaAria: 'Open Córdoba Rollea website in a new tab',
+        igCta: 'Instagram',
+        igCtaAria: 'Open Córdoba Rollea Instagram profile in a new tab',
+        highlightsTitle: 'What I built',
+        highlights: [
+          'Organized rides and events with clear levels and details',
+          'Urban routes with maps and key points',
+          'Guides and level system for new skaters',
+          'Admin panel to manage content and schedules',
+          'Donations to fund community events',
+        ],
+        stackTitle: 'Stack',
+        galleryTitle: 'Product highlights',
+        gallery: {
+          salidas: {
+            title: 'Rides overview',
+            description:
+              'Calendar view with upcoming rides, levels, and quick access to details.',
+          },
+          detalleSalida1: {
+            title: 'Ride details',
+            description:
+              'Clear meeting point, schedule, and expectations so new skaters know if a ride fits.',
+          },
+          detalleSalida2: {
+            title: 'Community context',
+            description:
+              'Extra info, recommendations, and visual cues that help people prepare for the ride.',
+          },
+          recorridos: {
+            title: 'Urban routes',
+            description:
+              'Route maps with key points and difficulty so riders can choose confidently.',
+          },
+          niveles: {
+            title: 'Skill levels',
+            description:
+              'Friendly level system that keeps rides inclusive while setting expectations.',
+          },
+          guias: {
+            title: 'Guides & tips',
+            description:
+              'Safety and prep guides to help beginners join without fear.',
+          },
+          donaciones: {
+            title: 'Community support',
+            description:
+              'Donations section to fund events and keep the community sustainable.',
+          },
+          admin: {
+            title: 'Admin workflow',
+            description:
+              'Backoffice panel to manage content, schedules, and ride logistics.',
+          },
+        },
+      },
+      micelariaPage: {
+        title: 'Micelaria',
+        subtitle: 'E-commerce experience focused on functional mushrooms and brand storytelling.',
+        intro:
+          'A personal project to build a full store from zero: product definition, brand, content and a smooth shopping flow for real customers.',
+        logoAlt: 'Micelaria logo',
+        cta: 'Visit site',
+        ctaAria: 'Open Micelaria website in a new tab',
+        igCta: 'Instagram',
+        igCtaAria: 'Open Micelaria Instagram profile in a new tab',
+        highlightsTitle: 'What I built',
+        highlights: [
+          'Product storytelling from landing to catalog',
+          'Storefront and cart optimized for conversion',
+          'Checkout flow with local payment methods',
+          'Backoffice to manage products and orders',
+          'Performance-focused UI with Astro + Tailwind',
+        ],
+        stackTitle: 'Stack',
+        galleryTitle: 'Product highlights',
+        gallery: {
+          home: {
+            title: 'Brand first landing',
+            description: 'A home that explains the product and positions the brand clearly.',
+          },
+          tienda: {
+            title: 'Product catalog',
+            description: 'Clean grid with product highlights and fast browsing.',
+          },
+          carrito1: {
+            title: 'Cart summary',
+            description: 'Simple cart overview with quantities and totals.',
+          },
+          carrito2: {
+            title: 'Checkout flow',
+            description: 'Focused checkout with delivery and payment steps.',
+          },
+          admin: {
+            title: 'Admin panel',
+            description: 'Manage products, stock, and order status in one place.',
+          },
+        },
       },
 
       beyondCode: {
@@ -664,6 +774,116 @@ const resources = {
         subtitle:
           'Una selección de proyectos que muestran mi experiencia en desarrollo backend, infraestructura e integración con IA.',
         view: 'Ver Proyecto',
+        viewDetails: 'Ver detalle',
+        visitSite: 'Visitar sitio',
+      },
+
+      cordobarolleaPage: {
+        title: 'Córdoba Rollea',
+        subtitle:
+          'Plataforma para organizar salidas urbanas y fortalecer la comunidad roller de Córdoba.',
+        intro:
+          'Los grupos de WhatsApp no escalaban: spam, info perdida y niveles mezclados. Construí un sitio para organizar salidas por nivel, sumar recorridos y guías, y habilitar donaciones para financiar eventos.',
+        logoAlt: 'Logo de Córdoba Rollea',
+        cta: 'Visitar sitio',
+        ctaAria: 'Abrir el sitio de Córdoba Rollea en una nueva pestaña',
+        igCta: 'Instagram',
+        igCtaAria: 'Abrir el Instagram de Córdoba Rollea en una nueva pestaña',
+        highlightsTitle: 'Lo que construí',
+        highlights: [
+          'Salidas y eventos organizados con niveles y detalles claros',
+          'Recorridos urbanos con mapas y puntos de interés',
+          'Guías y niveles para orientar a nuevos patinadores',
+          'Panel de administración para gestionar contenido y agenda',
+          'Donaciones para financiar eventos comunitarios',
+        ],
+        stackTitle: 'Stack',
+        galleryTitle: 'Capturas del producto',
+        gallery: {
+          salidas: {
+            title: 'Calendario de salidas',
+            description:
+              'Vista general con próximas salidas, nivel y acceso rápido a detalles.',
+          },
+          detalleSalida1: {
+            title: 'Detalle de la salida',
+            description:
+              'Punto de encuentro, horario y expectativas claras para nuevos patinadores.',
+          },
+          detalleSalida2: {
+            title: 'Contexto y recomendaciones',
+            description:
+              'Información extra, consejos y visuales para llegar preparado.',
+          },
+          recorridos: {
+            title: 'Recorridos urbanos',
+            description:
+              'Mapas con puntos clave y dificultad para elegir con confianza.',
+          },
+          niveles: {
+            title: 'Niveles de habilidad',
+            description:
+              'Sistema de niveles para incluir a todos y alinear expectativas.',
+          },
+          guias: {
+            title: 'Guías y tips',
+            description:
+              'Consejos de seguridad y preparación para quienes se suman por primera vez.',
+          },
+          donaciones: {
+            title: 'Apoyo comunitario',
+            description:
+              'Sección de donaciones para financiar eventos y sostener la comunidad.',
+          },
+          admin: {
+            title: 'Panel de administración',
+            description:
+              'Backoffice para gestionar contenido, agenda y logística.',
+          },
+        },
+      },
+      micelariaPage: {
+        title: 'Micelaria',
+        subtitle: 'E-commerce enfocado en hongos funcionales y storytelling de marca.',
+        intro:
+          'Proyecto personal para construir una tienda completa desde cero: producto, marca, contenidos y un flujo de compra pensado para clientes reales.',
+        logoAlt: 'Logo de Micelaria',
+        cta: 'Visitar sitio',
+        ctaAria: 'Abrir el sitio de Micelaria en una nueva pestaña',
+        igCta: 'Instagram',
+        igCtaAria: 'Abrir el Instagram de Micelaria en una nueva pestaña',
+        highlightsTitle: 'Lo que construí',
+        highlights: [
+          'Narrativa del producto desde la home hasta el catálogo',
+          'Tienda y carrito optimizados para conversión',
+          'Checkout con métodos de pago locales',
+          'Backoffice para gestionar productos y pedidos',
+          'UI rápida con Astro + Tailwind',
+        ],
+        stackTitle: 'Stack',
+        galleryTitle: 'Capturas del producto',
+        gallery: {
+          home: {
+            title: 'Home con foco de marca',
+            description: 'Una portada que explica el producto y posiciona la marca.',
+          },
+          tienda: {
+            title: 'Catálogo de productos',
+            description: 'Grid limpio con productos destacados y navegación rápida.',
+          },
+          carrito1: {
+            title: 'Resumen de carrito',
+            description: 'Vista simple con cantidades y totales claros.',
+          },
+          carrito2: {
+            title: 'Flujo de checkout',
+            description: 'Checkout enfocado con entrega y pasos de pago.',
+          },
+          admin: {
+            title: 'Panel de administración',
+            description: 'Gestión de productos, stock y estado de pedidos.',
+          },
+        },
       },
 
       beyondCode: {

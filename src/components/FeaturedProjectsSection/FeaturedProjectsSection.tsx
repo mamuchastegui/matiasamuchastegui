@@ -2,6 +2,7 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@/context/ThemeContext';
 import { projectsData } from '@/features/matias/otros/data/projectsData';
 
@@ -191,6 +192,10 @@ const ProjectLink = styled.a`
   }
 `;
 
+const ClickableCard = styled(ProjectCard)<{ $clickable: boolean }>`
+  cursor: ${({ $clickable }) => ($clickable ? 'pointer' : 'default')};
+`;
+
 const statusLabels = {
   active: { es: 'Activo', en: 'Active' },
   development: { es: 'En desarrollo', en: 'In Development' },
@@ -207,6 +212,7 @@ const FeaturedProjectsSection: React.FC = () => {
   const { t, i18n } = useTranslation();
   const isDark = themeMode === 'dark';
   const language = i18n.language.startsWith('en') ? 'en' : 'es';
+  const navigate = useNavigate();
 
   return (
     <Section id="projects">
@@ -217,14 +223,29 @@ const FeaturedProjectsSection: React.FC = () => {
 
       <ProjectsGrid>
         {projectsData.map((project, index) => (
-          <ProjectCard
-            key={project.id}
-            $isDark={isDark}
-            variants={cardVariants}
+            <ClickableCard
+              key={project.id}
+              $isDark={isDark}
+              $clickable={Boolean(project.detailPath)}
+              variants={cardVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-50px' }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
+            role={project.detailPath ? 'link' : undefined}
+            tabIndex={project.detailPath ? 0 : -1}
+            onClick={() => {
+              if (project.detailPath) {
+                navigate(project.detailPath);
+              }
+            }}
+            onKeyDown={(event) => {
+              if (!project.detailPath) return;
+              if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                navigate(project.detailPath);
+              }
+            }}
           >
             <ProjectImage $image={project.image} $isDark={isDark}>
               {project.status !== 'active' && (
@@ -247,8 +268,13 @@ const FeaturedProjectsSection: React.FC = () => {
               </TechStack>
               {project.url && (
                 <LinksRow $isDark={isDark}>
-                  <ProjectLink href={project.url} target="_blank" rel="noopener noreferrer">
-                    {t('projects.view')}
+                  <ProjectLink
+                    href={project.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(event) => event.stopPropagation()}
+                  >
+                    {t('projects.visitSite')}
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path
                         strokeLinecap="round"
@@ -261,7 +287,7 @@ const FeaturedProjectsSection: React.FC = () => {
                 </LinksRow>
               )}
             </ProjectContent>
-          </ProjectCard>
+          </ClickableCard>
         ))}
       </ProjectsGrid>
     </Section>

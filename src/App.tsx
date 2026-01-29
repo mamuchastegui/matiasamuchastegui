@@ -61,6 +61,12 @@ const FusionAdsWrapper = createLazyComponent(() => import('./features/shared/Fus
 const PomeloWrapper = createLazyComponent(() => import('./features/shared/PomeloWrapper'));
 const MercadoLibreWrapper = createLazyComponent(() => import('./features/shared/MercadoLibreWrapper'));
 const OtrosWrapper = createLazyComponent(() => import('./features/shared/OtrosWrapper'));
+const CordobaRolleaPage = createLazyComponent(
+  () => import('./features/matias/cordobarollea/CordobaRolleaPage')
+);
+const MicelariaPage = createLazyComponent(
+  () => import('./features/matias/micelaria/MicelariaPage')
+);
 
 import '@utils/i18n';
 
@@ -405,6 +411,8 @@ function App() {
           import('./features/matias/mercadolibre/MercadoLibrePage'),
           import('./features/shared/OtrosWrapper'),
           import('./features/matias/otros/OtrosPage'),
+          import('./features/matias/cordobarollea/CordobaRolleaPage'),
+          import('./features/matias/micelaria/MicelariaPage'),
           import('./pages/MaintenancePage'),
 
           import('@components/ChatbotAssistant'),
@@ -445,6 +453,14 @@ function App() {
     {
       path: 'mercadolibre',
       element: <MercadoLibreWrapper />,
+    },
+    {
+      path: 'cordobarollea',
+      element: <CordobaRolleaPage />,
+    },
+    {
+      path: 'micelaria',
+      element: <MicelariaPage />,
     },
     {
       path: ':projectId',

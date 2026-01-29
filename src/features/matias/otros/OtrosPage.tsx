@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { useTheme, ThemeMode } from '../../../context/ThemeContext';
 import { useTranslation } from 'react-i18next';
@@ -123,7 +124,21 @@ const ProjectName = styled.h3<{ $isDark: boolean }>`
   font-size: 1.4rem;
   font-weight: 700;
   color: ${({ $isDark }) => ($isDark ? '#FFFFFF' : '#1D1F23')};
+  margin: 0;
+`;
+
+const ProjectTitleRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
   margin-bottom: 0.75rem;
+`;
+
+const ProjectLogo = styled.img`
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  border-radius: 6px;
 `;
 
 const ProjectDescription = styled.p<{ $isDark: boolean }>`
@@ -147,6 +162,39 @@ const TechTag = styled.span<{ $isDark: boolean }>`
   background: ${({ $isDark }) => ($isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)')};
   color: ${({ $isDark }) => ($isDark ? '#DDDDDD' : '#444444')};
   border: 1px solid ${({ $isDark }) => ($isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)')};
+`;
+
+const LinksRow = styled.div<{ $isDark: boolean }>`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid ${({ $isDark }) =>
+    $isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'};
+`;
+
+const ProjectLink = styled.a`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #4FD1C5;
+  text-decoration: none;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+`;
+
+const ClickableCard = styled(ProjectCard)<{ $clickable: boolean }>`
+  cursor: ${({ $clickable }) => ($clickable ? 'pointer' : 'default')};
 `;
 
 const Summary = styled.div<{ $themeMode: ThemeMode }>`
@@ -209,6 +257,7 @@ const OtrosPage: React.FC = () => {
   const { i18n } = useTranslation();
   const language = i18n.language.startsWith('en') ? 'en' : 'es';
   const isDark = themeMode === 'dark';
+  const navigate = useNavigate();
 
   const pageTexts = {
     title: {
@@ -250,7 +299,25 @@ All these projects are developed with a focus on user experience, performance, a
 
         <ProjectsGrid>
           {projectsData.map((project: Project) => (
-            <ProjectCard key={project.id} $isDark={isDark}>
+            <ClickableCard
+              key={project.id}
+              $isDark={isDark}
+              $clickable={Boolean(project.detailPath)}
+              role={project.detailPath ? 'link' : undefined}
+              tabIndex={project.detailPath ? 0 : -1}
+              onClick={() => {
+                if (project.detailPath) {
+                  navigate(project.detailPath);
+                }
+              }}
+              onKeyDown={(event) => {
+                if (!project.detailPath) return;
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault();
+                  navigate(project.detailPath);
+                }
+              }}
+            >
               <ProjectImage $image={project.image}>
                 {project.status !== 'active' && (
                   <StatusBadge $status={project.status} $isDark={isDark}>
@@ -259,7 +326,12 @@ All these projects are developed with a focus on user experience, performance, a
                 )}
               </ProjectImage>
               <ProjectContent>
-                <ProjectName $isDark={isDark}>{project.name}</ProjectName>
+                <ProjectTitleRow>
+                  {project.logo && (
+                    <ProjectLogo src={project.logo} alt={`${project.name} logo`} />
+                  )}
+                  <ProjectName $isDark={isDark}>{project.name}</ProjectName>
+                </ProjectTitleRow>
                 <ProjectDescription $isDark={isDark}>
                   {project.description[language]}
                 </ProjectDescription>
@@ -270,8 +342,28 @@ All these projects are developed with a focus on user experience, performance, a
                     </TechTag>
                   ))}
                 </TechStack>
+                {project.url && (
+                  <LinksRow $isDark={isDark}>
+                    <ProjectLink
+                      href={project.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(event) => event.stopPropagation()}
+                    >
+                      {i18n.t('projects.visitSite')}
+                      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                        />
+                      </svg>
+                    </ProjectLink>
+                  </LinksRow>
+                )}
               </ProjectContent>
-            </ProjectCard>
+            </ClickableCard>
           ))}
         </ProjectsGrid>
 

@@ -14,7 +14,8 @@
     "expose": "npx localtunnel --port 5173",
     "format": "prettier --write \"src/**/*.{ts,tsx}\"",
     "prepare": "husky install",
-    "test": "jest"
+    "test": "jest",
+    "generate-ai-context": "tsx scripts/generate-ai-context.ts"
   },
   "engines": {
     "node": "20.x",
@@ -81,6 +82,7 @@
     "prettier": "^3.2.5",
     "puppeteer": "^24.14.0",
     "rollup-plugin-visualizer": "^5.14.0",
+    "tsx": "^4.21.0",
     "typescript": "^5.2.2",
     "vite": "^7.0.5",
     "vite-plugin-pwa": "^1.0.2"

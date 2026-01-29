@@ -227,9 +227,11 @@ const FeaturedProjectsSection: React.FC = () => {
             transition={{ duration: 0.5, delay: index * 0.1 }}
           >
             <ProjectImage $image={project.image} $isDark={isDark}>
-              <StatusBadge $status={project.status}>
-                {statusLabels[project.status][language]}
-              </StatusBadge>
+              {project.status !== 'active' && (
+                <StatusBadge $status={project.status}>
+                  {statusLabels[project.status][language]}
+                </StatusBadge>
+              )}
             </ProjectImage>
             <ProjectContent>
               <ProjectName $isDark={isDark}>{project.name}</ProjectName>

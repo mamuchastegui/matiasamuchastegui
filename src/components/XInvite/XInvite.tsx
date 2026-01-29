@@ -214,21 +214,6 @@ const ProjectBadge = styled.span`
   line-height: 1;
 `;
 
-const StatusPill = styled.span<{ $isDark: boolean }>`
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-left: 0.75rem;
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  background: ${({ $isDark }) => ($isDark ? 'rgba(234, 179, 8, 0.18)' : 'rgba(234, 179, 8, 0.25)')};
-  color: ${({ $isDark }) => ($isDark ? '#FACC15' : '#7C5F00')};
-  border: 1px solid ${({ $isDark }) => ($isDark ? 'rgba(234, 179, 8, 0.35)' : 'rgba(234, 179, 8, 0.4)')};
-`;
-
 const XInvite: React.FC<XInviteProps> = ({ className }) => {
   const { t, i18n } = useTranslation();
   const { themeMode } = useTheme();
@@ -241,19 +226,15 @@ const XInvite: React.FC<XInviteProps> = ({ className }) => {
   if (isMatias) {
     const title = 'Cratos';
     const description = isEs
-      ? 'Plataforma fitness para gimnasios y entrenadores: rutinas, planes y seguimiento en un solo lugar.'
-      : 'Fitness platform for gyms and trainers: routines, plans, and tracking in one place.';
+      ? 'Mi primer SaaS. Plataforma de gestión para gimnasios con rutinas, planes y seguimiento de progreso.\nActualmente en beta privada con usuarios reales. El feedback inicial es muy positivo.'
+      : 'My first SaaS. Gym management platform for routines, plans, and progress tracking.\nCurrently in private beta with real users. Early feedback has been very positive.';
     const ctaText = isEs ? 'Ver Cratos' : 'View Cratos';
-    const statusText = isEs ? 'Activo' : 'Active';
 
     return (
       <Card className={className} $isDark={isDark} aria-labelledby="project-invite-title">
         <ProjectImage src={cratosImage} alt="Cratos" />
         <Content>
-          <Title id="project-invite-title">
-            {title}
-            <StatusPill $isDark={isDark}>{statusText}</StatusPill>
-          </Title>
+          <Title id="project-invite-title">{title}</Title>
           <Description>{description}</Description>
         </Content>
         <Cta

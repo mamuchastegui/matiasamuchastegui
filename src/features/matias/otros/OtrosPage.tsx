@@ -252,9 +252,11 @@ All these projects are developed with a focus on user experience, performance, a
           {projectsData.map((project: Project) => (
             <ProjectCard key={project.id} $isDark={isDark}>
               <ProjectImage $image={project.image}>
-                <StatusBadge $status={project.status} $isDark={isDark}>
-                  {statusLabels[project.status][language]}
-                </StatusBadge>
+                {project.status !== 'active' && (
+                  <StatusBadge $status={project.status} $isDark={isDark}>
+                    {statusLabels[project.status][language]}
+                  </StatusBadge>
+                )}
               </ProjectImage>
               <ProjectContent>
                 <ProjectName $isDark={isDark}>{project.name}</ProjectName>

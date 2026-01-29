@@ -5,6 +5,7 @@ import { useTheme } from '../../context/ThemeContext';
 import { useProfile } from '../../context/ProfileContext';
 import profileImage from '../../assets/images/x-profile.jpg';
 import cratosImage from '../../assets/images/projects-matias/cratos.png';
+import cratosLogo from '../../assets/images/projects-matias/cratos_logo.png';
 
 interface XInviteProps {
   className?: string;
@@ -116,59 +117,27 @@ const Cta = styled.a<{ $isDark: boolean }>`
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 12px 20px;
-  border-radius: 9999px;
+  padding: 10px 16px;
+  border-radius: 999px;
   text-decoration: none;
   font-weight: 600;
-  font-size: 0.95rem;
-  background: ${({ $isDark }) => ($isDark ? '#ffffff' : '#000000')};
-  color: ${({ $isDark }) => ($isDark ? '#000000' : '#ffffff')};
-  border: none;
-  overflow: hidden;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-    transition: left 0.5s ease;
-    pointer-events: none;
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    background: radial-gradient(circle, ${({ $isDark }) => ($isDark ? 'rgba(0,0,0,0.1)' : 'rgba(0,0,0,0.05)')});
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    pointer-events: none;
-  }
+  font-size: 0.9rem;
+  background: ${({ $isDark }) => ($isDark ? 'rgba(255, 255, 255, 0.06)' : 'rgba(0, 0, 0, 0.04)')};
+  color: ${({ $isDark }) => ($isDark ? '#ffffff' : '#1D1F23')};
+  border: 1px solid ${({ $isDark }) => ($isDark ? 'rgba(255, 255, 255, 0.18)' : 'rgba(0, 0, 0, 0.12)')};
+  transition: all 0.2s ease;
+  box-shadow: none;
 
   &:hover {
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-    background: ${({ $isDark }) => ($isDark ? '#f8f8f8' : '#333333')};
+    background: ${({ $isDark }) => ($isDark ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.08)')};
     text-decoration: none;
   }
-
-  &:hover::before { left: 100%; }
-  &:hover::after { width: 280px; height: 280px; }
 
   &:active { transform: translateY(0); transition: all 0.1s ease; }
 
   &:focus-visible {
-    outline: 2px solid ${({ $isDark }) => ($isDark ? '#000000' : '#ffffff')};
+    outline: 2px solid ${({ $isDark }) => ($isDark ? '#ffffff' : '#000000')};
     outline-offset: 2px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
     text-decoration: none;
   }
 
@@ -210,8 +179,15 @@ const ProjectImage = styled.img`
 
 
 const ProjectBadge = styled.span`
-  font-size: 14px;
+  font-size: 0.9rem;
   line-height: 1;
+  font-weight: 600;
+`;
+
+const CtaIcon = styled.img`
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
 `;
 
 const XInvite: React.FC<XInviteProps> = ({ className }) => {
@@ -244,27 +220,27 @@ const XInvite: React.FC<XInviteProps> = ({ className }) => {
           rel="noopener noreferrer"
           aria-label={isEs ? 'Ver Cratos' : 'View Cratos'}
         >
-          <ProjectBadge>🚀</ProjectBadge>
-          {ctaText}
+          <CtaIcon src={cratosLogo} alt="" aria-hidden="true" />
+          <ProjectBadge>{ctaText}</ProjectBadge>
         </Cta>
       </Card>
     );
   }
 
-  // For Alexis: Show X invite
+  // Show X invite
   return (
     <Card className={className} $isDark={isDark} aria-labelledby="x-invite-title">
-      <Avatar src={profileImage} alt={t('xInvite.avatarAlt', 'Foto de perfil de Alexis en X')} />
+      <Avatar src={profileImage} alt={t('xInvite.avatarAlt', 'Foto de perfil de Matias en X')} />
       <Content>
         <Title id="x-invite-title">{t('xInvite.title')}</Title>
         <Description>{t('xInvite.description')}</Description>
       </Content>
       <Cta
         $isDark={isDark}
-        href="https://x.com/AlexisVedia"
+        href="https://x.com/matiasamu"
         target="_blank"
         rel="noopener noreferrer"
-        aria-label={t('xInvite.ctaAria', 'Abrir el perfil de Alexis en X en una nueva pestaña')}
+        aria-label={t('xInvite.ctaAria', 'Abrir el perfil de Matias en X en una nueva pestaña')}
       >
         <XBadge $isDark={isDark}>X</XBadge>
         {t('xInvite.cta')}

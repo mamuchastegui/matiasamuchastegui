@@ -50,7 +50,7 @@ const ProfileSelector: React.FC<ProfileSelectorProps> = ({ isCollapsed = false }
               {profile.name.split(' ')[0]}
             </ProfileName>
             <ProfileRole $isActive={profile.id === profileId}>
-              {profile.id === 'alexis' ? 'UX/UI' : 'Backend'}
+              Backend
             </ProfileRole>
           </ProfileInfo>
         </ProfileButton>

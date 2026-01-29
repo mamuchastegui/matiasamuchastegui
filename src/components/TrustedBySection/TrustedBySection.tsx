@@ -32,7 +32,9 @@ const LogosRow = styled.div`
   flex-wrap: wrap;
 `;
 
-const LogoCard = styled.div<{ $isDark: boolean }>`
+const LogoCard = styled.a<{ $isDark: boolean }>`
+  text-decoration: none;
+  color: inherit;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -44,6 +46,15 @@ const LogoCard = styled.div<{ $isDark: boolean }>`
     $isDark ? 'rgba(255, 255, 255, 0.04)' : 'rgba(255, 255, 255, 0.7)'};
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    background: ${({ $isDark }) =>
+      $isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(255, 255, 255, 0.9)'};
+    border-color: ${({ $isDark }) =>
+      $isDark ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.16)'};
+  }
 `;
 
 const LogoImage = styled.img`
@@ -67,13 +78,13 @@ const TrustedBySection: React.FC = () => {
     <Section aria-label={t('trustedBy')}>
       <Label $isDark={isDark}>{t('trustedBy')}</Label>
       <LogosRow>
-        <LogoCard $isDark={isDark}>
+        <LogoCard $isDark={isDark} href="/mercadolibre" aria-label="MercadoLibre experience">
           <LogoImage src={mercadolibreLogo} alt="MercadoLibre" />
         </LogoCard>
-        <LogoCard $isDark={isDark}>
+        <LogoCard $isDark={isDark} href="/pomelo" aria-label="Pomelo experience">
           <LogoImage src={pomeloLogo} alt="Pomelo" />
         </LogoCard>
-        <LogoCard $isDark={isDark}>
+        <LogoCard $isDark={isDark} href="/fusionads" aria-label="FusionAds experience">
           <LogoImage src={fusionLogo} alt="FusionAds" />
         </LogoCard>
       </LogosRow>

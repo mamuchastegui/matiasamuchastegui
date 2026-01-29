@@ -1124,24 +1124,26 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, isMobile, isCo
             $animate={controlsBgAnimate}
           />
           <ControlsFade $hidden={controlsHidden}>
-          <SocialMediaButton
-             href={profile?.socialLinks?.github || "https://github.com/mamuchastegui"}
-             target="_blank"
-             rel="noopener noreferrer"
-             aria-label="GitHub"
-             $isCollapsed={!isMobile && isCollapsed}
-             $index={0}
-             $total={4}
-             $phase={iconsFadePhase}
-             onMouseEnter={(e) => { setShowGithubTooltip(true); handleControlHover(e.currentTarget); }}
-             onMouseLeave={() => { setShowGithubTooltip(false); handleControlLeave(); }}
-             style={{ transitionDelay: getStaggerDelay(0) }}
-           >
-             <FaGithub />
-             <TechTooltip $isVisible={showGithubTooltip} $isDarkMode={theme.isDark} $isCollapsed={!isMobile && isCollapsed} $distance={30}>
-               {t('tooltip.github')}
-             </TechTooltip>
-           </SocialMediaButton>
+          {profile?.socialLinks?.github && (
+            <SocialMediaButton
+               href={profile.socialLinks.github}
+               target="_blank"
+               rel="noopener noreferrer"
+               aria-label="GitHub"
+               $isCollapsed={!isMobile && isCollapsed}
+               $index={0}
+               $total={4}
+               $phase={iconsFadePhase}
+               onMouseEnter={(e) => { setShowGithubTooltip(true); handleControlHover(e.currentTarget); }}
+               onMouseLeave={() => { setShowGithubTooltip(false); handleControlLeave(); }}
+               style={{ transitionDelay: getStaggerDelay(0) }}
+             >
+               <FaGithub />
+               <TechTooltip $isVisible={showGithubTooltip} $isDarkMode={theme.isDark} $isCollapsed={!isMobile && isCollapsed} $distance={30}>
+                 {t('tooltip.github')}
+               </TechTooltip>
+             </SocialMediaButton>
+          )}
            <SocialMediaButton
              href={profile?.socialLinks?.linkedin || "https://linkedin.com/in/matias-amuchastegui"}
              target="_blank"

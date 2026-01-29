@@ -355,27 +355,6 @@ export const matiasContext = {
 
   en: \`${enContext}\`
 };
-
-// Alexis context (placeholder - can be filled later)
-export const alexisContext = {
-  es: \`Sos el asistente virtual de Alexis Vedia, un Desarrollador Full Stack especializado en UX/UI y desarrollo web.
-
-## Sobre Alexis
-Desarrollador Full Stack con experiencia en React, TypeScript, Node.js y diseño UX/UI.
-
-## Instrucciones
-- Respondé de forma concisa y profesional
-- Si te preguntan sobre algo que no sabés, sugerí contactar a Alexis directamente\`,
-
-  en: \`You are the virtual assistant for Alexis Vedia, a Full Stack Developer specialized in UX/UI and web development.
-
-## About Alexis
-Full Stack Developer with experience in React, TypeScript, Node.js and UX/UI design.
-
-## Instructions
-- Respond concisely and professionally
-- If asked about something you don't know, suggest contacting Alexis directly\`
-};
 `;
 
   const outputPath = path.join(process.cwd(), 'src/data/profiles/matias-context.ts');

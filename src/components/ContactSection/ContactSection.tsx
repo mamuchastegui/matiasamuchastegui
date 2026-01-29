@@ -524,6 +524,9 @@ const ContactSection = forwardRef<HTMLDivElement, ContactSectionProps>(({ id }, 
                 { key: 'infra', label: t('contactNeeds.infra') },
                 { key: 'ai', label: t('contactNeeds.ai') },
                 { key: 'fullstack', label: t('contactNeeds.fullstack') },
+                { key: 'product', label: t('contactNeeds.product') },
+                { key: 'website', label: t('contactNeeds.website') },
+                { key: 'custom', label: t('contactNeeds.custom') },
               ].map(option => (
                 <CheckboxLabel key={option.key} $isDark={isDark}>
                   <CheckboxInput

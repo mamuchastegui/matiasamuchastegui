@@ -28,7 +28,7 @@ export const matiasProfile: Profile = {
   heroVideo: '/assets/newAssets/mati.mp4',
   heroImage: '/assets/newAssets/matias-profile.jpg',
   socialLinks: {
-    github: 'https://github.com/mamuchastegui',
+    github: '',
     linkedin: 'https://linkedin.com/in/matias-amuchastegui',
     x: 'https://x.com/matiasamu',
     email: 'matias@condamind.com',

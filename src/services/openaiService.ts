@@ -1,4 +1,4 @@
-import { matiasContext, alexisContext } from '../data/profiles/matias-context';
+import { matiasContext } from '../data/profiles/matias-context';
 
 export interface ChatMessage {
   text: string;
@@ -26,7 +26,6 @@ export const resetSession = () => {
 
 export const sendMessageToOpenAI = async (
   message: string,
-  profileId: 'matias' | 'alexis' = 'matias',
   language: 'es' | 'en' = 'es'
 ): Promise<ChatMessage> => {
   const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
@@ -41,9 +40,8 @@ export const sendMessageToOpenAI = async (
   }
 
   try {
-    // Get the appropriate context based on profile and language
-    const context = profileId === 'matias' ? matiasContext : alexisContext;
-    const systemPrompt = context[language];
+    // Get the appropriate context based on language
+    const systemPrompt = matiasContext[language];
 
     // Get or initialize conversation history
     if (!conversationHistory.has(currentSessionId)) {

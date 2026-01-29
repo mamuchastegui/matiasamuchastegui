@@ -880,17 +880,10 @@ const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
     const lang = (i18n?.language || 'es').toLowerCase();
     const isEn = lang.startsWith('en');
 
-    if (isMatias) {
-      if (isEn) {
-        return `Hi, I'm Matias Amuchástegui's assistant. Powered by AI, I'm here to help you learn about my experience in backend development and distributed systems.\n\nWant to explore projects, discuss architecture, or talk about how I can help your team?`;
-      }
-      return `Hola, soy el asistente de Matias Amuchástegui. Potenciado por IA, estoy acá para ayudarte a conocer mi experiencia en desarrollo backend y sistemas distribuidos.\n\n¿Querés explorar proyectos, hablar de arquitectura o ver cómo puedo ayudar a tu equipo?`;
-    }
-
     if (isEn) {
-      return `Hi, I'm Alexis Vedia's assistant. Developed with n8n and powered by AI, I'm here to help.\n\nWould you like a tour of projects, to talk about the stack, or to explore ideas for your next step?`;
+      return `Hi, I'm Matias Amuchástegui's assistant. Powered by AI, I'm here to help you learn about my experience in backend development and distributed systems.\n\nWant to explore projects, discuss architecture, or talk about how I can help your team?`;
     }
-    return `Hola, soy el asistente de Alexis Vedia. Desarrollado con n8n y potenciado por IA, estoy acá para ayudarte.\n\n¿Te muestro proyectos, hablamos del stack o exploramos ideas para tu próximo paso?`;
+    return `Hola, soy el asistente de Matias Amuchástegui. Potenciado por IA, estoy acá para ayudarte a conocer mi experiencia en desarrollo backend y sistemas distribuidos.\n\n¿Querés explorar proyectos, hablar de arquitectura o ver cómo puedo ayudar a tu equipo?`;
   }, [i18n?.language, isMatias]);
 
   // Placeholder según idioma
@@ -1236,9 +1229,8 @@ const ChatbotAssistant: React.FC<ChatbotAssistantProps> = ({
     setIsTyping(true);
 
     try {
-      const profileId = (profileContext?.profile?.id === 'matias' ? 'matias' : 'alexis') as 'matias' | 'alexis';
       const language = (i18n?.language || 'es').toLowerCase().startsWith('en') ? 'en' : 'es';
-      const response = await sendMessageToOpenAI(userMessage, profileId, language);
+      const response = await sendMessageToOpenAI(userMessage, language);
       setIsTyping(false);
       setMessages(prev => [...prev, response]);
     } catch (error) {

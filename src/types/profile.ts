@@ -1,4 +1,4 @@
-export type ProfileId = 'alexis' | 'matias';
+export type ProfileId = 'matias';
 
 export interface TechItem {
   name: string;

@@ -404,7 +404,7 @@ const resources = {
         heroSubtitle1: 'Backend Developer',
         heroSubtitle2: 'Infrastructure Architect',
         heroDescription1:
-          'Sernior Software Engineer with 10 years at MercadoLibre, Pomelo, and US startups. I build backends that scale without a 30-person team.',
+          'Senior Software Engineer with 10 years at MercadoLibre, Pomelo, and US startups. I build backends that scale without a 30-person team.',
         heroDescription2: '',
         heroDescription3: '',
         heroDescription4: '',

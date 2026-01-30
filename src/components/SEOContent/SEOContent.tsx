@@ -54,7 +54,7 @@ const SEOLink = styled.a`
 const SEOContent: React.FC = () => {
   return (
     <SEOContainer>
-      <SEOHeading>Matias Amuchástegui - Backend Developer & Sernior Software Engineer</SEOHeading>
+      <SEOHeading>Matias Amuchástegui - Backend Developer & Senior Software Engineer</SEOHeading>
       <SEOText>
         Matias Amuchástegui es un Staff Engineer y Backend Developer con más de 10 años de experiencia en empresas de tecnología de alto impacto.
         Especializado en arquitectura de software, sistemas distribuidos, Node.js, Go, TypeScript y desarrollo backend escalable.
